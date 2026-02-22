@@ -1105,7 +1105,7 @@
             </section>
 
             <section id="achievements">
-                <h2>Achievements</h2>
+                <h2>Achievements <span id="adminUnlockBtn" onclick="promptAdminUnlock()" style="font-size:0.6rem;color:#3a3028;cursor:pointer;font-weight:400;vertical-align:middle;margin-left:6px;" title="Admin">🔒</span></h2>
                 <form id="achievementForm">
                     <div class="form-group">
                         <label for="achievementTitle">Achievement Title</label>
@@ -1216,8 +1216,10 @@
 
                 <!-- Active User Bar -->
                 <div id="gcActiveUser" style="display:none; margin-bottom:1rem; align-items:center; gap:8px; flex-wrap:wrap;">
+                    <span id="gcConnIndicator" style="font-size:0.7rem;" title="Connection status">🔴</span>
                     <span style="font-size:0.82rem; color:#9a8878;">Chatting as: </span>
                     <span id="gcCurrentName" style="color:#c8b89a; font-weight:700; font-size:0.88rem;"></span>
+                    <span id="gcMemberCount" style="font-size:0.72rem; color:#6a5a4a; background:#2a2520; padding:2px 8px; border-radius:10px;">0 online</span>
                     <button onclick="gcChangeName()" style="background:none;border:1px solid #3a3028;color:#7a706a;padding:3px 10px;border-radius:6px;font-size:0.75rem;cursor:pointer;">Leave</button>
                 </div>
 
@@ -1235,7 +1237,7 @@
                     height:360px;
                     overflow-y:auto;
                     padding:14px;
-                    display:flex;
+                    display:none;
                     flex-direction:column;
                     gap:10px;
                     scroll-behavior:smooth;
@@ -1245,7 +1247,7 @@
                 </div>
 
                 <!-- Input -->
-                <div style="display:flex; gap:8px; align-items:flex-end;">
+                <div id="gcInputRow" style="display:flex; gap:8px; align-items:flex-end;">
                     <button id="gcImageBtn" title="Send image" style="background:#2a2520;border:1px solid #3a3028;border-radius:10px;color:#9a8878;width:40px;height:40px;cursor:pointer;font-size:1.1rem;flex-shrink:0;">🖼️</button>
                     <input type="file" id="gcImageFile" accept="image/*" style="display:none;">
                     <textarea id="gcInput" placeholder="Type a message..." rows="1"
@@ -1331,9 +1333,9 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js';
-        import { getDatabase, ref, push, onValue, remove, update, set, onDisconnect } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js';
-        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js';
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+        import { getDatabase, ref, push, onValue, onChildAdded, onChildRemoved, remove, update, set, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
 
         /*
          * ── IMPORTANT: Firebase Security Rules ──────────────────────────────
@@ -1471,6 +1473,10 @@
                 sessionStorage.setItem('ahof_session_key', key);
             }
             return key;
+        }
+
+        function isAdmin() {
+            return localStorage.getItem('ahof-chat-admin') === 'true';
         }
 
         const members = ['JL', 'DAISUKE', 'SHUAIBO', 'CHIH-EN', 'JUWON', 'STEVEN', 'PARK HAN', 'WOONGKI', 'JEONGWOO'];
@@ -1614,6 +1620,11 @@
 
         loadPosts();
         loadAchievements();
+        // Restore admin unlock icon if already admin
+        if (isAdmin()) {
+            const btn = document.getElementById('adminUnlockBtn');
+            if (btn) btn.textContent = '🔓';
+        }
 
         document.getElementById('postForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -1732,6 +1743,24 @@
             } catch (e) { alert('Error: ' + e.message); }
         };
 
+        window.promptAdminUnlock = () => {
+            if (isAdmin()) {
+                localStorage.removeItem('ahof-chat-admin');
+                loadAchievements();
+                document.getElementById('adminUnlockBtn').textContent = '🔒';
+                return;
+            }
+            const key = prompt('Enter admin key:');
+            if (!key) return;
+            if (key === 'ahof-admin-2024') {
+                localStorage.setItem('ahof-chat-admin', 'true');
+                loadAchievements();
+                document.getElementById('adminUnlockBtn').textContent = '🔓';
+            } else {
+                alert('Wrong key.');
+            }
+        };
+
         function loadAchievements() {
             onValue(ref(database, 'achievements'), (snapshot) => {
                 const container = document.getElementById('achievementsContainer');
@@ -1748,7 +1777,7 @@
                             <div class="date">${new Date(ach.date).toLocaleDateString()} • ${sanitize(ach.author)}</div>
                             <p>${sanitize(ach.description)}</p>
                             ${ach.imageUrl ? `<img src="${sanitize(ach.imageUrl)}" alt="Achievement image" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="openModal('${sanitize(ach.imageUrl)}')">` : ''}
-                            ${ach.sessionKey === getSessionKey() ? `
+                            ${isAdmin() ? `
                             <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
                                 <button onclick="editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
                                 <button onclick="deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.3);color:#fff;border:1px solid rgba(220,50,50,0.5);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
@@ -1858,8 +1887,9 @@
                     </div>
                     ${p.note ? `<p style="margin:0.3rem 0 0.5rem;font-size:0.9rem;color:#b0a090;">${sanitize(p.note)}</p>` : ''}
                     <img src="${sanitize(p.imageUrl)}" alt="Voting proof" style="max-width:100%;max-height:340px;object-fit:contain;border-radius:10px;cursor:pointer;border:1px solid #3a3028;display:block;" onclick="openModal('${sanitize(p.imageUrl)}')">
-                    ${p.sessionKey === getSessionKey() ? `
-                    <div style="margin-top:0.6rem;">
+                    ${(p.sessionKey === getSessionKey() || isAdmin()) ? `
+                    <div style="margin-top:0.6rem;display:flex;gap:6px;flex-wrap:wrap;">
+                        ${p.sessionKey === getSessionKey() ? `<button onclick="editVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}','${sanitize(p.caption||'')}')" style="background:#2a3020;color:#a8c898;border:1px solid #4a6a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>` : ''}
                         <button onclick="deleteVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
                     </div>` : ''}
                 </div>
@@ -1894,6 +1924,14 @@
             });
         }
 
+        window.editVotingProof = async (appKey, id, currentCaption) => {
+            const newCaption = prompt('Edit caption:', currentCaption);
+            if (newCaption === null) return;
+            try {
+                await update(ref(database, 'votingProofs/' + appKey + '/' + id), { caption: newCaption });
+            } catch(e) { alert('Error: ' + e.message); }
+        };
+
         window.deleteVotingProof = async (appKey, id) => {
             if (!confirm('Delete this voting proof?')) return;
             try { await remove(ref(database, 'votingProofs/' + appKey + '/' + id)); }
@@ -1903,65 +1941,139 @@
         loadVotingProofs();
 
         // ══════════════════════════════════════════════════════════════════════
-        //  AHOF GROUP CHAT — Code-based Access
+        //  AHOF GROUP CHAT
         // ══════════════════════════════════════════════════════════════════════
 
-        const GC_ADMIN_KEYS = ['ahof-admin-2024'];
         const GC_ACCESS_CODE = 'AHOF2025';
+        const GC_ADMIN_KEY   = 'ahof-admin-2024';
 
-        let gcUsername = localStorage.getItem('ahof-chat-username') || '';
-        let gcReplyTo = null;
-        let gcInitialized = false;
-
-        function gcGetUid() {
-            if (!localStorage.getItem('ahof-chat-uid'))
-                localStorage.setItem('ahof-chat-uid', 'u_' + Math.random().toString(36).slice(2,10));
-            return localStorage.getItem('ahof-chat-uid');
+        // Per-device UID — locked forever
+        let gcUid = localStorage.getItem('ahof-gc-uid');
+        if (!gcUid) {
+            gcUid = 'u_' + Math.random().toString(36).slice(2, 11);
+            localStorage.setItem('ahof-gc-uid', gcUid);
         }
-        function gcIsAdmin() { return localStorage.getItem('ahof-chat-admin') === 'true'; }
-        function gcIsApproved() { return localStorage.getItem('ahof-chat-approved') === 'true'; }
-        function gcS(str) {
-            return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+        let gcUsername    = '';
+        let gcAdmin       = false;
+        let gcReplyTo     = null;
+        let gcListening   = false;
+        let gcRenderedIds = new Set(); // track already-rendered message IDs
+
+        // ── Helpers ───────────────────────────────────────────────────────────
+        function gcS(s) {
+            return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         }
         function gcTime(ts) {
-            if (!ts) return '';
-            return new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+            return ts ? new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : '';
         }
         function gcScrollBottom() {
             const el = document.getElementById('gcMessages');
             if (el) el.scrollTop = el.scrollHeight;
         }
-
         function gcShowError(msg) {
             const el = document.getElementById('gcErrorMsg');
             if (!el) return;
             el.textContent = msg;
             el.style.display = 'block';
-            setTimeout(() => { el.style.display = 'none'; }, 3000);
+            setTimeout(() => el.style.display = 'none', 3000);
+        }
+        function gcShowScreen(s) {
+            document.getElementById('gcUsernameBar').style.display = s==='entry' ? 'block' : 'none';
+            document.getElementById('gcActiveUser').style.display  = s==='chat'  ? 'flex'  : 'none';
+            document.getElementById('gcMessages').style.display    = s==='chat'  ? 'flex'  : 'none';
+            document.getElementById('gcInputRow').style.display    = s==='chat'  ? 'flex'  : 'none';
+            if (s!=='chat') document.getElementById('gcReplyBar').style.display = 'none';
+            if (s==='chat') document.getElementById('gcCurrentName').textContent = gcUsername;
         }
 
-        function gcShowScreen(screen) {
-            document.getElementById('gcUsernameBar').style.display  = screen === 'entry' ? 'block' : 'none';
-            document.getElementById('gcActiveUser').style.display   = screen === 'chat'  ? 'flex'  : 'none';
-            const msgBox = document.getElementById('gcMessages');
-            if (msgBox) msgBox.style.display = screen === 'chat' ? 'flex' : 'none';
-            const inputRow = document.querySelector('#groupchat > div:last-child');
-            if (inputRow) inputRow.style.display = screen === 'chat' ? 'flex' : 'none';
-            const replyBar = document.getElementById('gcReplyBar');
-            if (replyBar && screen !== 'chat') replyBar.style.display = 'none';
-            if (screen === 'chat') {
-                document.getElementById('gcCurrentName').textContent = gcUsername;
+        // ── Build message HTML ────────────────────────────────────────────────
+        function gcBuildMsg(id, msg) {
+            const isOwn  = msg.uid === gcUid;
+            const canDel = isOwn || gcAdmin;
+            const badge  = msg.isAdmin
+                ? '<span style="background:linear-gradient(135deg,#c8b89a,#a89070);color:#1a1410;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:4px;">ADMIN</span>'
+                : '';
+
+            let h = `<div data-msgid="${gcS(id)}" style="display:flex;flex-direction:column;max-width:80%;margin-bottom:8px;${isOwn?'align-self:flex-end;align-items:flex-end':'align-self:flex-start;align-items:flex-start'}">`;
+
+            if (msg.replyTo) {
+                h += `<div style="background:rgba(200,184,154,0.1);border-left:3px solid #c8b89a;padding:3px 8px;border-radius:6px;font-size:0.7rem;color:#9a8878;margin-bottom:3px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">↩ <b style="color:#c8b89a;">${gcS(msg.replyTo.sender)}</b>: ${gcS((msg.replyTo.text||'📷').slice(0,50))}</div>`;
             }
+
+            h += `<div style="font-size:0.68rem;color:${isOwn?'#c8b89a':'#9a8878'};font-weight:600;margin-bottom:2px;">${gcS(msg.username)}${badge}</div>`;
+
+            if (msg.imageUrl) {
+                h += `<div style="padding:5px;border-radius:14px;background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};max-width:180px;"><img src="${gcS(msg.imageUrl)}" onclick="openModal('${gcS(msg.imageUrl)}')" style="max-width:100%;border-radius:10px;cursor:pointer;display:block;"></div>`;
+            } else {
+                h += `<div style="padding:8px 14px;border-radius:18px;${isOwn?'border-bottom-right-radius:4px':'border-bottom-left-radius:4px'};font-size:0.87rem;line-height:1.5;color:#d4cfc8;word-break:break-word;background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};border:${isOwn?'none':'1px solid #3a3028'};">${gcS(msg.text||'')}</div>`;
+            }
+
+            const t = msg.text || (msg.imageUrl ? '📷 Image' : '');
+            h += `<div style="display:flex;align-items:center;gap:5px;padding:2px;${isOwn?'justify-content:flex-end':''}">
+                <span style="font-size:0.62rem;color:#4a3a3a;">${gcTime(msg.timestamp)}</span>
+                <button data-reply-id="${gcS(id)}" data-reply-sender="${gcS(msg.username)}" data-reply-text="${gcS(t)}" onclick="gcHandleReply(this)" style="background:none;border:none;color:#6a5a50;cursor:pointer;font-size:0.7rem;padding:0 3px;" title="Reply">↩</button>
+                ${canDel?`<button onclick="gcUnsend('${gcS(id)}')" style="background:none;border:none;color:#6a4040;cursor:pointer;font-size:0.7rem;padding:0 3px;" title="Unsend">✕</button>`:''}
+            </div>`;
+
+            h += '</div>';
+            return h;
         }
 
-        window.gcChangeName = () => {
-            gcUsername = '';
-            gcInitialized = false;
-            localStorage.removeItem('ahof-chat-username');
-            localStorage.removeItem('ahof-chat-approved');
-            document.getElementById('gcUsernameInput').value = '';
-            document.getElementById('gcCodeInput').value = '';
-            gcShowScreen('entry');
+        // ── Append one message to container ───────────────────────────────────
+        function gcAppendMsg(id, msg) {
+            if (gcRenderedIds.has(id)) return; // deduplicate
+            gcRenderedIds.add(id);
+            const container = document.getElementById('gcMessages');
+            const atBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
+            // Remove temp version if exists
+            const temp = document.querySelector(`[data-msgid="temp_${id}"]`);
+            if (temp) { temp.remove(); gcRenderedIds.delete('temp_' + id); }
+            container.insertAdjacentHTML('beforeend', gcBuildMsg(id, msg));
+            if (atBottom) gcScrollBottom();
+        }
+
+        // ── Start listening ───────────────────────────────────────────────────
+        function gcStartListening() {
+            if (gcListening) return;
+            gcListening = true;
+
+            const msgsRef = ref(database, 'groupchat/messages');
+
+            // onChildAdded fires for ALL existing children first, then new ones
+            // This is the correct Firebase pattern for chat
+            onChildAdded(msgsRef, (child) => {
+                gcAppendMsg(child.key, child.val());
+            });
+
+            onChildRemoved(msgsRef, (child) => {
+                const el = document.querySelector(`[data-msgid="${child.key}"]`);
+                if (el) el.remove();
+                gcRenderedIds.delete(child.key);
+            });
+
+            // Presence
+            const presRef = ref(database, 'groupchat/presence/' + gcUid);
+            onDisconnect(presRef).remove();
+            set(presRef, { username: gcUsername, t: Date.now() });
+
+            onValue(ref(database, 'groupchat/presence'), snap => {
+                const el = document.getElementById('gcMemberCount');
+                if (el) el.textContent = snap.numChildren() + ' online';
+            });
+
+            onValue(ref(database, '.info/connected'), snap => {
+                const el = document.getElementById('gcConnIndicator');
+                if (el) el.textContent = snap.val() ? '🟢' : '🔴';
+            });
+        }
+
+        // ── Window-exposed handlers ───────────────────────────────────────────
+        window.gcHandleReply = (btn) => {
+            gcReplyTo = { id: btn.dataset.replyId, sender: btn.dataset.replySender, text: btn.dataset.replyText };
+            document.getElementById('gcReplyText').innerHTML = `<strong>↩ ${gcS(gcReplyTo.sender)}:</strong> ${gcS(gcReplyTo.text.slice(0,60))}`;
+            document.getElementById('gcReplyBar').style.display = 'flex';
+            document.getElementById('gcInput').focus();
         };
 
         window.gcClearReply = () => {
@@ -1969,161 +2081,119 @@
             document.getElementById('gcReplyBar').style.display = 'none';
         };
 
-        window.gcReplyTo = (id, sender, text) => {
-            gcReplyTo = { id, sender, text };
-            document.getElementById('gcReplyText').innerHTML = `<strong>↩ ${gcS(sender)}:</strong> ${gcS(text.slice(0,60))}`;
-            document.getElementById('gcReplyBar').style.display = 'flex';
-            document.getElementById('gcInput').focus();
-        };
-
-        window.gcDeleteMsg = async (id) => {
-            if (!confirm('Delete this message?')) return;
+        window.gcUnsend = async (id) => {
+            if (!confirm('Unsend this message?')) return;
             try { await remove(ref(database, 'groupchat/messages/' + id)); }
             catch(e) { alert('Error: ' + e.message); }
         };
 
-        function gcRenderMsg(id, msg) {
-            const isOwn = msg.uid === gcGetUid();
-            const canDel = isOwn || gcIsAdmin();
-            const adminBadge = msg.isAdmin ? '<span style="background:linear-gradient(135deg,#c8b89a,#a89070);color:#1a1410;font-size:0.6rem;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:4px;">ADMIN</span>' : '';
+        window.gcChangeName = () => {
+            gcUsername = '';
+            gcAdmin = false;
+            gcListening = false;
+            gcRenderedIds.clear();
+            localStorage.removeItem('ahof-gc-name');
+            localStorage.removeItem('ahof-gc-approved');
+            localStorage.removeItem('ahof-gc-admin');
+            remove(ref(database, 'groupchat/presence/' + gcUid)).catch(()=>{});
+            document.getElementById('gcUsernameInput').value = '';
+            document.getElementById('gcCodeInput').value = '';
+            document.getElementById('gcMessages').innerHTML = '<div style="text-align:center;font-size:0.72rem;color:#4a4040;padding:8px 0;">AHOF GC 💫</div>';
+            gcShowScreen('entry');
+        };
 
-            let inner = '';
-            if (msg.replyTo) {
-                inner += `<div style="background:rgba(200,184,154,0.08);border-left:3px solid #c8b89a;padding:4px 8px;border-radius:4px;font-size:0.72rem;color:#9a8878;margin-bottom:4px;"><strong style="color:#c8b89a;">${gcS(msg.replyTo.sender)}:</strong> ${gcS((msg.replyTo.text||'📷 Image').slice(0,60))}</div>`;
-            }
-            inner += `<div style="font-size:0.7rem;color:${isOwn?'#c8b89a':'#9a8878'};font-weight:600;margin-bottom:2px;">${gcS(msg.username)}${adminBadge}</div>`;
-
-            const actions = `<span style="display:none;position:absolute;top:-28px;${isOwn?'left':'right'}:0;background:#2a2520;border:1px solid #3a3028;border-radius:8px;padding:4px;gap:4px;z-index:5;" class="gc-actions">
-                <button onclick="gcReplyTo('${id}','${gcS(msg.username)}','${gcS((msg.text||'').replace(/'/g,"\'"))}')" style="background:none;border:none;color:#9a8878;cursor:pointer;font-size:0.75rem;padding:2px 6px;border-radius:4px;">↩</button>
-                ${canDel?`<button onclick="gcDeleteMsg('${id}')" style="background:none;border:none;color:#9a8878;cursor:pointer;font-size:0.75rem;padding:2px 6px;border-radius:4px;">🗑️</button>`:''}
-            </span>`;
-
-            let bubble = '';
-            if (msg.imageUrl) {
-                bubble = `<div style="padding:6px;border-radius:14px;background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};border:${isOwn?'none':'1px solid #3a3028'};position:relative;max-width:200px;" onmouseenter="this.querySelector('.gc-actions').style.display='flex'" onmouseleave="this.querySelector('.gc-actions').style.display='none'">${actions}<img src="${gcS(msg.imageUrl)}" onclick="openModal('${gcS(msg.imageUrl)}')" style="max-width:100%;border-radius:10px;cursor:pointer;display:block;"></div>`;
-            } else {
-                bubble = `<div style="padding:8px 12px;border-radius:14px;font-size:0.85rem;line-height:1.4;color:#d4cfc8;word-break:break-word;background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};border:${isOwn?'none':'1px solid #3a3028'};${isOwn?'border-bottom-right-radius:4px':'border-bottom-left-radius:4px'};position:relative;" onmouseenter="this.querySelector('.gc-actions').style.display='flex'" onmouseleave="this.querySelector('.gc-actions').style.display='none'">${actions}${gcS(msg.text)}</div>`;
-            }
-
-            inner += bubble;
-            inner += `<div style="font-size:0.65rem;color:#5a504a;padding:0 4px;margin-top:1px;">${gcTime(msg.timestamp)}</div>`;
-            return `<div style="display:flex;flex-direction:column;max-width:85%;${isOwn?'align-self:flex-end;align-items:flex-end':'align-self:flex-start;align-items:flex-start'}">${inner}</div>`;
-        }
-
-        function gcInit() {
-            if (gcInitialized) return;
-            gcInitialized = true;
-
-            const gcRef = ref(database, 'groupchat/messages');
-            onValue(gcRef, (snapshot) => {
-                const container = document.getElementById('gcMessages');
-                if (!container) return;
-                const msgs = [];
-                snapshot.forEach(child => msgs.push({ id: child.key, ...child.val() }));
-                msgs.sort((a,b) => (a.timestamp||0)-(b.timestamp||0));
-                container.innerHTML = '<div style="text-align:center;font-size:0.72rem;color:#5a504a;">Welcome to AHOF GC 💫</div>';
-                msgs.forEach(m => container.insertAdjacentHTML('beforeend', gcRenderMsg(m.id, m)));
-                gcScrollBottom();
-            });
-
-            const myRef = ref(database, 'groupchat/presence/' + gcGetUid());
-            onDisconnect(myRef).remove();
-            set(myRef, { username: gcUsername, t: Date.now() });
-        }
-
+        // ── Send ─────────────────────────────────────────────────────────────
         async function gcSend(text, imageUrl) {
             if (!gcUsername) return;
-            const msg = { uid: gcGetUid(), username: gcUsername, timestamp: Date.now(), isAdmin: gcIsAdmin() };
-            if (text) msg.text = text.trim();
-            if (imageUrl) msg.imageUrl = imageUrl;
-            if (gcReplyTo) { msg.replyTo = gcReplyTo; gcReplyTo = null; document.getElementById('gcReplyBar').style.display = 'none'; }
-            await push(ref(database, 'groupchat/messages'), msg);
+            const msg = { uid: gcUid, username: gcUsername, timestamp: Date.now(), isAdmin: gcAdmin };
+            if (text)      msg.text = text.trim();
+            if (imageUrl)  msg.imageUrl = imageUrl;
+            if (gcReplyTo) { msg.replyTo = {...gcReplyTo}; gcReplyTo = null; document.getElementById('gcReplyBar').style.display = 'none'; }
+
+            // Optimistic: show immediately with temp id
+            const tempId = 'temp_' + Date.now();
+            gcRenderedIds.add(tempId);
+            document.getElementById('gcMessages').insertAdjacentHTML('beforeend', gcBuildMsg(tempId, msg));
+            gcScrollBottom();
+
+            try {
+                const newRef = await push(ref(database, 'groupchat/messages'), msg);
+                // Rename temp to real id
+                const el = document.querySelector(`[data-msgid="${tempId}"]`);
+                if (el) { el.setAttribute('data-msgid', newRef.key); gcRenderedIds.add(newRef.key); }
+                gcRenderedIds.delete(tempId);
+            } catch(e) {
+                document.querySelector(`[data-msgid="${tempId}"]`)?.remove();
+                gcRenderedIds.delete(tempId);
+                alert('Send failed: ' + (e.code||e.message));
+            }
         }
 
-        // ── Join Button ────────────────────────────────────────────────────────
-        document.getElementById('gcJoinBtn').addEventListener('click', () => {
-            const name = document.getElementById('gcUsernameInput').value.trim();
-            const code = document.getElementById('gcCodeInput').value.trim();
-
-            if (!name) { gcShowError('Please enter your name.'); return; }
-            if (!code) { gcShowError('Please enter the access code.'); return; }
-
-            // Admin key check
-            if (GC_ADMIN_KEYS.includes(code)) {
+        // ── Join ─────────────────────────────────────────────────────────────
+        function gcDoJoin(name, code) {
+            if (code === GC_ADMIN_KEY) {
+                gcAdmin = true;
+                localStorage.setItem('ahof-gc-admin', 'true');
                 localStorage.setItem('ahof-chat-admin', 'true');
-                localStorage.setItem('ahof-chat-approved', 'true');
-                gcUsername = name;
-                localStorage.setItem('ahof-chat-username', name);
-                gcInit();
-                gcShowScreen('chat');
-                return;
-            }
-
-            // Code check
-            if (code !== GC_ACCESS_CODE) {
-                gcShowError('❌ Wrong access code. Try again.');
+            } else if (code !== GC_ACCESS_CODE) {
+                gcShowError('❌ Wrong access code.');
                 document.getElementById('gcCodeInput').value = '';
                 return;
             }
-
-            // Correct code — enter chat
             gcUsername = name;
-            localStorage.setItem('ahof-chat-username', name);
-            localStorage.setItem('ahof-chat-approved', 'true');
-            gcInit();
+            localStorage.setItem('ahof-gc-name', name);
+            localStorage.setItem('ahof-gc-approved', 'true');
+            gcStartListening();
             gcShowScreen('chat');
-            document.getElementById('gcInput').focus();
-        });
+            if (gcAdmin && typeof loadAchievements === 'function') loadAchievements();
+            setTimeout(() => document.getElementById('gcInput').focus(), 100);
+        }
 
-        document.getElementById('gcCodeInput').addEventListener('keydown', e => {
-            if (e.key === 'Enter') document.getElementById('gcJoinBtn').click();
+        document.getElementById('gcJoinBtn').addEventListener('click', () => {
+            const name = document.getElementById('gcUsernameInput').value.trim();
+            const code = document.getElementById('gcCodeInput').value.trim();
+            if (!name) { gcShowError('Enter your name.'); return; }
+            if (!code) { gcShowError('Enter the access code.'); return; }
+            gcDoJoin(name, code);
         });
-        document.getElementById('gcUsernameInput').addEventListener('keydown', e => {
-            if (e.key === 'Enter') document.getElementById('gcCodeInput').focus();
-        });
+        document.getElementById('gcUsernameInput').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('gcCodeInput').focus(); });
+        document.getElementById('gcCodeInput').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('gcJoinBtn').click(); });
 
         document.getElementById('gcSendBtn').addEventListener('click', async () => {
             const input = document.getElementById('gcInput');
             const text = input.value.trim();
-            if (!text) return;
-            if (!gcUsername) { gcShowScreen('entry'); return; }
-            input.value = '';
-            input.style.height = '';
+            if (!text || !gcUsername) return;
+            input.value = ''; input.style.height = '';
             await gcSend(text);
         });
-
-        document.getElementById('gcInput').addEventListener('keydown', async (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); document.getElementById('gcSendBtn').click(); }
+        document.getElementById('gcInput').addEventListener('keydown', async e => {
+            if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); document.getElementById('gcSendBtn').click(); }
         });
-
         document.getElementById('gcInput').addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+            this.style.height='auto';
+            this.style.height=Math.min(this.scrollHeight,100)+'px';
         });
-
-        document.getElementById('gcImageBtn').addEventListener('click', () => {
-            document.getElementById('gcImageFile').click();
-        });
-
-        document.getElementById('gcImageFile').addEventListener('change', async (e) => {
+        document.getElementById('gcImageBtn').addEventListener('click', () => document.getElementById('gcImageFile').click());
+        document.getElementById('gcImageFile').addEventListener('change', async e => {
             const file = e.target.files[0];
             if (!file || !gcUsername) return;
             try {
-                const imgRef = storageRef(storage, 'chat/' + Date.now() + '_' + file.name);
-                const snap = await uploadBytes(imgRef, file);
-                const url = await getDownloadURL(snap.ref);
-                await gcSend('', url);
+                const iRef = storageRef(storage, 'chat/' + Date.now() + '_' + file.name);
+                const snap = await uploadBytes(iRef, file);
+                await gcSend('', await getDownloadURL(snap.ref));
             } catch(err) { alert('Upload failed: ' + err.message); }
             e.target.value = '';
         });
 
-        // ── Restore session ────────────────────────────────────────────────────
+        // ── Restore session ───────────────────────────────────────────────────
         (() => {
-            const savedName = localStorage.getItem('ahof-chat-username');
-            const savedApproved = localStorage.getItem('ahof-chat-approved');
-            if (savedName && savedApproved === 'true') {
-                gcUsername = savedName;
-                gcInit();
+            const name     = localStorage.getItem('ahof-gc-name');
+            const approved = localStorage.getItem('ahof-gc-approved');
+            const admin    = localStorage.getItem('ahof-gc-admin');
+            if (name && approved === 'true') {
+                gcUsername = name;
+                gcAdmin    = admin === 'true';
+                gcStartListening();
                 gcShowScreen('chat');
             } else {
                 gcShowScreen('entry');
