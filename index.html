@@ -879,6 +879,205 @@
             width: 18px;
             height: 18px;
         }
+        
+        .gc-reaction-picker {
+            position: absolute;
+            background: #2a2520;
+            border: 1px solid #3a3028;
+            border-radius: 24px;
+            padding: 6px 10px;
+            display: flex;
+            gap: 6px;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            animation: popIn 0.15s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
+        .gc-reaction-picker button {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 2px;
+            border-radius: 50%;
+            transition: transform 0.1s;
+            line-height: 1;
+        }
+        .gc-reaction-picker button:hover { transform: scale(1.3); }
+        .gc-reactions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 3px;
+        }
+        .gc-reaction-badge {
+            background: #2a2520;
+            border: 1px solid #3a3028;
+            border-radius: 10px;
+            padding: 1px 7px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            transition: background 0.15s;
+        }
+        .gc-reaction-badge:hover { background: #3a3028; }
+        .gc-reaction-badge.mine { border-color: #c8b89a; background: rgba(200,184,154,0.15); }
+        
+        /* ── Notification styles ── */
+        #gcNotifBadge {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #c8b89a, #a89070);
+            color: #1a1410;
+            border-radius: 50px;
+            padding: 10px 18px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            cursor: pointer;
+            z-index: 999;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+        #gcNotifBadge .notif-close {
+            background: rgba(0,0,0,0.2);
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            color: #1a1410;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .nav-notif-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: #c87a6a;
+            border-radius: 50%;
+            margin-left: 4px;
+            vertical-align: middle;
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.5; transform: scale(0.8); }
+        }
+        
+        /* ── GC Profile ── */
+        .gc-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            flex-shrink: 0;
+            border: 2px solid #3a3028;
+            transition: transform 0.15s;
+        }
+        .gc-avatar:hover { transform: scale(1.08); }
+        .gc-avatar-initials {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #1a1410;
+            cursor: pointer;
+            flex-shrink: 0;
+            border: 2px solid transparent;
+            transition: transform 0.15s;
+        }
+        .gc-avatar-initials:hover { transform: scale(1.08); }
+
+        #gcProfileModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        #gcProfileModal.open { display: flex; }
+        .gc-profile-card {
+            background: #1e1a16;
+            border: 1px solid #3a3028;
+            border-radius: 18px;
+            padding: 28px 24px;
+            width: 300px;
+            max-width: 90vw;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+        }
+        .gc-profile-card .close-btn {
+            position: absolute;
+            top: 12px; right: 14px;
+            background: none; border: none;
+            color: #6a5a4a; font-size: 1.1rem;
+            cursor: pointer;
+        }
+        .gc-profile-avatar-lg {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #c8b89a;
+            margin: 0 auto 12px;
+            display: block;
+        }
+        .gc-profile-initials-lg {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1a1410;
+            border: 3px solid #c8b89a;
+            margin: 0 auto 12px;
+        }
+
+        /* Profile setup modal */
+        #gcSetupModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+        }
+        #gcSetupModal.open { display: flex; }
+        .gc-setup-card {
+            background: #1e1a16;
+            border: 1px solid #3a3028;
+            border-radius: 18px;
+            padding: 28px 24px;
+            width: 320px;
+            max-width: 92vw;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+        }
         </style>
 </head>
 <body>
@@ -1218,10 +1417,18 @@
                 <div id="gcActiveUser" style="display:none; margin-bottom:1rem; align-items:center; gap:8px; flex-wrap:wrap;">
                     <span id="gcConnIndicator" style="font-size:0.7rem;" title="Connection status">🔴</span>
                     <span style="font-size:0.82rem; color:#9a8878;">Chatting as: </span>
-                    <span id="gcCurrentName" style="color:#c8b89a; font-weight:700; font-size:0.88rem;"></span>
-                    <span id="gcMemberCount" style="font-size:0.72rem; color:#6a5a4a; background:#2a2520; padding:2px 8px; border-radius:10px;">0 online</span>
-                    <button onclick="gcChangeName()" style="background:none;border:1px solid #3a3028;color:#7a706a;padding:3px 10px;border-radius:6px;font-size:0.75rem;cursor:pointer;">Leave</button>
+                    <span id="gcCurrentName" style="color:#c8b89a; font-weight:700; font-size:0.88rem; cursor:pointer;" onclick="gcViewProfile(gcUid)" title="View your profile"></span>
+                    
                 </div>
+                <!-- Member stats bar -->
+                <div style="display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; align-items:center;">
+                    <span id="gcTotalMembers" onclick="gcToggleMemberPanel('all')" style="font-size:0.72rem;color:#7a6a5a;background:#2a2520;padding:2px 10px;border-radius:10px;cursor:pointer;" title="All members who joined">👥 0 members</span>
+                    <span style="font-size:0.72rem;color:#5a5040;">•</span>
+                    <span style="font-size:0.72rem;color:#6a9a6a;" id="gcOnlineLabel">🟢 <span id="gcOnlineCount">0</span> online — click to see</span>
+                </div>
+                <!-- Member list panel (toggle) -->
+                <div id="gcMemberList" style="display:none; flex-wrap:wrap; gap:6px; margin-bottom:8px; padding:8px 10px; background:#15120e; border:1px solid #2a2520; border-radius:10px;"></div>
+                <div id="gcAllMemberList" style="display:none; flex-wrap:wrap; gap:6px; margin-bottom:8px; padding:8px 10px; background:#15120e; border:1px solid #2a2520; border-radius:10px;"></div>
 
                 <!-- Reply Bar -->
                 <div id="gcReplyBar" style="display:none; padding:8px 12px; background:#252018; border:1px solid #3a3028; border-radius:8px; margin-bottom:8px; align-items:center; gap:8px;">
@@ -1264,63 +1471,77 @@
                 <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">1. Information We Collect</h3>
                 <p style="margin-bottom: 0.5rem;">We collect only the information you voluntarily provide when using this Site:</p>
                 <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li><strong>Usernames and display names</strong> — entered when joining the Group Chat or submitting content</li>
-                    <li><strong>Access code</strong> — entered to gain access to the Members-Only Group Chat. The code itself is not stored; only whether access was granted is saved locally in your browser.</li>
+                    <li><strong>Usernames and display names</strong> — entered when joining the Group Chat or submitting content. Once set, your username is permanently locked to your device.</li>
+                    <li><strong>Access code</strong> — entered to gain access to the Members-Only Group Chat. The code itself is not stored on any server; only your approved status is saved locally in your browser.</li>
                     <li><strong>Photos and images</strong> — uploaded as voting proofs, posts, achievements, or chat images</li>
-                    <li><strong>Text content</strong> — posts, achievement entries, chat messages, and notes you submit</li>
-                    <li><strong>Session identifiers</strong> — randomly generated browser-side keys used to identify your session for content management (not tied to your real identity)</li>
+                    <li><strong>Text content</strong> — posts, achievement entries, chat messages, reactions, and notes you submit</li>
+                    <li><strong>Device identifier (UID)</strong> — a randomly generated ID saved permanently to your browser's local storage to identify your device. This is used to lock your username and track your presence and reactions. It is not tied to your real identity.</li>
                 </ul>
                 <p style="margin-bottom: 1rem; font-size: 0.88rem; color: #9a8878;">We do <strong style="color:#c8b89a;">not</strong> collect email addresses, phone numbers, payment details, or any sensitive personal data.</p>
 
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">2. Group Chat Access</h3>
-                <p style="margin-bottom: 1rem;">The FOHA Group Chat is a <strong>members-only</strong> feature. To join, users must enter a valid username and the correct access code. Access is verified locally in your browser — the code is never transmitted to or stored on any server. Your username and approved session status are saved in your browser's local storage so you remain logged in across page visits. You may leave the chat at any time by clicking "Leave," which clears your session.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">3. How We Use Your Information</h3>
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">2. Group Chat — How It Works</h3>
+                <p style="margin-bottom: 0.5rem;">The FOHA Group Chat is a <strong>members-only</strong> feature with the following characteristics:</p>
                 <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li>To display community-submitted content (posts, achievements, voting proofs, chat messages) to authorized members and visitors of the Site</li>
-                    <li>To enable real-time community features such as the Members-Only Group Chat</li>
-                    <li>To allow you to delete your own content using your session key</li>
+                    <li><strong>Access</strong> — requires a valid username and the correct access code. The code is verified locally and never stored on any server.</li>
+                    <li><strong>Username lock</strong> — once you choose a username and join the GC on a device, that username is permanently assigned to that device. It cannot be changed.</li>
+                    <li><strong>Member registry</strong> — your username is permanently saved in our Firebase database as part of the GC member list. This allows all members to see who has joined the community.</li>
+                    <li><strong>Presence</strong> — while you are active in the GC, your username appears in the "online" list. This is removed automatically when you leave or close the page.</li>
+                    <li><strong>Reactions</strong> — emoji reactions you place on messages are stored in Firebase along with your username, visible to all GC members.</li>
+                    <li><strong>Message history</strong> — all messages are stored in Firebase and visible to all GC members, including those who join later (full backread available).</li>
+                    <li><strong>Unsend</strong> — you may delete your own messages at any time. Admins may also delete any message.</li>
+                </ul>
+
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">3. Browser Notifications</h3>
+                <p style="margin-bottom: 1rem;">When you join the Group Chat, the Site may request permission to send <strong>browser notifications</strong>. If granted, you will receive notifications when new messages arrive while you are not viewing the GC. This permission is entirely optional — you may deny it without affecting your ability to use the chat. You can revoke this permission at any time in your browser settings. Notification content (sender name and message preview) is processed locally by your browser and is not transmitted to any third party.</p>
+
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">4. How We Use Your Information</h3>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li>To display community-submitted content (posts, achievements, voting proofs, chat messages, reactions) to authorized members and visitors</li>
+                    <li>To enable real-time features such as the Members-Only Group Chat, online presence, and reactions</li>
+                    <li>To maintain a permanent member registry showing who has joined the GC community</li>
+                    <li>To allow you to unsend your own messages and manage your content</li>
+                    <li>To send browser notifications for new GC messages (only if you grant permission)</li>
                 </ul>
                 <p style="margin-bottom: 1rem;">We do <strong>not</strong> use your information for advertising, profiling, automated decision-making, or any commercial purpose.</p>
 
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">4. Third-Party Services</h3>
-                <p style="margin-bottom: 0.5rem;">This Site uses the following third-party platforms to operate. Each has its own privacy policy and may process data on its own terms:</p>
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">5. Third-Party Services</h3>
+                <p style="margin-bottom: 0.5rem;">This Site uses the following third-party platforms to operate:</p>
                 <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li><strong>Google Firebase</strong> (Realtime Database &amp; Storage) — stores messages, posts, achievements, and voting proofs. Governed by Google's Privacy Policy.</li>
+                    <li><strong>Google Firebase</strong> (Realtime Database &amp; Storage) — stores messages, reactions, member registry, presence data, posts, achievements, and voting proofs. Governed by Google's Privacy Policy.</li>
                     <li><strong>Cloudinary</strong> — used for image hosting and delivery. Governed by Cloudinary's Privacy Policy.</li>
                 </ul>
-                <p style="margin-bottom: 0.5rem;">This Site also contains links to the following official AHOF social media platforms:</p>
+                <p style="margin-bottom: 0.5rem;">This Site also contains links to official AHOF social media platforms:</p>
                 <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
                     <li><strong>Instagram, X (Twitter), TikTok, Facebook</strong> — governed by their respective privacy policies</li>
                     <li><strong>Weverse</strong> — governed by Weverse's Privacy Policy (Hybe)</li>
                     <li><strong>Weibo</strong> — governed by Weibo's Privacy Policy</li>
                 </ul>
-                <p style="margin-bottom: 1rem; font-size: 0.88rem; color: #9a8878;">Clicking any external social media link will take you to a third-party platform. We are not responsible for how those platforms handle your data. Data stored in Firebase may be processed on servers located outside your country. Google maintains Standard Contractual Clauses (SCCs) for international data transfers in compliance with GDPR requirements.</p>
+                <p style="margin-bottom: 1rem; font-size: 0.88rem; color: #9a8878;">Clicking any external link takes you to a third-party platform. We are not responsible for how those platforms handle your data. Data stored in Firebase may be processed on servers outside your country. Google maintains Standard Contractual Clauses (SCCs) for international data transfers in compliance with GDPR.</p>
 
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">5. Public Visibility</h3>
-                <p style="margin-bottom: 1rem;">Content submitted in public sections of the Site — including usernames, messages, images, posts, and voting proofs — is <strong>visible to all visitors</strong>, including those who have not joined the Group Chat. Group Chat messages are visible only to members who have entered with the correct access code. Please only share content you are comfortable making public. Do not upload images or text that contain sensitive personal information about yourself or others.</p>
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">6. Public Visibility</h3>
+                <p style="margin-bottom: 1rem;">Content submitted in public sections — including posts, achievements, and voting proofs — is visible to all visitors. Group Chat messages, reactions, and the member list are visible only to users who have joined with the correct access code. Please only share content you are comfortable making available to the GC community.</p>
 
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">6. Local Storage</h3>
-                <p style="margin-bottom: 1rem;">This Site uses your browser's <strong>local storage</strong> to save your chat username, session key, and Group Chat access status. This data is stored only on your own device and is never shared with any server. You can clear this data at any time by clearing your browser's site data or by clicking "Leave" in the Group Chat.</p>
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">7. Local Storage &amp; Device Data</h3>
+                <p style="margin-bottom: 1rem;">This Site stores the following data in your browser's <strong>local storage</strong>: your GC username, device UID, access approval status, and admin status (if applicable). This data is stored only on your device. Your device UID and username are <strong>permanently assigned</strong> — clearing local storage (via browser settings or browser console) will reset your device identity, allowing a new username to be set.</p>
 
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">7. Data Retention</h3>
-                <p style="margin-bottom: 1rem;">Content you submit (posts, chat messages, voting proofs, images) remains stored in our database unless you delete it yourself or request removal through an admin. We do not have an automatic deletion schedule. If you wish to have your data removed, please contact us.</p>
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">8. Data Retention</h3>
+                <p style="margin-bottom: 1rem;">Content you submit (posts, chat messages, voting proofs, images, reactions) remains stored in our Firebase database unless you delete it yourself (unsend) or request removal through an admin. Member registry entries are permanent records. We do not have an automatic deletion schedule.</p>
 
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">8. Your Rights</h3>
-                <p style="margin-bottom: 0.5rem;">Depending on your location, you may have the following rights regarding your personal data:</p>
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">9. Your Rights</h3>
+                <p style="margin-bottom: 0.5rem;">Depending on your location, you may have the following rights:</p>
                 <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
                     <li><strong>Right to Access</strong> — request a copy of information we hold about you</li>
-                    <li><strong>Right to Deletion</strong> — request removal of your content or data from the Site</li>
+                    <li><strong>Right to Deletion</strong> — request removal of your content or data, including your member registry entry</li>
                     <li><strong>Right to Correction</strong> — request that inaccurate information be corrected</li>
                     <li><strong>Right to Withdraw Consent</strong> — you may stop using the Site and request deletion of your submissions at any time</li>
                 </ul>
-                <p style="margin-bottom: 1rem;">To exercise any of these rights, contact the Site administrators. We will respond to requests within a reasonable timeframe.</p>
+                <p style="margin-bottom: 1rem;">To exercise any of these rights, contact the Site administrators.</p>
 
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">9. Children's Privacy</h3>
-                <p style="margin-bottom: 1rem;">This Site is intended for general audiences. We do not knowingly collect personal information from children under the age of 13. If you believe a minor has submitted personal data without parental consent, please contact us immediately so we can remove it.</p>
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">10. Children's Privacy</h3>
+                <p style="margin-bottom: 1rem;">This Site is intended for general audiences. We do not knowingly collect personal information from children under the age of 13. If you believe a minor has submitted personal data without parental consent, please contact us immediately.</p>
 
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">10. Changes to This Policy</h3>
-                <p style="margin-bottom: 1rem;">We may update this Privacy Policy from time to time to reflect changes in how we operate or in applicable privacy laws. Any updates will be reflected in the "Last Updated" date below. Continued use of the Site after changes constitutes your acceptance of the updated policy.</p>
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">11. Changes to This Policy</h3>
+                <p style="margin-bottom: 1rem;">We may update this Privacy Policy from time to time. Continued use of the Site after changes constitutes your acceptance of the updated policy.</p>
 
                 <p style="font-size: 0.88rem; color: #7a706a; margin-top: 1.5rem; border-top: 1px solid #2a2520; padding-top: 1rem;">Last updated: February 2026 &nbsp;·&nbsp; Aligned with GDPR (EU), CCPA/CPRA (California), and global privacy standards applicable as of 2026.</p>
             </section>
@@ -1334,7 +1555,7 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-        import { getDatabase, ref, push, onValue, onChildAdded, onChildRemoved, remove, update, set, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+        import { getDatabase, ref, push, onValue, onChildAdded, onChildRemoved, onChildChanged, remove, update, set, onDisconnect, get } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
         import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
 
         /*
@@ -1979,6 +2200,9 @@
             setTimeout(() => el.style.display = 'none', 3000);
         }
         function gcShowScreen(s) {
+            // If device already has a locked username, always show chat
+            const locked = localStorage.getItem('ahof-gc-name');
+            if (locked) s = 'chat';
             document.getElementById('gcUsernameBar').style.display = s==='entry' ? 'block' : 'none';
             document.getElementById('gcActiveUser').style.display  = s==='chat'  ? 'flex'  : 'none';
             document.getElementById('gcMessages').style.display    = s==='chat'  ? 'flex'  : 'none';
@@ -1989,54 +2213,443 @@
 
         // ── Build message HTML ────────────────────────────────────────────────
         function gcBuildMsg(id, msg) {
-            const isOwn  = msg.uid === gcUid;
-            const canDel = isOwn || gcAdmin;
-            const badge  = msg.isAdmin
+            const isOwn   = msg.uid === gcUid;
+            const canDel  = isOwn || gcAdmin;
+            const profile = gcProfiles[msg.uid] || {};
+            const photoUrl = profile.photoUrl || '';
+            const badge   = msg.isAdmin
                 ? '<span style="background:linear-gradient(135deg,#c8b89a,#a89070);color:#1a1410;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:4px;">ADMIN</span>'
                 : '';
 
-            let h = `<div data-msgid="${gcS(id)}" style="display:flex;flex-direction:column;max-width:80%;margin-bottom:8px;${isOwn?'align-self:flex-end;align-items:flex-end':'align-self:flex-start;align-items:flex-start'}">`;
+            const avatar  = gcAvatarHtml(msg.uid, msg.username, photoUrl, `gcViewProfile('${gcS(msg.uid)}')`);
 
+            // Outer row: avatar + bubble column (like Messenger)
+            const rowAlign = isOwn ? 'flex-direction:row-reverse;' : 'flex-direction:row;';
+            let h = `<div data-msgid="${gcS(id)}" data-msg-uid="${gcS(msg.uid)}" data-msg-username="${gcS(msg.username)}" style="display:flex;${rowAlign}align-items:flex-end;gap:8px;margin-bottom:10px;max-width:88%;${isOwn?'align-self:flex-end;':'align-self:flex-start;'}">`;
+
+            // Avatar
+            h += `<div class="gc-msg-avatar" style="flex-shrink:0;">${avatar}</div>`;
+
+            // Bubble column
+            h += `<div style="display:flex;flex-direction:column;max-width:calc(100% - 46px);${isOwn?'align-items:flex-end;':'align-items:flex-start;'}">`;
+
+            // Reply preview
             if (msg.replyTo) {
-                h += `<div style="background:rgba(200,184,154,0.1);border-left:3px solid #c8b89a;padding:3px 8px;border-radius:6px;font-size:0.7rem;color:#9a8878;margin-bottom:3px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">↩ <b style="color:#c8b89a;">${gcS(msg.replyTo.sender)}</b>: ${gcS((msg.replyTo.text||'📷').slice(0,50))}</div>`;
+                h += `<div style="background:rgba(200,184,154,0.1);border-left:3px solid #c8b89a;padding:3px 8px;border-radius:6px;font-size:0.7rem;color:#9a8878;margin-bottom:3px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">↩ <b style="color:#c8b89a;">${gcS(msg.replyTo.sender)}</b>: ${gcS((msg.replyTo.text||'📷').slice(0,50))}</div>`;
             }
 
-            h += `<div style="font-size:0.68rem;color:${isOwn?'#c8b89a':'#9a8878'};font-weight:600;margin-bottom:2px;">${gcS(msg.username)}${badge}</div>`;
+            // Username (hide for own messages)
+            if (!isOwn) {
+                h += `<div style="font-size:0.68rem;color:#9a8878;font-weight:600;margin-bottom:2px;padding-left:2px;">${gcS(msg.username)}${badge}</div>`;
+            }
 
+            // Bubble
             if (msg.imageUrl) {
-                h += `<div style="padding:5px;border-radius:14px;background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};max-width:180px;"><img src="${gcS(msg.imageUrl)}" onclick="openModal('${gcS(msg.imageUrl)}')" style="max-width:100%;border-radius:10px;cursor:pointer;display:block;"></div>`;
+                h += `<div style="padding:5px;border-radius:14px;${isOwn?'border-bottom-right-radius:4px':'border-bottom-left-radius:4px'};background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};max-width:180px;">
+                    <img src="${gcS(msg.imageUrl)}" onclick="openModal('${gcS(msg.imageUrl)}')" style="max-width:100%;border-radius:10px;cursor:pointer;display:block;">
+                </div>`;
             } else {
                 h += `<div style="padding:8px 14px;border-radius:18px;${isOwn?'border-bottom-right-radius:4px':'border-bottom-left-radius:4px'};font-size:0.87rem;line-height:1.5;color:#d4cfc8;word-break:break-word;background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};border:${isOwn?'none':'1px solid #3a3028'};">${gcS(msg.text||'')}</div>`;
             }
 
+            // Footer
             const t = msg.text || (msg.imageUrl ? '📷 Image' : '');
-            h += `<div style="display:flex;align-items:center;gap:5px;padding:2px;${isOwn?'justify-content:flex-end':''}">
+            h += `<div style="display:flex;align-items:center;gap:5px;padding:2px 2px;${isOwn?'justify-content:flex-end':''}">
                 <span style="font-size:0.62rem;color:#4a3a3a;">${gcTime(msg.timestamp)}</span>
                 <button data-reply-id="${gcS(id)}" data-reply-sender="${gcS(msg.username)}" data-reply-text="${gcS(t)}" onclick="gcHandleReply(this)" style="background:none;border:none;color:#6a5a50;cursor:pointer;font-size:0.7rem;padding:0 3px;" title="Reply">↩</button>
+                <button onclick="gcShowReactions(this,'${gcS(id)}')" style="background:none;border:none;color:#6a5a50;cursor:pointer;font-size:0.75rem;padding:0 3px;" title="React">😊</button>
                 ${canDel?`<button onclick="gcUnsend('${gcS(id)}')" style="background:none;border:none;color:#6a4040;cursor:pointer;font-size:0.7rem;padding:0 3px;" title="Unsend">✕</button>`:''}
-            </div>`;
+            </div>
+            <div class="gc-reactions" style="margin-top:2px;${isOwn?'justify-content:flex-end;':''}display:flex;flex-wrap:wrap;gap:4px;"></div>`;
 
-            h += '</div>';
+            h += '</div>'; // end bubble column
+            h += '</div>'; // end row
             return h;
         }
 
         // ── Append one message to container ───────────────────────────────────
         function gcAppendMsg(id, msg) {
-            if (gcRenderedIds.has(id)) return; // deduplicate
+            if (gcRenderedIds.has(id)) return; // deduplicate — prevents any double render
             gcRenderedIds.add(id);
             const container = document.getElementById('gcMessages');
             const atBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
-            // Remove temp version if exists
-            const temp = document.querySelector(`[data-msgid="temp_${id}"]`);
-            if (temp) { temp.remove(); gcRenderedIds.delete('temp_' + id); }
             container.insertAdjacentHTML('beforeend', gcBuildMsg(id, msg));
             if (atBottom) gcScrollBottom();
+
+            // Fire notification for messages from others (not own, not initial load)
+            if (msg.uid !== gcUid && gcRenderedIds.size > 3) {
+                gcFireNotif(msg.username, msg.text);
+            }
         }
 
         // ── Start listening ───────────────────────────────────────────────────
-        function gcStartListening() {
+
+        const GC_REACTIONS = ['❤️','😂','😮','😢','😡','👍'];
+        let gcReactionPicker = null;
+
+        window.gcShowReactions = (btn, msgId) => {
+            // Close existing picker
+            if (gcReactionPicker) { gcReactionPicker.remove(); gcReactionPicker = null; return; }
+            const picker = document.createElement('div');
+            picker.className = 'gc-reaction-picker';
+            picker.style.bottom = '28px';
+            picker.style.left = '0';
+            picker.style.position = 'absolute';
+            GC_REACTIONS.forEach(emoji => {
+                const b = document.createElement('button');
+                b.textContent = emoji;
+                b.onclick = () => { gcToggleReaction(msgId, emoji); picker.remove(); gcReactionPicker = null; };
+                picker.appendChild(b);
+            });
+            btn.parentElement.style.position = 'relative';
+            btn.parentElement.appendChild(picker);
+            gcReactionPicker = picker;
+            // Close on outside click
+            setTimeout(() => document.addEventListener('click', function h(e) {
+                if (!picker.contains(e.target)) { picker.remove(); gcReactionPicker = null; document.removeEventListener('click', h); }
+            }), 10);
+        };
+
+        async function gcToggleReaction(msgId, emoji) {
+            const path = 'groupchat/reactions/' + msgId + '/' + gcUid;
+            try {
+                const snap = await get(ref(database, path));
+                const existing = snap.exists() ? (snap.val()?.emoji || snap.val()) : null;
+                if (existing === emoji) {
+                    await remove(ref(database, path));
+                } else {
+                    await set(ref(database, path), { emoji, username: gcUsername });
+                }
+            } catch(e) { console.error('Reaction error:', e); }
+        }
+
+        function gcUpdateReactions(msgId, reactionsData) {
+            const container = document.querySelector(`[data-msgid="${msgId}"] .gc-reactions`);
+            if (!container) return;
+
+            // Group by emoji: { '❤️': [{uid, username}, ...] }
+            const groups = {};
+            const myReaction = reactionsData ? reactionsData[gcUid]?.emoji : null;
+
+            if (reactionsData) {
+                Object.entries(reactionsData).forEach(([uid, data]) => {
+                    const emoji = typeof data === 'string' ? data : data.emoji;
+                    const username = typeof data === 'string' ? uid : (data.username || uid);
+                    if (!emoji) return;
+                    if (!groups[emoji]) groups[emoji] = [];
+                    groups[emoji].push({ uid, username });
+                });
+            }
+
+            container.innerHTML = '';
+            Object.entries(groups).forEach(([emoji, users]) => {
+                const isMine = users.some(u => u.uid === gcUid);
+                const names = users.map(u => u.username).join(', ');
+                const badge = document.createElement('span');
+                badge.className = 'gc-reaction-badge' + (isMine ? ' mine' : '');
+                badge.title = names; // tooltip on hover
+                badge.innerHTML = `${emoji} <span style="font-size:0.72rem;color:#9a8878;">${users.length}</span>`;
+                // Show names below on click
+                badge.onclick = (e) => {
+                    e.stopPropagation();
+                    gcToggleReaction(msgId, emoji);
+                };
+                badge.onmouseenter = () => {
+                    let tip = document.getElementById('gc-react-tip');
+                    if (!tip) { tip = document.createElement('div'); tip.id = 'gc-react-tip'; tip.style.cssText = 'position:fixed;background:#1a1410;border:1px solid #3a3028;border-radius:8px;padding:5px 10px;font-size:0.72rem;color:#c8b89a;z-index:999;pointer-events:none;max-width:200px;'; document.body.appendChild(tip); }
+                    tip.textContent = emoji + ' ' + names;
+                    const r = badge.getBoundingClientRect();
+                    tip.style.left = r.left + 'px';
+                    tip.style.top = (r.top - 32) + 'px';
+                    tip.style.display = 'block';
+                };
+                badge.onmouseleave = () => {
+                    const tip = document.getElementById('gc-react-tip');
+                    if (tip) tip.style.display = 'none';
+                };
+                container.appendChild(badge);
+            });
+        }
+
+
+
+
+        // ── GC Profiles ───────────────────────────────────────────────────────
+        let gcProfiles = {}; // cache: uid → { username, photoUrl, bio, color }
+        let gcSetupPhotoUrl = null;
+
+        // Avatar colors per user (deterministic based on uid)
+        const GC_AVATAR_COLORS = [
+            '#c8744a','#4a8ac8','#6ab84a','#c8a84a','#a84ac8',
+            '#4ac8b8','#c84a7a','#7a8ac8','#c8b84a','#4ac87a'
+        ];
+        function gcAvatarColor(uid) {
+            let hash = 0;
+            for (let c of uid) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
+            return GC_AVATAR_COLORS[Math.abs(hash) % GC_AVATAR_COLORS.length];
+        }
+        function gcInitials(username) {
+            return (username||'?').trim().slice(0,2).toUpperCase();
+        }
+
+        // Build small avatar HTML (34px) for messages
+        function gcAvatarHtml(uid, username, photoUrl, onclick) {
+            const color = gcAvatarColor(uid);
+            if (photoUrl) {
+                return `<img src="${gcS(photoUrl)}" class="gc-avatar" onclick="${onclick}" title="${gcS(username)}" onerror="this.style.display='none'">`;
+            }
+            return `<div class="gc-avatar-initials" style="background:${color};" onclick="${onclick}" title="${gcS(username)}">${gcInitials(username)}</div>`;
+        }
+
+        // Load all profiles from Firebase on init
+        function gcLoadProfiles() {
+            onValue(ref(database, 'groupchat/profiles'), snap => {
+                gcProfiles = {};
+                snap.forEach(child => {
+                    gcProfiles[child.key] = child.val();
+                });
+                // Re-render all avatars in existing messages
+                document.querySelectorAll('[data-msg-uid]').forEach(el => {
+                    const uid = el.getAttribute('data-msg-uid');
+                    const profile = gcProfiles[uid] || {};
+                    const avatarEl = el.querySelector('.gc-msg-avatar');
+                    if (avatarEl) {
+                        avatarEl.outerHTML = gcAvatarHtml(uid, profile.username || el.getAttribute('data-msg-username'), profile.photoUrl, `gcViewProfile('${uid}')`);
+                    }
+                });
+            });
+        }
+
+        // Show profile view modal
+        window.gcViewProfile = (uid) => {
+            const profile = gcProfiles[uid] || {};
+            const username = profile.username || '?';
+            const photoUrl = profile.photoUrl || '';
+            const bio = profile.bio || '';
+            const color = gcAvatarColor(uid);
+            const isOwn = uid === gcUid;
+
+            // Avatar
+            const avatarEl = document.getElementById('gcProfileAvatarLg');
+            if (photoUrl) {
+                avatarEl.innerHTML = `<img src="${gcS(photoUrl)}" class="gc-profile-avatar-lg">`;
+            } else {
+                avatarEl.innerHTML = `<div class="gc-profile-initials-lg" style="background:${color};">${gcInitials(username)}</div>`;
+            }
+
+            document.getElementById('gcProfileName').textContent = username;
+            document.getElementById('gcProfileBio').textContent = bio || (isOwn ? 'No bio yet.' : 'No bio.');
+            document.getElementById('gcProfileEditBtn').style.display = isOwn ? 'block' : 'none';
+            document.getElementById('gcProfileModal').classList.add('open');
+        };
+        window.gcCloseProfile = () => {
+            document.getElementById('gcProfileModal').classList.remove('open');
+        };
+
+        // Open setup modal
+        window.gcOpenSetup = () => {
+            gcCloseProfile();
+            const profile = gcProfiles[gcUid] || {};
+            // Pre-fill bio
+            const bioInput = document.getElementById('gcSetupBio');
+            bioInput.value = profile.bio || '';
+            document.getElementById('gcBioCount').textContent = bioInput.value.length;
+
+            // Pre-fill avatar preview
+            gcSetupPhotoUrl = profile.photoUrl || null;
+            gcUpdateSetupPreview();
+            document.getElementById('gcSetupModal').classList.add('open');
+        };
+
+        function gcUpdateSetupPreview() {
+            const el = document.getElementById('gcSetupAvatarPreview');
+            const color = gcAvatarColor(gcUid);
+            if (gcSetupPhotoUrl) {
+                el.innerHTML = `<img src="${gcSetupPhotoUrl}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #c8b89a;">`;
+            } else {
+                el.innerHTML = `<div style="width:72px;height:72px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:#1a1410;border:3px solid #c8b89a;margin:0 auto;">${gcInitials(gcUsername)}</div>`;
+            }
+        }
+
+        // Photo upload in setup
+        document.getElementById('gcSetupPhotoFile').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const btn = document.getElementById('gcSetupSaveBtn');
+            btn.textContent = 'Processing...';
+            btn.disabled = true;
+
+            // Compress and convert to base64 using canvas
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const img = new Image();
+                img.onload = () => {
+                    // Resize to max 160x160
+                    const MAX = 160;
+                    let w = img.width, h = img.height;
+                    if (w > h) { if (w > MAX) { h = h * MAX / w; w = MAX; } }
+                    else       { if (h > MAX) { w = w * MAX / h; h = MAX; } }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w; canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    // Export as JPEG at 80% quality (small file size)
+                    gcSetupPhotoUrl = canvas.toDataURL('image/jpeg', 0.8);
+                    gcUpdateSetupPreview();
+                    btn.textContent = 'Save Profile';
+                    btn.disabled = false;
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        });
+
+        // Bio counter
+        document.getElementById('gcSetupBio').addEventListener('input', function() {
+            document.getElementById('gcBioCount').textContent = this.value.length;
+        });
+
+        // Save profile
+        document.getElementById('gcSetupSaveBtn').addEventListener('click', async () => {
+            const bio = document.getElementById('gcSetupBio').value.trim();
+            const btn = document.getElementById('gcSetupSaveBtn');
+            btn.textContent = 'Saving...';
+            btn.disabled = true;
+            try {
+                const profileData = { username: gcUsername, bio, updatedAt: Date.now() };
+                if (gcSetupPhotoUrl) profileData.photoUrl = gcSetupPhotoUrl;
+                await set(ref(database, 'groupchat/profiles/' + gcUid), profileData);
+                document.getElementById('gcSetupModal').classList.remove('open');
+            } catch(err) {
+                alert('Save failed: ' + err.message);
+            }
+            btn.textContent = 'Save Profile';
+            btn.disabled = false;
+        });
+
+        // Skip
+        document.getElementById('gcSetupSkipBtn').addEventListener('click', async () => {
+            // Save at least the username
+            try {
+                await set(ref(database, 'groupchat/profiles/' + gcUid), {
+                    username: gcUsername, bio: '', updatedAt: Date.now()
+                });
+            } catch(e) {}
+            document.getElementById('gcSetupModal').classList.remove('open');
+        });
+
+                // ── Notifications ─────────────────────────────────────────────────────
+        let gcNotifCount = 0;
+        let gcNotifPermission = false;
+        let gcTabFocused = true;
+        let gcOriginalTitle = document.title;
+        let gcNotifTimer = null;
+
+        document.addEventListener('visibilitychange', () => {
+            gcTabFocused = !document.hidden;
+            if (!document.hidden) {
+                // User returned to tab — clear notifications
+                gcClearNotif();
+            }
+        });
+        window.addEventListener('focus', () => { gcTabFocused = true; gcClearNotif(); });
+        window.addEventListener('blur',  () => { gcTabFocused = false; });
+
+        async function gcRequestNotifPermission() {
+            if (!('Notification' in window)) return;
+            if (Notification.permission === 'granted') {
+                gcNotifPermission = true;
+            } else if (Notification.permission !== 'denied') {
+                const perm = await Notification.requestPermission();
+                gcNotifPermission = perm === 'granted';
+            }
+        }
+
+        function gcFireNotif(username, text) {
+            gcNotifCount++;
+
+            // 1. Browser notification (when tab not focused)
+            if (!gcTabFocused && gcNotifPermission && Notification.permission === 'granted') {
+                const notif = new Notification('AHOF GC 💬', {
+                    body: username + ': ' + (text || '📷 Image'),
+                    icon: 'https://www.google.com/s2/favicons?domain=instagram.com&sz=64',
+                    tag: 'ahof-gc',
+                    renotify: true
+                });
+                notif.onclick = () => { window.focus(); gcGoToChat(); notif.close(); };
+            }
+
+            // 2. Title flash
+            if (!gcTabFocused) {
+                clearInterval(gcNotifTimer);
+                gcNotifTimer = setInterval(() => {
+                    document.title = document.title === gcOriginalTitle
+                        ? `(${gcNotifCount}) New message — AHOF`
+                        : gcOriginalTitle;
+                }, 1200);
+            }
+
+            // 3. In-page floating badge
+            const gcSection = document.getElementById('groupchat');
+            const isViewingGC = gcSection && gcSection.getBoundingClientRect().top < window.innerHeight && gcSection.getBoundingClientRect().bottom > 0;
+            if (!isViewingGC) {
+                const badge = document.getElementById('gcNotifBadge');
+                const text2 = document.getElementById('gcNotifText');
+                if (badge && text2) {
+                    text2.textContent = gcNotifCount > 1
+                        ? `💬 ${gcNotifCount} new messages`
+                        : `💬 ${username}: ${(text||'📷 Image').slice(0,30)}`;
+                    badge.style.display = 'flex';
+                }
+            }
+
+            // 4. Nav dot
+            gcSection && document.querySelectorAll('nav a').forEach(a => {
+                if (a.getAttribute('onclick')?.includes('groupchat')) {
+                    if (!a.querySelector('.nav-notif-dot')) {
+                        a.insertAdjacentHTML('beforeend', '<span class="nav-notif-dot"></span>');
+                    }
+                }
+            });
+        }
+
+        function gcClearNotif() {
+            gcNotifCount = 0;
+            clearInterval(gcNotifTimer);
+            document.title = gcOriginalTitle;
+            const badge = document.getElementById('gcNotifBadge');
+            if (badge) badge.style.display = 'none';
+            document.querySelectorAll('.nav-notif-dot').forEach(d => d.remove());
+        }
+
+        window.gcGoToChat = () => {
+            gcClearNotif();
+            const el = document.getElementById('groupchat');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        };
+        window.gcDismissNotif = () => gcClearNotif();
+
+                window.gcToggleMemberPanel = (type) => {
+            const onlineList = document.getElementById('gcMemberList');
+            const allList    = document.getElementById('gcAllMemberList');
+            if (type === 'online') {
+                const isOpen = onlineList.style.display !== 'none';
+                onlineList.style.display = isOpen ? 'none' : 'flex';
+                allList.style.display = 'none';
+            } else {
+                const isOpen = allList.style.display !== 'none';
+                allList.style.display = isOpen ? 'none' : 'flex';
+                onlineList.style.display = 'none';
+            }
+        };
+
+                function gcStartListening() {
             if (gcListening) return;
             gcListening = true;
+
+            gcLoadProfiles();
 
             const msgsRef = ref(database, 'groupchat/messages');
 
@@ -2052,14 +2665,69 @@
                 gcRenderedIds.delete(child.key);
             });
 
-            // Presence
+            // Reactions listener
+            onValue(ref(database, 'groupchat/reactions'), snap => {
+                snap.forEach(msgSnap => {
+                    gcUpdateReactions(msgSnap.key, msgSnap.val());
+                });
+            });
+
+            onChildChanged(ref(database, 'groupchat/reactions'), snap => {
+                gcUpdateReactions(snap.key, snap.val());
+            });
+
+            // Register as member (permanent record)
+            set(ref(database, 'groupchat/members/' + gcUid), { username: gcUsername, joinedAt: Date.now() });
+
+            // Presence — only set when actually connected
             const presRef = ref(database, 'groupchat/presence/' + gcUid);
             onDisconnect(presRef).remove();
-            set(presRef, { username: gcUsername, t: Date.now() });
+            onValue(ref(database, '.info/connected'), snap => {
+                if (snap.val() === true) {
+                    set(presRef, { username: gcUsername, t: Date.now() });
+                }
+            });
+
+            // Total members ever joined
+            onValue(ref(database, 'groupchat/members'), snap => {
+                const el = document.getElementById('gcTotalMembers');
+                if (el) el.textContent = '👥 ' + snap.numChildren() + ' members';
+                const allList = document.getElementById('gcAllMemberList');
+                if (allList) {
+                    allList.innerHTML = '';
+                    snap.forEach(child => {
+                        const data = child.val();
+                        const span = document.createElement('span');
+                        span.style.cssText = 'display:flex;align-items:center;gap:5px;font-size:0.75rem;color:#9a8878;padding:3px 8px;background:#2a2520;border-radius:8px;';
+                        span.textContent = data.username || '?';
+                        allList.appendChild(span);
+                    });
+                }
+            });
 
             onValue(ref(database, 'groupchat/presence'), snap => {
-                const el = document.getElementById('gcMemberCount');
-                if (el) el.textContent = snap.numChildren() + ' online';
+                const onlineCountEl = document.getElementById('gcOnlineCount');
+                const listEl = document.getElementById('gcMemberList');
+                const count = snap.numChildren();
+
+                if (onlineCountEl) onlineCountEl.textContent = count;
+
+                const onlineLabel = document.getElementById('gcOnlineLabel');
+                if (onlineLabel) {
+                    onlineLabel.onclick = () => gcToggleMemberPanel('online');
+                    onlineLabel.style.cursor = 'pointer';
+                }
+
+                if (listEl) {
+                    listEl.innerHTML = '';
+                    snap.forEach(child => {
+                        const data = child.val();
+                        const dot = document.createElement('span');
+                        dot.style.cssText = 'display:flex;align-items:center;gap:5px;font-size:0.75rem;color:#c8b89a;padding:3px 8px;background:#2a2520;border-radius:8px;';
+                        dot.innerHTML = `<span style="width:7px;height:7px;background:#4a9a4a;border-radius:50%;flex-shrink:0;display:inline-block;border-radius:50%;"></span>${gcS(data.username||'?')}`;
+                        listEl.appendChild(dot);
+                    });
+                }
             });
 
             onValue(ref(database, '.info/connected'), snap => {
@@ -2087,20 +2755,9 @@
             catch(e) { alert('Error: ' + e.message); }
         };
 
-        window.gcChangeName = () => {
-            gcUsername = '';
-            gcAdmin = false;
-            gcListening = false;
-            gcRenderedIds.clear();
-            localStorage.removeItem('ahof-gc-name');
-            localStorage.removeItem('ahof-gc-approved');
-            localStorage.removeItem('ahof-gc-admin');
-            remove(ref(database, 'groupchat/presence/' + gcUid)).catch(()=>{});
-            document.getElementById('gcUsernameInput').value = '';
-            document.getElementById('gcCodeInput').value = '';
-            document.getElementById('gcMessages').innerHTML = '<div style="text-align:center;font-size:0.72rem;color:#4a4040;padding:8px 0;">AHOF GC 💫</div>';
-            gcShowScreen('entry');
-        };
+        // gcChangeName disabled — username is locked per device
+        // Admin can still reset via console: localStorage.clear()
+        window.gcChangeName = () => {};
 
         // ── Send ─────────────────────────────────────────────────────────────
         async function gcSend(text, imageUrl) {
@@ -2108,23 +2765,15 @@
             const msg = { uid: gcUid, username: gcUsername, timestamp: Date.now(), isAdmin: gcAdmin };
             if (text)      msg.text = text.trim();
             if (imageUrl)  msg.imageUrl = imageUrl;
-            if (gcReplyTo) { msg.replyTo = {...gcReplyTo}; gcReplyTo = null; document.getElementById('gcReplyBar').style.display = 'none'; }
-
-            // Optimistic: show immediately with temp id
-            const tempId = 'temp_' + Date.now();
-            gcRenderedIds.add(tempId);
-            document.getElementById('gcMessages').insertAdjacentHTML('beforeend', gcBuildMsg(tempId, msg));
-            gcScrollBottom();
-
+            if (gcReplyTo) {
+                msg.replyTo = {...gcReplyTo};
+                gcReplyTo = null;
+                document.getElementById('gcReplyBar').style.display = 'none';
+            }
             try {
-                const newRef = await push(ref(database, 'groupchat/messages'), msg);
-                // Rename temp to real id
-                const el = document.querySelector(`[data-msgid="${tempId}"]`);
-                if (el) { el.setAttribute('data-msgid', newRef.key); gcRenderedIds.add(newRef.key); }
-                gcRenderedIds.delete(tempId);
+                await push(ref(database, 'groupchat/messages'), msg);
+                // onChildAdded handles rendering — do NOT manually append here
             } catch(e) {
-                document.querySelector(`[data-msgid="${tempId}"]`)?.remove();
-                gcRenderedIds.delete(tempId);
                 alert('Send failed: ' + (e.code||e.message));
             }
         }
@@ -2145,8 +2794,15 @@
             localStorage.setItem('ahof-gc-approved', 'true');
             gcStartListening();
             gcShowScreen('chat');
+            gcRequestNotifPermission();
             if (gcAdmin && typeof loadAchievements === 'function') loadAchievements();
-            setTimeout(() => document.getElementById('gcInput').focus(), 100);
+            // Show profile setup on first join
+            setTimeout(() => {
+                get(ref(database, 'groupchat/profiles/' + gcUid)).then(snap => {
+                    if (!snap.exists()) gcOpenSetup();
+                    else document.getElementById('gcInput').focus();
+                }).catch(() => document.getElementById('gcInput').focus());
+            }, 600);
         }
 
         document.getElementById('gcJoinBtn').addEventListener('click', () => {
@@ -2195,6 +2851,7 @@
                 gcAdmin    = admin === 'true';
                 gcStartListening();
                 gcShowScreen('chat');
+                gcRequestNotifPermission();
             } else {
                 gcShowScreen('entry');
             }
@@ -2226,5 +2883,51 @@
         </div>
         <p style="color:#3a3028; font-size:0.72rem; margin-top:1.2rem;">© 2025 AHOF Fan Community</p>
     </footer>
+
+    <!-- GC Notification Badge -->
+    <div id="gcNotifBadge" onclick="gcGoToChat()">
+        <span id="gcNotifText">💬 New message</span>
+        <button class="notif-close" onclick="event.stopPropagation(); gcDismissNotif()">✕</button>
+    </div>
+
+    <!-- GC Profile View Modal -->
+    <div id="gcProfileModal" onclick="if(event.target===this)gcCloseProfile()">
+        <div class="gc-profile-card">
+            <button class="close-btn" onclick="gcCloseProfile()">✕</button>
+            <div id="gcProfileAvatarLg"></div>
+            <div id="gcProfileName" style="color:#c8b89a;font-weight:700;font-size:1.1rem;margin-bottom:4px;"></div>
+            <div id="gcProfileBio" style="color:#9a8878;font-size:0.82rem;line-height:1.5;margin-top:6px;"></div>
+            <div id="gcProfileEditBtn" style="margin-top:14px;display:none;">
+                <button onclick="gcOpenSetup()" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:10px;padding:8px 20px;color:#1a1410;font-weight:700;font-size:0.85rem;cursor:pointer;">✏️ Edit Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GC Profile Setup Modal -->
+    <div id="gcSetupModal">
+        <div class="gc-setup-card">
+            <h3 style="color:#c8b89a;margin:0 0 18px;font-size:1rem;text-align:center;">Set Up Your Profile</h3>
+
+            <!-- Avatar preview + upload -->
+            <div style="text-align:center;margin-bottom:16px;">
+                <div id="gcSetupAvatarPreview" style="margin:0 auto 10px;cursor:pointer;" onclick="document.getElementById('gcSetupPhotoFile').click()"></div>
+                <input type="file" id="gcSetupPhotoFile" accept="image/*" style="display:none;">
+                <button onclick="document.getElementById('gcSetupPhotoFile').click()" style="background:#2a2520;border:1px solid #3a3028;border-radius:8px;color:#9a8878;padding:6px 14px;font-size:0.78rem;cursor:pointer;">📷 Upload Photo</button>
+            </div>
+
+            <!-- Bio -->
+            <div style="margin-bottom:16px;">
+                <label style="font-size:0.78rem;color:#7a6a5a;display:block;margin-bottom:4px;">Bio <span style="color:#4a3a3a;">(optional)</span></label>
+                <textarea id="gcSetupBio" maxlength="80" placeholder="Tell something about yourself..." rows="2"
+                    style="width:100%;background:#2a2520;border:1px solid #3a3028;border-radius:10px;padding:8px 12px;color:#d4cfc8;font-size:0.85rem;resize:none;font-family:inherit;box-sizing:border-box;"></textarea>
+                <div style="font-size:0.68rem;color:#4a3a3a;text-align:right;margin-top:2px;"><span id="gcBioCount">0</span>/80</div>
+            </div>
+
+            <div style="display:flex;gap:8px;">
+                <button id="gcSetupSkipBtn" style="flex:1;background:none;border:1px solid #3a3028;border-radius:10px;color:#7a6a5a;padding:9px;font-size:0.85rem;cursor:pointer;">Skip</button>
+                <button id="gcSetupSaveBtn" style="flex:2;background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:10px;color:#1a1410;font-weight:700;padding:9px;font-size:0.85rem;cursor:pointer;">Save Profile</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
