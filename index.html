@@ -1078,6 +1078,28 @@
             max-width: 92vw;
             box-shadow: 0 12px 40px rgba(0,0,0,0.6);
         }
+        
+        /* ── GC Theme Picker ── */
+        .gc-theme-btn {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: transform 0.15s, border-color 0.15s;
+            flex-shrink: 0;
+        }
+        .gc-theme-btn:hover { transform: scale(1.2); }
+        .gc-theme-btn.active { border-color: #c8b89a; transform: scale(1.15); }
+        #gcThemePanel {
+            display: none;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px 12px;
+            background: #16130f;
+            border-bottom: 1px solid #2a2520;
+            align-items: center;
+        }
+        #gcThemePanel.open { display: flex; }
         </style>
 </head>
 <body>
@@ -1399,67 +1421,92 @@
                 <h2>💬 FOHA GC</h2>
                 <p style="color:#9a8878; font-size:0.85rem; margin-bottom:1.2rem;">Members-only group chat — enter your name and access code to join.</p>
 
-                <!-- Join Form -->
-                <div id="gcUsernameBar" style="margin-bottom:1rem;">
-                    <div style="display:flex; flex-direction:column; gap:8px;">
-                        <input id="gcUsernameInput" type="text" placeholder="Enter your name..." maxlength="20"
-                            style="width:100%; padding:10px 14px; background:#2a2520; border:1px solid #3a3028; border-radius:10px; color:#d4cfc8; font-size:0.88rem; font-family:inherit; box-sizing:border-box;">
-                        <div style="display:flex; gap:8px; align-items:center;">
-                            <input id="gcCodeInput" type="password" placeholder="Enter access code..." maxlength="30"
-                                style="flex:1; padding:10px 14px; background:#2a2520; border:1px solid #3a3028; border-radius:10px; color:#d4cfc8; font-size:0.88rem; font-family:inherit;">
-                            <button id="gcJoinBtn" style="padding:10px 18px; background:linear-gradient(135deg,#c8b89a,#a89070); border:none; border-radius:10px; color:#1a1410; font-weight:700; font-size:0.88rem; cursor:pointer; white-space:nowrap;">Join</button>
+                <!-- ── Phone-style GC container ── -->
+                <div style="max-width:400px; margin:0 auto; border-radius:22px; overflow:hidden; border:1px solid #2a2520; box-shadow:0 8px 40px rgba(0,0,0,0.5);">
+
+                    <!-- Top bar (always visible when in chat) -->
+                    <div id="gcActiveUser" style="display:none; background:#1a1610; padding:10px 14px; align-items:center; gap:10px; border-bottom:1px solid #2a2520;">
+                        <span id="gcConnIndicator" style="font-size:0.6rem;" title="Connection status">🔴</span>
+                        <div style="flex:1; min-width:0;">
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                <span id="gcCurrentName" style="color:#c8b89a; font-weight:700; font-size:0.88rem; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" onclick="gcViewProfile(gcUid)" title="View profile"></span>
+                                <span id="gcMemberCount" style="font-size:0.65rem; color:#5a504a; background:#2a2520; padding:1px 7px; border-radius:8px; cursor:pointer; white-space:nowrap;" onclick="gcToggleMemberPanel('online')">0 online</span>
+                            </div>
+                            <div style="font-size:0.62rem; color:#5a504a; margin-top:1px; cursor:pointer;" onclick="gcToggleMemberPanel('all')">
+                                <span id="gcTotalMembers">👥 0 members</span>
+                            </div>
                         </div>
-                        <div id="gcErrorMsg" style="display:none; color:#c87a6a; font-size:0.78rem; padding:6px 10px; background:#2a1510; border-radius:6px; border:1px solid #5a2a20;"></div>
                     </div>
-                </div>
 
-                <!-- Active User Bar -->
-                <div id="gcActiveUser" style="display:none; margin-bottom:1rem; align-items:center; gap:8px; flex-wrap:wrap;">
-                    <span id="gcConnIndicator" style="font-size:0.7rem;" title="Connection status">🔴</span>
-                    <span style="font-size:0.82rem; color:#9a8878;">Chatting as: </span>
-                    <span id="gcCurrentName" style="color:#c8b89a; font-weight:700; font-size:0.88rem; cursor:pointer;" onclick="gcViewProfile(gcUid)" title="View your profile"></span>
-                    
-                </div>
-                <!-- Member stats bar -->
-                <div style="display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; align-items:center;">
-                    <span id="gcTotalMembers" onclick="gcToggleMemberPanel('all')" style="font-size:0.72rem;color:#7a6a5a;background:#2a2520;padding:2px 10px;border-radius:10px;cursor:pointer;" title="All members who joined">👥 0 members</span>
-                    <span style="font-size:0.72rem;color:#5a5040;">•</span>
-                    <span style="font-size:0.72rem;color:#6a9a6a;" id="gcOnlineLabel">🟢 <span id="gcOnlineCount">0</span> online — click to see</span>
-                </div>
-                <!-- Member list panel (toggle) -->
-                <div id="gcMemberList" style="display:none; flex-wrap:wrap; gap:6px; margin-bottom:8px; padding:8px 10px; background:#15120e; border:1px solid #2a2520; border-radius:10px;"></div>
-                <div id="gcAllMemberList" style="display:none; flex-wrap:wrap; gap:6px; margin-bottom:8px; padding:8px 10px; background:#15120e; border:1px solid #2a2520; border-radius:10px;"></div>
+                    <!-- Member panels (slide down) -->
+                    <div id="gcMemberList" style="display:none; flex-wrap:wrap; gap:5px; padding:8px 12px; background:#16130f; border-bottom:1px solid #2a2520;"></div>
+                    <div id="gcAllMemberList" style="display:none; flex-wrap:wrap; gap:5px; padding:8px 12px; background:#16130f; border-bottom:1px solid #2a2520;"></div>
 
-                <!-- Reply Bar -->
-                <div id="gcReplyBar" style="display:none; padding:8px 12px; background:#252018; border:1px solid #3a3028; border-radius:8px; margin-bottom:8px; align-items:center; gap:8px;">
-                    <div id="gcReplyText" style="flex:1; font-size:0.78rem; color:#9a8878; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></div>
-                    <button onclick="gcClearReply()" style="background:none;border:none;color:#7a706a;cursor:pointer;font-size:1rem;">✕</button>
-                </div>
+                    <!-- Theme Panel -->
+                    <div id="gcThemePanel">
+                        <!-- Color themes row -->
+                        <div style="display:flex;align-items:center;gap:6px;width:100%;flex-wrap:wrap;">
+                            <span style="font-size:0.65rem;color:#6a5a4a;white-space:nowrap;">🎨 Theme:</span>
+                            <div class="gc-theme-btn" style="background:#15120e;" onclick="gcSetTheme('default')" title="Default Dark"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#1a1020,#0d0a18);" onclick="gcSetTheme('midnight')" title="Midnight"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#0a1a0f,#0d1f15);" onclick="gcSetTheme('forest')" title="Forest"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#1a0e08,#2a1505);" onclick="gcSetTheme('sunset')" title="Sunset"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#08101a,#0a1525);" onclick="gcSetTheme('ocean')" title="Ocean"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#1a0810,#250d18);" onclick="gcSetTheme('rose')" title="Rose"></div>
+                        </div>
+                        <!-- Custom background photo row -->
+                        <div style="display:flex;align-items:center;gap:8px;width:100%;margin-top:4px;flex-wrap:wrap;">
+                            <span style="font-size:0.65rem;color:#6a5a4a;white-space:nowrap;">🖼️ Background:</span>
+                            <button onclick="document.getElementById('gcBgFile').click()" style="background:#2a2520;border:1px solid #3a3028;border-radius:8px;color:#9a8878;font-size:0.72rem;padding:3px 10px;cursor:pointer;">Upload photo</button>
+                            <button onclick="gcRemoveBg()" style="background:none;border:1px solid #3a3028;border-radius:8px;color:#6a5a4a;font-size:0.72rem;padding:3px 10px;cursor:pointer;">Remove</button>
+                            <input type="file" id="gcBgFile" accept="image/*" style="display:none;">
+                            <span id="gcBgStatus" style="font-size:0.65rem;color:#5a4a3a;"></span>
+                        </div>
+                    </div>
 
-                <!-- Messages -->
-                <div id="gcMessages" style="
-                    background:#15120e;
-                    border:1px solid #2a2520;
-                    border-radius:12px;
-                    height:360px;
-                    overflow-y:auto;
-                    padding:14px;
-                    display:none;
-                    flex-direction:column;
-                    gap:10px;
-                    scroll-behavior:smooth;
-                    margin-bottom:10px;
-                ">
-                    <div style="text-align:center; font-size:0.72rem; color:#5a504a;">Welcome to FOHA GC 💫</div>
-                </div>
+                    <!-- Join Form -->
+                    <div id="gcUsernameBar" style="background:#15120e; padding:20px 18px;">
+                        <div style="font-size:0.82rem; color:#9a8878; margin-bottom:14px; text-align:center;">Enter your name and access code to join</div>
+                        <div style="display:flex; flex-direction:column; gap:8px;">
+                            <input id="gcUsernameInput" type="text" placeholder="Your name..." maxlength="20"
+                            <div style="font-size:0.65rem;color:#4a3a30;margin-top:-4px;padding-left:2px;">Letters, numbers, and spaces only</div>
+                                style="width:100%; padding:10px 14px; background:#2a2520; border:1px solid #3a3028; border-radius:12px; color:#d4cfc8; font-size:0.88rem; font-family:inherit; box-sizing:border-box;">
+                            <input id="gcCodeInput" type="password" placeholder="Access code..." maxlength="30"
+                                style="width:100%; padding:10px 14px; background:#2a2520; border:1px solid #3a3028; border-radius:12px; color:#d4cfc8; font-size:0.88rem; font-family:inherit; box-sizing:border-box;">
+                            <button id="gcJoinBtn" style="width:100%; padding:11px; background:linear-gradient(135deg,#c8b89a,#a89070); border:none; border-radius:12px; color:#1a1410; font-weight:700; font-size:0.9rem; cursor:pointer; margin-top:2px;">Join GC</button>
+                            <div id="gcErrorMsg" style="display:none; color:#c87a6a; font-size:0.78rem; padding:6px 10px; background:#2a1510; border-radius:8px; border:1px solid #5a2a20; text-align:center;"></div>
+                        </div>
+                    </div>
 
-                <!-- Input -->
-                <div id="gcInputRow" style="display:flex; gap:8px; align-items:flex-end;">
-                    <button id="gcImageBtn" title="Send image" style="background:#2a2520;border:1px solid #3a3028;border-radius:10px;color:#9a8878;width:40px;height:40px;cursor:pointer;font-size:1.1rem;flex-shrink:0;">🖼️</button>
-                    <input type="file" id="gcImageFile" accept="image/*" style="display:none;">
-                    <textarea id="gcInput" placeholder="Type a message..." rows="1"
-                        style="flex:1;background:#2a2520;border:1px solid #3a3028;border-radius:10px;padding:10px 14px;color:#d4cfc8;font-size:0.88rem;resize:none;min-height:40px;max-height:100px;font-family:inherit;line-height:1.4;"></textarea>
-                    <button id="gcSendBtn" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:10px;width:40px;height:40px;cursor:pointer;font-size:1rem;flex-shrink:0;">➤</button>
+                    <!-- Reply Bar -->
+                    <div id="gcReplyBar" style="display:none; padding:6px 12px; background:#1e1a14; border-bottom:1px solid #2a2520; align-items:center; gap:8px;">
+                        <div id="gcReplyText" style="flex:1; font-size:0.75rem; color:#9a8878; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></div>
+                        <button onclick="gcClearReply()" style="background:none;border:none;color:#6a6058;cursor:pointer;font-size:0.9rem;line-height:1;">✕</button>
+                    </div>
+
+                    <!-- Messages -->
+                    <div id="gcMessages" style="
+                        background:#15120e;
+                        height:320px;
+                        overflow-y:auto;
+                        padding:12px 10px;
+                        display:none;
+                        flex-direction:column;
+                        gap:2px;
+                        scroll-behavior:smooth;
+                    ">
+                        <div style="text-align:center; font-size:0.68rem; color:#3a3428; padding:8px 0;">FOHA GC 💫</div>
+                    </div>
+
+                    <!-- Input Row -->
+                    <div id="gcInputRow" style="display:none; gap:6px; align-items:flex-end; padding:8px 10px; background:#1a1610; border-top:1px solid #2a2520;">
+                        <button id="gcImageBtn" title="Send image" style="background:none;border:none;color:#6a5a50;width:36px;height:36px;cursor:pointer;font-size:1.1rem;flex-shrink:0;padding:0;">🖼️</button>
+                        <input type="file" id="gcImageFile" accept="image/*" style="display:none;">
+                        <textarea id="gcInput" placeholder="Message..." rows="1"
+                            style="flex:1;background:#2a2520;border:1px solid #3a3028;border-radius:20px;padding:8px 14px;color:#d4cfc8;font-size:0.88rem;resize:none;min-height:36px;max-height:100px;font-family:inherit;line-height:1.4;"></textarea>
+                        <button id="gcSendBtn" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:0.9rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;">➤</button>
+                    </div>
+
                 </div>
             </section>
 
@@ -1487,6 +1534,7 @@
                     <li><strong>Member registry</strong> — your username is permanently saved in our Firebase database as part of the GC member list. This allows all members to see who has joined the community.</li>
                     <li><strong>Presence</strong> — while you are active in the GC, your username appears in the "online" list. This is removed automatically when you leave or close the page.</li>
                     <li><strong>Reactions</strong> — emoji reactions you place on messages are stored in Firebase along with your username, visible to all GC members.</li>
+                    <li><strong>Profile</strong> — your profile photo (stored as compressed image data in Firebase) and bio are visible to all GC members. You may update these at any time via the Edit Profile option.</li>
                     <li><strong>Message history</strong> — all messages are stored in Firebase and visible to all GC members, including those who join later (full backread available).</li>
                     <li><strong>Unsend</strong> — you may delete your own messages at any time. Admins may also delete any message.</li>
                 </ul>
@@ -1522,7 +1570,10 @@
                 <p style="margin-bottom: 1rem;">Content submitted in public sections — including posts, achievements, and voting proofs — is visible to all visitors. Group Chat messages, reactions, and the member list are visible only to users who have joined with the correct access code. Please only share content you are comfortable making available to the GC community.</p>
 
                 <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">7. Local Storage &amp; Device Data</h3>
-                <p style="margin-bottom: 1rem;">This Site stores the following data in your browser's <strong>local storage</strong>: your GC username, device UID, access approval status, and admin status (if applicable). This data is stored only on your device. Your device UID and username are <strong>permanently assigned</strong> — clearing local storage (via browser settings or browser console) will reset your device identity, allowing a new username to be set.</p>
+                <p style="margin-bottom: 1rem;">This Site stores the following data in your browser's <strong>local storage</strong>: your GC username, device UID, access approval status, admin status (if applicable), and your chosen GC theme/background preference. This data is stored only on your device and is never shared with any server. Your device UID and username are <strong>permanently assigned</strong> — clearing local storage (via browser settings or browser console) will reset your device identity, allowing a new username to be set.</p>
+
+                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">7a. GC Customization</h3>
+                <p style="margin-bottom: 1rem;">Members of the Group Chat may personalize their chat experience by selecting a background theme from the available options (Default Dark, Midnight, Forest, Sunset, Ocean, Rose). This preference is saved only in your browser's local storage — it is a personal setting that applies only to your device and is not visible to other members. No theme data is transmitted to or stored on any server.</p>
 
                 <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">8. Data Retention</h3>
                 <p style="margin-bottom: 1rem;">Content you submit (posts, chat messages, voting proofs, images, reactions) remains stored in our Firebase database unless you delete it yourself (unsend) or request removal through an admin. Member registry entries are permanent records. We do not have an automatic deletion schedule.</p>
@@ -2208,7 +2259,14 @@
             document.getElementById('gcMessages').style.display    = s==='chat'  ? 'flex'  : 'none';
             document.getElementById('gcInputRow').style.display    = s==='chat'  ? 'flex'  : 'none';
             if (s!=='chat') document.getElementById('gcReplyBar').style.display = 'none';
-            if (s==='chat') document.getElementById('gcCurrentName').textContent = gcUsername;
+            if (s==='chat') {
+                document.getElementById('gcCurrentName').textContent = gcUsername;
+                gcApplyTheme(gcCurrentTheme);
+                gcShowThemeToggle();
+                // Restore custom bg photo if saved
+                const savedBg = localStorage.getItem('ahof-gc-bg');
+                if (savedBg) setTimeout(() => gcApplyBgPhoto(savedBg), 100);
+            }
         }
 
         // ── Build message HTML ────────────────────────────────────────────────
@@ -2279,6 +2337,23 @@
             // Fire notification for messages from others (not own, not initial load)
             if (msg.uid !== gcUid && gcRenderedIds.size > 3) {
                 gcFireNotif(msg.username, msg.text);
+            }
+            // Re-apply theme/bg to new bubble
+            const newEl = document.querySelector(`[data-msgid="${id}"]`);
+            if (newEl) {
+                const isOwn = msg.uid === gcUid;
+                const bubble = newEl.querySelector('div[style*="border-radius:18px"], div[style*="border-radius:14px"]');
+                if (bubble) {
+                    const savedBg = localStorage.getItem('ahof-gc-bg');
+                    if (savedBg) {
+                        bubble.style.backdropFilter = 'blur(2px)';
+                        bubble.style.WebkitBackdropFilter = 'blur(2px)';
+                        bubble.style.background = isOwn ? 'rgba(90,74,58,0.82)' : 'rgba(42,37,32,0.82)';
+                    } else {
+                        const theme = GC_THEMES[gcCurrentTheme] || GC_THEMES.default;
+                        bubble.style.background = isOwn ? theme.bubble : theme.other;
+                    }
+                }
             }
         }
 
@@ -2540,6 +2615,142 @@
             document.getElementById('gcSetupModal').classList.remove('open');
         });
 
+        
+        // ── GC Themes ─────────────────────────────────────────────────────────
+        const GC_THEMES = {
+            default:  { bg: '#15120e',                          bubble: 'linear-gradient(135deg,#5a4a3a,#4a3a2a)', other: '#2a2520' },
+            midnight: { bg: 'linear-gradient(180deg,#0d0a18,#1a1020 60%,#0d0a18)', bubble: 'linear-gradient(135deg,#3a2a5a,#2a1a4a)', other: '#1a1428' },
+            forest:   { bg: 'linear-gradient(180deg,#0a1a0f,#0d1f15 60%,#0a1a0f)', bubble: 'linear-gradient(135deg,#1a4a2a,#0d3a1a)', other: '#0d2015' },
+            sunset:   { bg: 'linear-gradient(180deg,#1a0e08,#2a1505 60%,#1a0e08)', bubble: 'linear-gradient(135deg,#5a2a0a,#4a1a05)', other: '#2a1a0a' },
+            ocean:    { bg: 'linear-gradient(180deg,#08101a,#0a1525 60%,#08101a)', bubble: 'linear-gradient(135deg,#0a2a4a,#051a3a)', other: '#0a1828' },
+            rose:     { bg: 'linear-gradient(180deg,#1a0810,#250d18 60%,#1a0810)', bubble: 'linear-gradient(135deg,#4a1a2a,#3a0d1a)', other: '#20101a' },
+        };
+
+        let gcCurrentTheme = localStorage.getItem('ahof-gc-theme') || 'default';
+
+        function gcApplyTheme(themeName) {
+            const theme = GC_THEMES[themeName] || GC_THEMES.default;
+            const msgBox = document.getElementById('gcMessages');
+            // Only apply color if no custom bg photo is set
+            const savedBg = localStorage.getItem('ahof-gc-bg');
+            if (msgBox) {
+                if (!savedBg) {
+                    msgBox.style.background = theme.bg;
+                    msgBox.style.backgroundImage = 'none';
+                }
+            }
+
+            // Update active button
+            document.querySelectorAll('.gc-theme-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', Object.keys(GC_THEMES)[i] === themeName);
+            });
+
+            // Re-render own bubbles with new color
+            document.querySelectorAll('[data-msgid]').forEach(msgEl => {
+                const uid = msgEl.getAttribute('data-msg-uid');
+                if (!uid) return;
+                const isOwn = uid === gcUid;
+                const bubble = msgEl.querySelector('div[style*="border-radius:18px"], div[style*="border-radius:14px"]');
+                if (bubble && isOwn) bubble.style.background = theme.bubble;
+                if (bubble && !isOwn) bubble.style.background = theme.other;
+            });
+        }
+
+        window.gcSetTheme = (themeName) => {
+            gcCurrentTheme = themeName;
+            localStorage.setItem('ahof-gc-theme', themeName);
+            gcApplyTheme(themeName);
+        };
+
+        // ── Custom Background Photo ────────────────────────────────────────────
+        function gcApplyBgPhoto(dataUrl) {
+            const msgBox = document.getElementById('gcMessages');
+            if (!msgBox) return;
+            if (dataUrl) {
+                msgBox.style.backgroundImage = `url('${dataUrl}')`;
+                msgBox.style.backgroundSize = 'cover';
+                msgBox.style.backgroundPosition = 'center';
+                msgBox.style.backgroundRepeat = 'no-repeat';
+                // Make bubbles slightly transparent so bg shows through
+                document.querySelectorAll('[data-msgid]').forEach(msgEl => {
+                    const uid = msgEl.getAttribute('data-msg-uid');
+                    const isOwn = uid === gcUid;
+                    const bubble = msgEl.querySelector('div[style*="border-radius:18px"], div[style*="border-radius:14px"]');
+                    if (bubble) {
+                        bubble.style.backdropFilter = 'blur(2px)';
+                        bubble.style.WebkitBackdropFilter = 'blur(2px)';
+                        bubble.style.background = isOwn
+                            ? 'rgba(90,74,58,0.82)'
+                            : 'rgba(42,37,32,0.82)';
+                    }
+                });
+            } else {
+                msgBox.style.backgroundImage = 'none';
+                msgBox.style.backgroundSize = '';
+                gcApplyTheme(gcCurrentTheme); // restore color theme
+            }
+        }
+
+        window.gcRemoveBg = () => {
+            localStorage.removeItem('ahof-gc-bg');
+            gcApplyBgPhoto(null);
+            const status = document.getElementById('gcBgStatus');
+            if (status) status.textContent = '';
+        };
+
+        // File input handler for background
+        document.getElementById('gcBgFile')?.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const status = document.getElementById('gcBgStatus');
+            if (status) status.textContent = 'Processing...';
+
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                // Compress to reasonable size for localStorage
+                const img = new Image();
+                img.onload = () => {
+                    const MAX = 800;
+                    let w = img.width, h = img.height;
+                    if (w > MAX) { h = h * MAX / w; w = MAX; }
+                    if (h > MAX) { w = w * MAX / h; h = MAX; }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w; canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+                    try {
+                        localStorage.setItem('ahof-gc-bg', dataUrl);
+                        gcApplyBgPhoto(dataUrl);
+                        if (status) status.textContent = '✓ Applied!';
+                        setTimeout(() => { if (status) status.textContent = ''; }, 2000);
+                    } catch(err) {
+                        // localStorage quota exceeded - apply without saving
+                        gcApplyBgPhoto(dataUrl);
+                        if (status) status.textContent = '⚠️ Applied (not saved — image too large)';
+                    }
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        });
+
+        // Show theme panel when in chat — add theme icon to top bar
+        function gcShowThemeToggle() {
+            const bar = document.getElementById('gcActiveUser');
+            if (!bar || document.getElementById('gcThemeToggleBtn')) return;
+            const btn = document.createElement('button');
+            btn.id = 'gcThemeToggleBtn';
+            btn.title = 'Change theme';
+            btn.textContent = '🎨';
+            btn.style.cssText = 'background:none;border:none;color:#6a5a4a;cursor:pointer;font-size:0.95rem;padding:0 2px;margin-left:auto;';
+            btn.onclick = () => {
+                const panel = document.getElementById('gcThemePanel');
+                if (panel) panel.classList.toggle('open');
+            };
+            bar.appendChild(btn);
+        }
+
                 // ── Notifications ─────────────────────────────────────────────────────
         let gcNotifCount = 0;
         let gcNotifPermission = false;
@@ -2779,7 +2990,18 @@
         }
 
         // ── Join ─────────────────────────────────────────────────────────────
-        function gcDoJoin(name, code) {
+        async function gcDoJoin(name, code) {
+            // 1. Validate characters — letters, numbers, spaces only
+            if (!/^[a-zA-Z0-9 ]+$/.test(name)) {
+                gcShowError('❌ Letters, numbers, and spaces only.');
+                return;
+            }
+            if (name.length < 2) {
+                gcShowError('❌ Username must be at least 2 characters.');
+                return;
+            }
+
+            // 2. Validate code
             if (code === GC_ADMIN_KEY) {
                 gcAdmin = true;
                 localStorage.setItem('ahof-gc-admin', 'true');
@@ -2789,8 +3011,43 @@
                 document.getElementById('gcCodeInput').value = '';
                 return;
             }
-            gcUsername = name;
-            localStorage.setItem('ahof-gc-name', name);
+
+            // 3. Check for duplicate username in Firebase members (case-insensitive)
+            const btn = document.getElementById('gcJoinBtn');
+            btn.textContent = 'Checking...';
+            btn.disabled = true;
+
+            try {
+                const membersSnap = await get(ref(database, 'groupchat/members'));
+                if (membersSnap.exists()) {
+                    const nameLower = name.toLowerCase().trim();
+                    let taken = false;
+                    membersSnap.forEach(child => {
+                        const data = child.val();
+                        // Allow if it's this same device's uid
+                        if (child.key === gcUid) return;
+                        if ((data.username || '').toLowerCase().trim() === nameLower) {
+                            taken = true;
+                        }
+                    });
+                    if (taken) {
+                        gcShowError('❌ Username already taken. Choose another.');
+                        btn.textContent = 'Join';
+                        btn.disabled = false;
+                        return;
+                    }
+                }
+            } catch(e) {
+                // If check fails, proceed anyway (don't block user)
+                console.warn('Username check failed:', e);
+            }
+
+            btn.textContent = 'Join';
+            btn.disabled = false;
+
+            // 4. All good — join
+            gcUsername = name.trim();
+            localStorage.setItem('ahof-gc-name', gcUsername);
             localStorage.setItem('ahof-gc-approved', 'true');
             gcStartListening();
             gcShowScreen('chat');
@@ -2813,6 +3070,16 @@
             gcDoJoin(name, code);
         });
         document.getElementById('gcUsernameInput').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('gcCodeInput').focus(); });
+        document.getElementById('gcUsernameInput').addEventListener('input', function() {
+            // Strip invalid characters as user types — only letters, numbers, spaces
+            const pos = this.selectionStart;
+            const before = this.value;
+            const clean = before.replace(/[^a-zA-Z0-9 ]/g, '');
+            if (clean !== before) {
+                this.value = clean;
+                this.setSelectionRange(Math.max(0, pos - (before.length - clean.length)), Math.max(0, pos - (before.length - clean.length)));
+            }
+        });
         document.getElementById('gcCodeInput').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('gcJoinBtn').click(); });
 
         document.getElementById('gcSendBtn').addEventListener('click', async () => {
