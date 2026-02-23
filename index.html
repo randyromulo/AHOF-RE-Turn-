@@ -1100,9 +1100,241 @@
             align-items: center;
         }
         #gcThemePanel.open { display: flex; }
+        
+        /* ── Toast Notifications ── */
+        #toastContainer {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            pointer-events: none;
+        }
+        .toast {
+            background: #2a2520;
+            border: 1px solid #3a3028;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-size: 0.82rem;
+            color: #d4cfc8;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards;
+            pointer-events: all;
+            max-width: 300px;
+            text-align: center;
+        }
+        .toast.success { border-color: #4a7a4a; background: #1a2a1a; color: #8aca8a; }
+        .toast.error   { border-color: #7a3a3a; background: #2a1a1a; color: #ca8a8a; }
+        .toast.info    { border-color: #3a5a7a; background: #1a2a3a; color: #8ab0ca; }
+        @keyframes toastIn  { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+        /* ── Light/Dark Mode ── */
+        :root {
+            --bg-main: #0f0d0a;
+            --bg-section: rgba(26,22,16,0.95);
+            --text-main: #d4cfc8;
+            --text-muted: #9a8878;
+            --border: #2a2520;
+            --accent: #c8b89a;
+        }
+        body.light-mode {
+            --bg-main: #f5f0e8;
+            --bg-section: rgba(255,252,245,0.97);
+            --text-main: #2a2218;
+            --text-muted: #7a6858;
+            --border: #d8cfc0;
+            --accent: #8a6a3a;
+        }
+        body.light-mode { background: #f5f0e8; color: #2a2218; }
+        body.light-mode nav { background: rgba(245,240,232,0.95); border-color: #d8cfc0; }
+        body.light-mode nav a { color: #5a4a38; }
+        body.light-mode .section-card { background: rgba(255,252,245,0.97); border-color: #d8cfc0; }
+        body.light-mode #gcMessages { background: #f0ebe0 !important; }
+        body.light-mode .hamburger-icon span { background: #5a4a38; }
+
+        /* ── Dark/Light toggle button ── */
+        #darkModeToggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            background: rgba(26,22,16,0.8);
+            border: 1px solid #3a3028;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+        }
+        #darkModeToggle:hover { transform: scale(1.1); }
+        body.light-mode #darkModeToggle { background: rgba(245,240,232,0.9); border-color: #d8cfc0; }
+
+        /* ── Better Mobile Responsive ── */
+        @media (max-width: 600px) {
+            .section-card { padding: 1.2rem 1rem; border-radius: 14px; }
+            h2 { font-size: 1.2rem; }
+            #gcMessages { height: 260px !important; }
+            .gc-avatar, .gc-avatar-initials { width: 28px; height: 28px; }
+            nav ul { gap: 6px; }
+            nav a { font-size: 0.7rem; padding: 4px 8px; }
+        }
+        @media (max-width: 400px) {
+            nav { display: none; } /* use hamburger only */
+            #gcMessages { height: 220px !important; }
+        }
+        
+        /* ── Like / Comment System ── */
+        .lc-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #2a2520;
+            flex-wrap: wrap;
+        }
+        .lc-like-btn {
+            background: none;
+            border: 1px solid #3a3028;
+            border-radius: 20px;
+            padding: 4px 12px;
+            color: #9a8878;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s;
+        }
+        .lc-like-btn:hover { border-color: #c8b89a; color: #c8b89a; }
+        .lc-like-btn.liked { background: rgba(200,184,154,0.15); border-color: #c8b89a; color: #c8b89a; }
+        .lc-comment-toggle {
+            background: none;
+            border: none;
+            color: #6a5a4a;
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 4px 6px;
+        }
+        .lc-comment-toggle:hover { color: #c8b89a; }
+        .lc-comments-section {
+            display: none;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #2a2520;
+            width: 100%;
+        }
+        .lc-comments-section.open { display: block; }
+        .lc-comment-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: flex-start;
+        }
+        .lc-comment-avatar {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            background: #3a3028;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem; font-weight: 700; color: #c8b89a;
+            flex-shrink: 0;
+        }
+        .lc-comment-bubble {
+            background: #2a2520;
+            border-radius: 10px;
+            padding: 6px 10px;
+            flex: 1;
+        }
+        .lc-comment-author { font-size: 0.7rem; font-weight: 700; color: #c8b89a; }
+        .lc-comment-text { font-size: 0.8rem; color: #d4cfc8; margin-top: 2px; word-break: break-word; }
+        .lc-comment-time { font-size: 0.62rem; color: #5a4a3a; margin-top: 2px; }
+        .lc-comment-input-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            align-items: center;
+        }
+        .lc-comment-input {
+            flex: 1;
+            background: #2a2520;
+            border: 1px solid #3a3028;
+            border-radius: 16px;
+            padding: 6px 12px;
+            color: #d4cfc8;
+            font-size: 0.82rem;
+            font-family: inherit;
+        }
+        .lc-comment-input:focus { outline: none; border-color: #c8b89a; }
+        .lc-comment-send {
+            background: linear-gradient(135deg,#c8b89a,#a89070);
+            border: none;
+            border-radius: 50%;
+            width: 30px; height: 30px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        
+        /* ── Search / Filter ── */
+        .search-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            align-items: center;
+        }
+        .search-input {
+            flex: 1;
+            background: #2a2520;
+            border: 1px solid #3a3028;
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: #d4cfc8;
+            font-size: 0.85rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        .search-input:focus { outline: none; border-color: #c8b89a; }
+        .search-input::placeholder { color: #5a4a3a; }
+        .filter-btn {
+            background: #2a2520;
+            border: 1px solid #3a3028;
+            border-radius: 20px;
+            padding: 7px 14px;
+            color: #9a8878;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .filter-btn.active, .filter-btn:hover { background: #3a3028; color: #c8b89a; border-color: #c8b89a; }
+        .no-results {
+            text-align: center;
+            color: #5a4a3a;
+            font-size: 0.85rem;
+            padding: 20px;
+        }
         </style>
 </head>
 <body>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+    <!-- Dark/Light Mode Toggle -->
+    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle light/dark mode">🌙</button>
     <!-- Brand Name Top Left -->
     <div class="header-brand">꧁|•𝙰𝙷𝙾𝙵 𝚁𝙴:𝚃𝚞𝚛𝚗•|꧂</div>
 
@@ -1290,7 +1522,12 @@
 
             <section id="news">
                 <h2>News & Updates</h2>
-                
+
+                <!-- Search bar for posts -->
+                <div class="search-bar" id="postSearchBar" style="display:none;">
+                    <input class="search-input" id="postSearchInput" placeholder="🔍 Search news & updates..." oninput="filterPosts(this.value)">
+                </div>
+
                 <div class="name-input-section">
                     <h4>Enter your name to post:</h4>
                     <div class="form-group">
@@ -1350,6 +1587,11 @@
                     </div>
                     <button type="submit">Add Achievement</button>
                 </form>
+                <!-- Search bar for achievements -->
+                <div class="search-bar">
+                    <input class="search-input" id="achSearchInput" placeholder="🔍 Search achievements..." oninput="filterAchievements(this.value)">
+                </div>
+                <div id="achNoResults" class="no-results" style="display:none;">No achievements found.</div>
                 <div id="achievementsContainer">
                     <div class="loading">
                         <div class="spinner"></div>
@@ -1975,6 +2217,9 @@
                     posts.push({ id: child.key, ...child.val() });
                 });
                 posts.sort((a, b) => b.timestamp - a.timestamp);
+                // Show search bar once posts exist
+                const psb = document.getElementById('postSearchBar');
+                if (psb) psb.style.display = posts.length > 2 ? 'flex' : 'none';
                 container.innerHTML = posts.length === 0 
                     ? '<p style="text-align: center; color: #7a706a;">No posts yet</p>'
                     : posts.map(post => `
@@ -1982,14 +2227,20 @@
                             <h3>${sanitize(post.title)}</h3>
                             <div class="post-date">By ${sanitize(post.author)} • ${new Date(post.timestamp).toLocaleDateString()}</div>
                             <p style="margin-top: 0.8rem;">${sanitize(post.content)}</p>
-                            ${post.imageUrl ? `<img src="${sanitize(post.imageUrl)}" alt="Post image" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid #3a3028;" onclick="openModal('${sanitize(post.imageUrl)}')">` : ''}
+                            ${post.imageUrl ? `<img loading="lazy" src="${sanitize(post.imageUrl)}" alt="Post image" loading="lazy" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid #3a3028;" onclick="openModal('${sanitize(post.imageUrl)}')">` : ''}
                             ${post.sessionKey === getSessionKey() ? `
                             <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
                                 <button onclick="editPost('${sanitize(post.id)}', this)" style="background:#3a3028;color:#c8b89a;border:1px solid #5a4a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
                                 <button onclick="deletePost('${sanitize(post.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
                             </div>` : ''}
+                            ${lcBar('post', sanitize(post.id))}
                         </div>
                     `).join('');
+                // Start listeners after render
+                posts.forEach(post => {
+                    lcListenLikes('post', post.id);
+                    lcListenComments('post', post.id);
+                });
             });
         }
 
@@ -2048,14 +2299,20 @@
                             <h3>${sanitize(ach.title)}</h3>
                             <div class="date">${new Date(ach.date).toLocaleDateString()} • ${sanitize(ach.author)}</div>
                             <p>${sanitize(ach.description)}</p>
-                            ${ach.imageUrl ? `<img src="${sanitize(ach.imageUrl)}" alt="Achievement image" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="openModal('${sanitize(ach.imageUrl)}')">` : ''}
+                            ${ach.imageUrl ? `<img loading="lazy" src="${sanitize(ach.imageUrl)}" alt="Achievement image" loading="lazy" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="openModal('${sanitize(ach.imageUrl)}')">` : ''}
                             ${isAdmin() ? `
                             <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
                                 <button onclick="editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
                                 <button onclick="deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.3);color:#fff;border:1px solid rgba(220,50,50,0.5);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
                             </div>` : ''}
+                            ${lcBar('ach', sanitize(ach.id))}
                         </div>
                     `).join('');
+                // Start listeners after render
+                achievements.forEach(ach => {
+                    lcListenLikes('ach', ach.id);
+                    lcListenComments('ach', ach.id);
+                });
             });
         }
 
@@ -2158,7 +2415,7 @@
                         <span class="post-date">By ${sanitize(p.author)} • ${new Date(p.timestamp).toLocaleDateString()}</span>
                     </div>
                     ${p.note ? `<p style="margin:0.3rem 0 0.5rem;font-size:0.9rem;color:#b0a090;">${sanitize(p.note)}</p>` : ''}
-                    <img src="${sanitize(p.imageUrl)}" alt="Voting proof" style="max-width:100%;max-height:340px;object-fit:contain;border-radius:10px;cursor:pointer;border:1px solid #3a3028;display:block;" onclick="openModal('${sanitize(p.imageUrl)}')">
+                    <img loading="lazy" src="${sanitize(p.imageUrl)}" alt="Voting proof" style="max-width:100%;max-height:340px;object-fit:contain;border-radius:10px;cursor:pointer;border:1px solid #3a3028;display:block;" onclick="openModal('${sanitize(p.imageUrl)}')">
                     ${(p.sessionKey === getSessionKey() || isAdmin()) ? `
                     <div style="margin-top:0.6rem;display:flex;gap:6px;flex-wrap:wrap;">
                         ${p.sessionKey === getSessionKey() ? `<button onclick="editVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}','${sanitize(p.caption||'')}')" style="background:#2a3020;color:#a8c898;border:1px solid #4a6a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>` : ''}
@@ -2212,6 +2469,306 @@
 
         loadVotingProofs();
 
+        
+
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  SEARCH / FILTER
+        // ══════════════════════════════════════════════════════════════════════
+        window.filterAchievements = (query) => {
+            const q = query.toLowerCase().trim();
+            document.querySelectorAll('#achievementsContainer .achievement-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = (!q || text.includes(q)) ? '' : 'none';
+            });
+            const visible = [...document.querySelectorAll('#achievementsContainer .achievement-card')].filter(c => c.style.display !== 'none');
+            const noRes = document.getElementById('achNoResults');
+            if (noRes) noRes.style.display = visible.length === 0 ? 'block' : 'none';
+        };
+
+        window.filterPosts = (query) => {
+            const q = query.toLowerCase().trim();
+            document.querySelectorAll('#postsContainer .post').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = (!q || text.includes(q)) ? '' : 'none';
+            });
+            const visible = [...document.querySelectorAll('#postsContainer .post')].filter(c => c.style.display !== 'none');
+            const noRes = document.getElementById('postNoResults');
+            if (noRes) noRes.style.display = visible.length === 0 ? 'block' : 'none';
+        };
+
+        // Show post search bar once posts load
+        const _origLoadPosts = loadPosts;
+
+                // ══════════════════════════════════════════════════════════════════════
+        //  LIKE / COMMENT SYSTEM
+        // ══════════════════════════════════════════════════════════════════════
+        const lcUid = localStorage.getItem('ahof-gc-uid') || ('v_' + Math.random().toString(36).slice(2,10));
+        const lcName = () => localStorage.getItem('ahof-gc-name') || localStorage.getItem('ahof-visitor-name') || 'Guest';
+
+        // Build like+comment bar HTML (inserted into each card)
+        function lcBar(type, id) {
+            return `<div class="lc-bar" id="lc-bar-${type}-${id}">
+                <button class="lc-like-btn" id="lc-like-${type}-${id}" onclick="lcToggleLike('${type}','${id}')">
+                    ❤️ <span id="lc-likecount-${type}-${id}">0</span>
+                </button>
+                <button class="lc-comment-toggle" onclick="lcToggleComments('${type}','${id}')">
+                    💬 <span id="lc-commentcount-${type}-${id}">0</span> Comments
+                </button>
+                <div class="lc-comments-section" id="lc-comments-${type}-${id}">
+                    <div id="lc-commentlist-${type}-${id}"></div>
+                    <div class="lc-comment-input-row">
+                        <input class="lc-comment-input" id="lc-input-${type}-${id}"
+                            placeholder="Write a comment..." maxlength="200"
+                            onkeydown="if(event.key==='Enter')lcPostComment('${type}','${id}')">
+                        <button class="lc-comment-send" onclick="lcPostComment('${type}','${id}')">➤</button>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        // Toggle like
+        window.lcToggleLike = async (type, id) => {
+            const path = 'likes/' + type + '/' + id + '/' + lcUid;
+            try {
+                const snap = await get(ref(database, path));
+                if (snap.exists()) {
+                    await remove(ref(database, path));
+                } else {
+                    await set(ref(database, path), { name: lcName(), t: Date.now() });
+                }
+            } catch(e) { showToast('Error: ' + e.message, 'error'); }
+        };
+
+        // Toggle comment section visibility
+        window.lcToggleComments = (type, id) => {
+            const sec = document.getElementById('lc-comments-' + type + '-' + id);
+            if (sec) sec.classList.toggle('open');
+        };
+
+        // Post a comment
+        window.lcPostComment = async (type, id) => {
+            const input = document.getElementById('lc-input-' + type + '-' + id);
+            const text = input?.value.trim();
+            if (!text) return;
+            const name = lcName();
+            if (name === 'Guest') {
+                const n = prompt('Enter your name to comment:');
+                if (!n) return;
+                localStorage.setItem('ahof-visitor-name', n.trim().slice(0,20));
+            }
+            try {
+                await push(ref(database, 'comments/' + type + '/' + id), {
+                    uid: lcUid,
+                    name: lcName(),
+                    text,
+                    t: Date.now()
+                });
+                input.value = '';
+                showToast('Comment posted!', 'success');
+            } catch(e) { showToast('Error: ' + e.message, 'error'); }
+        };
+
+        // Listen to likes for a specific item
+        function lcListenLikes(type, id) {
+            onValue(ref(database, 'likes/' + type + '/' + id), snap => {
+                const countEl = document.getElementById('lc-likecount-' + type + '-' + id);
+                const btn = document.getElementById('lc-like-' + type + '-' + id);
+                if (!countEl) return;
+                const count = snap.numChildren();
+                countEl.textContent = count;
+                const liked = snap.child(lcUid).exists();
+                btn?.classList.toggle('liked', liked);
+            });
+        }
+
+        // Listen to comments for a specific item
+        function lcListenComments(type, id) {
+            onValue(ref(database, 'comments/' + type + '/' + id), snap => {
+                const countEl = document.getElementById('lc-commentcount-' + type + '-' + id);
+                const listEl  = document.getElementById('lc-commentlist-' + type + '-' + id);
+                if (!countEl || !listEl) return;
+                const items = [];
+                snap.forEach(c => items.push({ key: c.key, ...c.val() }));
+                countEl.textContent = items.length;
+                if (items.length === 0) {
+                    listEl.innerHTML = '<div style="font-size:0.75rem;color:#4a3a3a;padding:4px 0;">No comments yet. Be the first!</div>';
+                    return;
+                }
+                listEl.innerHTML = items.map(cm => {
+                    const initials = (cm.name||'?').slice(0,2).toUpperCase();
+                    const time = cm.t ? new Date(cm.t).toLocaleDateString() : '';
+                    const canDel = cm.uid === lcUid || (typeof isAdmin === 'function' && isAdmin());
+                    return `<div class="lc-comment-item">
+                        <div class="lc-comment-avatar">${initials}</div>
+                        <div class="lc-comment-bubble">
+                            <div class="lc-comment-author">${cm.name||'Guest'}</div>
+                            <div class="lc-comment-text">${cm.text||''}</div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <div class="lc-comment-time">${time}</div>
+                                ${canDel ? `<button onclick="lcDeleteComment('${type}','${id}','${cm.key}')" style="background:none;border:none;color:#6a3a3a;cursor:pointer;font-size:0.7rem;">✕</button>` : ''}
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+            });
+        }
+
+        window.lcDeleteComment = async (type, id, key) => {
+            if (!confirm('Delete this comment?')) return;
+            try {
+                await remove(ref(database, 'comments/' + type + '/' + id + '/' + key));
+            } catch(e) { showToast('Error', 'error'); }
+        };
+
+                // ══════════════════════════════════════════════════════════════════════
+        //  TOAST NOTIFICATIONS
+        // ══════════════════════════════════════════════════════════════════════
+        function showToast(message, type = 'info', duration = 2800) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${icons[type]||'💬'}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), duration + 300);
+        }
+        window.showToast = showToast;
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  LIGHT / DARK MODE
+        // ══════════════════════════════════════════════════════════════════════
+        function toggleDarkMode() {
+            const isLight = document.body.classList.toggle('light-mode');
+            localStorage.setItem('ahof-theme-mode', isLight ? 'light' : 'dark');
+            document.getElementById('darkModeToggle').textContent = isLight ? '🌙' : '☀️';
+        }
+        window.toggleDarkMode = toggleDarkMode;
+        // Restore mode on load
+        (() => {
+            const saved = localStorage.getItem('ahof-theme-mode');
+            if (saved === 'light') {
+                document.body.classList.add('light-mode');
+                const btn = document.getElementById('darkModeToggle');
+                if (btn) btn.textContent = '☀️';
+            }
+        })();
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  BACKUP / EXPORT ALL DATA
+        // ══════════════════════════════════════════════════════════════════════
+        window.gcExportData = async () => {
+            showToast('Fetching data from Firebase...', 'info', 4000);
+            try {
+                const [msgsSnap, membersSnap, reactionsSnap, profilesSnap, achievementsSnap, votingSnap, postsSnap] = await Promise.all([
+                    get(ref(database, 'groupchat/messages')),
+                    get(ref(database, 'groupchat/members')),
+                    get(ref(database, 'groupchat/reactions')),
+                    get(ref(database, 'groupchat/profiles')),
+                    get(ref(database, 'achievements')),
+                    get(ref(database, 'votingProofs')),
+                    get(ref(database, 'posts')),
+                ]);
+
+                const toObj = snap => { const o = {}; snap.forEach(c => o[c.key] = c.val()); return o; };
+
+                const exportData = {
+                    exportedAt: new Date().toISOString(),
+                    exportedBy: gcUsername || 'unknown',
+                    groupchat: {
+                        messages:  msgsSnap.exists()     ? toObj(msgsSnap)     : {},
+                        members:   membersSnap.exists()   ? toObj(membersSnap)  : {},
+                        reactions: reactionsSnap.exists() ? toObj(reactionsSnap): {},
+                        profiles:  profilesSnap.exists()  ? toObj(profilesSnap) : {},
+                    },
+                    achievements: achievementsSnap.exists() ? toObj(achievementsSnap) : {},
+                    votingProofs: votingSnap.exists()        ? toObj(votingSnap)        : {},
+                    posts:        postsSnap.exists()         ? toObj(postsSnap)         : {},
+                };
+
+                // Download as JSON file
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+                const url  = URL.createObjectURL(blob);
+                const a    = document.createElement('a');
+                a.href     = url;
+                a.download = `AHOF-backup-${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('✅ Backup downloaded!', 'success');
+            } catch(e) {
+                console.error('Export error:', e);
+                showToast('Export failed: ' + (e.message || e.code), 'error');
+            }
+        };
+
+        // Export GC messages as readable TXT
+        window.gcExportChat = async () => {
+            showToast('Preparing chat export...', 'info', 3000);
+            try {
+                const snap = await get(ref(database, 'groupchat/messages'));
+                const msgs = [];
+                snap.forEach(c => msgs.push({ ...c.val() }));
+                msgs.sort((a,b) => (a.timestamp||0)-(b.timestamp||0));
+                let txt = '=== FOHA GC Chat Export ===\n';
+                txt += 'Exported: ' + new Date().toLocaleString() + '\n';
+                txt += 'Total messages: ' + msgs.length + '\n';
+                txt += '='.repeat(40) + '\n\n';
+                msgs.forEach(m => {
+                    const time = m.timestamp ? new Date(m.timestamp).toLocaleString() : '?';
+                    const reply = m.replyTo ? '  [Reply to ' + m.replyTo.sender + ': ' + (m.replyTo.text||'').slice(0,40) + ']\n' : '';
+                    txt += '[' + time + '] ' + m.username + (m.isAdmin ? ' (ADMIN)' : '') + ':\n';
+                    txt += reply + '  ' + (m.text || '[image]') + '\n\n';
+                });
+                const blob = new Blob([txt], { type: 'text/plain' });
+                const url  = URL.createObjectURL(blob);
+                const a    = document.createElement('a');
+                a.href = url;
+                a.download = 'FOHA-chat-' + new Date().toISOString().slice(0,10) + '.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('Chat export downloaded!', 'success');
+            } catch(e) {
+                showToast('Export failed: ' + e.message, 'error');
+            }
+        };
+
+        
+        // ══════════════════════════════════════════════════════════════════════
+        //  FIREBASE SECURITY RULES (paste these in Firebase Console → Rules)
+        // ══════════════════════════════════════════════════════════════════════
+        /*
+        {
+          "rules": {
+            "groupchat": {
+              "messages": {
+                ".read": true,
+                "$msgId": {
+                  ".write": "!data.exists() || data.child('uid').val() === root.child('groupchat/members').child(auth.uid).child('uid').val()",
+                  ".validate": "newData.hasChildren(['uid','username','timestamp']) &&
+                                newData.child('text').val().length <= 500 &&
+                                newData.child('username').val().length >= 2 &&
+                                newData.child('username').val().length <= 20"
+                }
+              },
+              "presence":  { ".read": true, ".write": true },
+              "reactions": { ".read": true, ".write": true },
+              "members":   { ".read": true, ".write": true },
+              "profiles": {
+                ".read": true,
+                "$uid": {
+                  ".write": true,
+                  ".validate": "newData.hasChildren(['username']) &&
+                                newData.child('bio').val().length <= 80"
+                }
+              }
+            },
+            "achievements": { ".read": true, ".write": true },
+            "votingProofs": { ".read": true, ".write": true },
+            "posts":        { ".read": true, ".write": true }
+          }
+        }
+        */
         // ══════════════════════════════════════════════════════════════════════
         //  AHOF GROUP CHAT
         // ══════════════════════════════════════════════════════════════════════
@@ -2304,7 +2861,7 @@
             // Bubble
             if (msg.imageUrl) {
                 h += `<div style="padding:5px;border-radius:14px;${isOwn?'border-bottom-right-radius:4px':'border-bottom-left-radius:4px'};background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};max-width:180px;">
-                    <img src="${gcS(msg.imageUrl)}" onclick="openModal('${gcS(msg.imageUrl)}')" style="max-width:100%;border-radius:10px;cursor:pointer;display:block;">
+                    <img loading="lazy" src="${gcS(msg.imageUrl)}" onclick="openModal('${gcS(msg.imageUrl)}')" style="max-width:100%;border-radius:10px;cursor:pointer;display:block;">
                 </div>`;
             } else {
                 h += `<div style="padding:8px 14px;border-radius:18px;${isOwn?'border-bottom-right-radius:4px':'border-bottom-left-radius:4px'};font-size:0.87rem;line-height:1.5;color:#d4cfc8;word-break:break-word;background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};border:${isOwn?'none':'1px solid #3a3028'};">${gcS(msg.text||'')}</div>`;
@@ -2471,7 +3028,7 @@
         function gcAvatarHtml(uid, username, photoUrl, onclick) {
             const color = gcAvatarColor(uid);
             if (photoUrl) {
-                return `<img src="${gcS(photoUrl)}" class="gc-avatar" onclick="${onclick}" title="${gcS(username)}" onerror="this.style.display='none'">`;
+                return `<img loading="lazy" src="${gcS(photoUrl)}" class="gc-avatar" onclick="${onclick}" title="${gcS(username)}" onerror="this.style.display='none'">`;
             }
             return `<div class="gc-avatar-initials" style="background:${color};" onclick="${onclick}" title="${gcS(username)}">${gcInitials(username)}</div>`;
         }
@@ -2507,7 +3064,7 @@
             // Avatar
             const avatarEl = document.getElementById('gcProfileAvatarLg');
             if (photoUrl) {
-                avatarEl.innerHTML = `<img src="${gcS(photoUrl)}" class="gc-profile-avatar-lg">`;
+                avatarEl.innerHTML = `<img loading="lazy" src="${gcS(photoUrl)}" class="gc-profile-avatar-lg">`;
             } else {
                 avatarEl.innerHTML = `<div class="gc-profile-initials-lg" style="background:${color};">${gcInitials(username)}</div>`;
             }
@@ -2540,7 +3097,7 @@
             const el = document.getElementById('gcSetupAvatarPreview');
             const color = gcAvatarColor(gcUid);
             if (gcSetupPhotoUrl) {
-                el.innerHTML = `<img src="${gcSetupPhotoUrl}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #c8b89a;">`;
+                el.innerHTML = `<img loading="lazy" src="${gcSetupPhotoUrl}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #c8b89a;">`;
             } else {
                 el.innerHTML = `<div style="width:72px;height:72px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:#1a1410;border:3px solid #c8b89a;margin:0 auto;">${gcInitials(gcUsername)}</div>`;
             }
@@ -2597,6 +3154,7 @@
                 if (gcSetupPhotoUrl) profileData.photoUrl = gcSetupPhotoUrl;
                 await set(ref(database, 'groupchat/profiles/' + gcUid), profileData);
                 document.getElementById('gcSetupModal').classList.remove('open');
+                showToast('Profile saved!', 'success');
             } catch(err) {
                 alert('Save failed: ' + err.message);
             }
@@ -2749,6 +3307,20 @@
                 if (panel) panel.classList.toggle('open');
             };
             bar.appendChild(btn);
+
+            // Admin export buttons
+            if (gcAdmin) {
+                const exportBtn = document.createElement('button');
+                exportBtn.title = 'Export all data (Admin)';
+                exportBtn.textContent = '💾';
+                exportBtn.style.cssText = 'background:none;border:none;color:#c8b89a;cursor:pointer;font-size:0.9rem;padding:0 2px;';
+                exportBtn.onclick = () => {
+                    const choice = confirm('Export ALL data as JSON?\nCancel = Export chat only as TXT');
+                    if (choice) gcExportData();
+                    else gcExportChat();
+                };
+                bar.appendChild(exportBtn);
+            }
         }
 
                 // ── Notifications ─────────────────────────────────────────────────────
@@ -2962,8 +3534,11 @@
 
         window.gcUnsend = async (id) => {
             if (!confirm('Unsend this message?')) return;
-            try { await remove(ref(database, 'groupchat/messages/' + id)); }
-            catch(e) { alert('Error: ' + e.message); }
+            try {
+                await remove(ref(database, 'groupchat/messages/' + id));
+                showToast('Message unsent', 'success');
+            }
+            catch(e) { showToast('Error: ' + e.message, 'error'); }
         };
 
         // gcChangeName disabled — username is locked per device
@@ -2985,7 +3560,7 @@
                 await push(ref(database, 'groupchat/messages'), msg);
                 // onChildAdded handles rendering — do NOT manually append here
             } catch(e) {
-                alert('Send failed: ' + (e.code||e.message));
+                showToast('Send failed: ' + (e.code||e.message), 'error');
             }
         }
 
@@ -3052,6 +3627,7 @@
             gcStartListening();
             gcShowScreen('chat');
             gcRequestNotifPermission();
+            showToast('Welcome to FOHA GC, ' + gcUsername + '! 🎉', 'success', 3500);
             if (gcAdmin && typeof loadAchievements === 'function') loadAchievements();
             // Show profile setup on first join
             setTimeout(() => {
