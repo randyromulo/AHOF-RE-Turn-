@@ -163,6 +163,11 @@
 
         .slide.active {
             opacity: 1;
+            animation: kenBurns 10s ease-in-out infinite alternate;
+        }
+        @keyframes kenBurns {
+            from { transform: scale(1) translate(0, 0); }
+            to   { transform: scale(1.08) translate(-1%, -1%); }
         }
 
         .header-overlay {
@@ -1327,6 +1332,355 @@
             font-size: 0.85rem;
             padding: 20px;
         }
+        /* ── Scroll-triggered fade-in animations ── */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Full-screen mobile nav overlay ── */
+        .nav-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 12, 8, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+        .nav-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .nav-overlay a {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #c8b89a;
+            text-decoration: none;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(200,184,154,0.1);
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: color 0.2s, opacity 0.3s, transform 0.3s;
+        }
+        .nav-overlay.open a {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-overlay.open a:nth-child(1) { transition-delay: 0.05s; }
+        .nav-overlay.open a:nth-child(2) { transition-delay: 0.1s; }
+        .nav-overlay.open a:nth-child(3) { transition-delay: 0.15s; }
+        .nav-overlay.open a:nth-child(4) { transition-delay: 0.2s; }
+        .nav-overlay.open a:nth-child(5) { transition-delay: 0.25s; }
+        .nav-overlay a:hover { color: #fff; background: rgba(200,184,154,0.1); }
+        .nav-overlay-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #c8b89a;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-overlay-brand {
+            position: absolute;
+            top: 22px;
+            left: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #c8b89a;
+            letter-spacing: 1px;
+        }
+
+        /* ── Countdown Timer ── */
+        .countdown-section {
+            background: linear-gradient(135deg, #1a1610 0%, #251e14 100%);
+            border: 1px solid rgba(200,184,154,0.2);
+            border-radius: 14px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .countdown-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #8a7a6a;
+            margin-bottom: 0.5rem;
+        }
+        .countdown-event-name {
+            font-size: 1rem;
+            color: #c8b89a;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .countdown-boxes {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .countdown-box {
+            background: rgba(200,184,154,0.07);
+            border: 1px solid rgba(200,184,154,0.2);
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            min-width: 64px;
+        }
+        .countdown-num {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #c8b89a;
+            line-height: 1;
+            display: block;
+        }
+        .countdown-label {
+            font-size: 0.62rem;
+            color: #6a5a4a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* ── Poll / Voting widget ── */
+        .poll-widget {
+            background: #1e1a14;
+            border: 1px solid #3a3028;
+            border-radius: 14px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .poll-question {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #c8b89a;
+            margin-bottom: 1rem;
+        }
+        .poll-option {
+            position: relative;
+            background: #2a2520;
+            border: 1px solid #3a3028;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .poll-option:hover { border-color: #c8b89a; }
+        .poll-option.voted { border-color: #c8b89a; }
+        .poll-bar {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            background: rgba(200,184,154,0.12);
+            border-radius: 10px;
+            transition: width 0.6s ease;
+        }
+        .poll-option-label {
+            position: relative;
+            z-index: 1;
+            font-size: 0.88rem;
+            color: #d4cfc8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .poll-pct {
+            font-size: 0.75rem;
+            color: #9a8878;
+            font-weight: 700;
+        }
+        .poll-total {
+            font-size: 0.72rem;
+            color: #5a4a3a;
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+
+        /* ── Fan Art Gallery ── */
+        .fanart-heading {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+        .fanart-heading h3 {
+            color: #c8b89a;
+            font-size: 1rem;
+        }
+        .fanart-tag {
+            font-size: 0.7rem;
+            background: linear-gradient(135deg, #c8b89a, #a89070);
+            color: #1a1410;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        /* ── Typing indicator in GC ── */
+        .gc-typing-indicator {
+            font-size: 0.7rem;
+            color: #6a5a4a;
+            font-style: italic;
+            padding: 4px 12px;
+            min-height: 20px;
+            text-align: left;
+        }
+
+        /* ── Accessibility improvements ── */
+        :focus-visible {
+            outline: 2px solid #c8b89a;
+            outline-offset: 2px;
+        }
+
+        /* ── Section entrance animations (improved) ── */
+        section {
+            transition: box-shadow 0.3s ease;
+        }
+        section:hover {
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+        }
+
+        /* ── Improved footer text contrast ── */
+        footer p:first-child {
+            color: #8a7a6a !important;
+        }
+        footer p:last-child {
+            color: #5a4a3a !important;
+        }
+
+        /* ── Back to top button ── */
+        #backToTop {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: rgba(200,184,154,0.15);
+            border: 1px solid rgba(200,184,154,0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            z-index: 800;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.2s;
+            color: #c8b89a;
+        }
+        #backToTop.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #backToTop:hover { transform: scale(1.1); }
+        /* ── Collab / Spotify / Article Cards ── */
+        .collab-card, .spotify-card, .article-card {
+            background: #252018;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.8rem;
+            border-left: 4px solid #6a5a4a;
+            transition: border-color 0.2s;
+        }
+        .collab-card { border-left-color: #4a7a8a; }
+        .spotify-card { border-left-color: #1db954; }
+        .article-card { border-left-color: #c8b89a; }
+
+        .collab-card:hover { border-left-color: #6aaabb; }
+        .spotify-card:hover { border-left-color: #3de070; }
+        .article-card:hover { border-left-color: #e8d8ba; }
+
+        .card-title {
+            color: #c8b89a;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+        .card-meta {
+            font-size: 0.75rem;
+            color: #6a5a4a;
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .card-badge {
+            background: #2a2520;
+            border: 1px solid #3a3028;
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: 0.72rem;
+            color: #9a8878;
+            font-weight: 600;
+        }
+        .card-note {
+            font-size: 0.85rem;
+            color: #b0a090;
+            margin: 0.3rem 0 0.5rem;
+            line-height: 1.5;
+        }
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(200,184,154,0.1);
+            border: 1px solid rgba(200,184,154,0.25);
+            border-radius: 8px;
+            padding: 5px 14px;
+            color: #c8b89a;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 0.4rem;
+        }
+        .card-link:hover {
+            background: rgba(200,184,154,0.2);
+            border-color: #c8b89a;
+        }
+        .spotify-card .card-link {
+            background: rgba(29,185,84,0.1);
+            border-color: rgba(29,185,84,0.3);
+            color: #1db954;
+        }
+        .spotify-card .card-link:hover {
+            background: rgba(29,185,84,0.2);
+            border-color: #1db954;
+        }
+        .article-card .card-link {
+            background: rgba(200,184,154,0.1);
+            border-color: rgba(200,184,154,0.25);
+            color: #c8b89a;
+        }
         </style>
 </head>
 <body>
@@ -1334,22 +1688,35 @@
     <!-- Toast Container -->
     <div id="toastContainer"></div>
     <!-- Dark/Light Mode Toggle -->
-    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle light/dark mode">🌙</button>
+    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle light/dark mode" aria-label="Toggle light/dark mode">🌙</button>
     <!-- Brand Name Top Left -->
-    <div class="header-brand">꧁|•𝙰𝙷𝙾𝙵 𝚁𝙴:𝚃𝚞𝚛𝚗•|꧂</div>
+    <div class="header-brand" aria-label="AHOF Site Brand">꧁|•𝙰𝙷𝙾𝙵 𝚁𝙴:𝚃𝚞𝚛𝚗•|꧂</div>
+
+    <!-- Back to Top -->
+    <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" aria-label="Back to top">↑</button>
+
+    <!-- Full-screen nav overlay -->
+    <div class="nav-overlay" id="navOverlay" role="navigation" aria-label="Full screen menu">
+        <div class="nav-overlay-brand">꧁ AHOF ꧂</div>
+        <button class="nav-overlay-close" onclick="closeNavOverlay()" aria-label="Close menu">✕</button>
+        <a onclick="navOverlayGo('about')">About</a>
+        <a onclick="navOverlayGo('fanart')">Fan Art</a>
+        <a onclick="navOverlayGo('news')">News</a>
+        <a onclick="navOverlayGo('achievements')">Achievements</a>
+        <a onclick="navOverlayGo('voting')">Voting Proof</a>
+        <a onclick="navOverlayGo('collab')">Collabs</a>
+        <a onclick="navOverlayGo('spotify')">Music Links</a>
+        <a onclick="navOverlayGo('articles')">Articles</a>
+        <a onclick="navOverlayGo('groupchat')">GC</a>
+    </div>
 
     <!-- Hamburger Menu -->
-    <div class="hamburger-menu" onclick="toggleMenu()">
+    <div class="hamburger-menu" onclick="openNavOverlay()" aria-label="Open menu" role="button" tabindex="0">
         <div class="hamburger-icon">
             <span></span>
             <span></span>
             <span></span>
         </div>
-    </div>
-    <div class="menu-dropdown" id="menuDropdown">
-        <a href="#home" onclick="closeMenu()">HOME</a>
-        <a href="#about" onclick="closeMenu()">ABOUT</a>
-        <a href="#privacy" onclick="closeMenu()">Privacy</a>
     </div>
 
     <div id="setupBanner" class="setup-banner" style="display: none;">
@@ -1375,9 +1742,13 @@
         <nav>
             <ul>
                 <li><a onclick="scrollToSection('about')" class="active">About</a></li>
+                <li><a onclick="scrollToSection('fanart')">Fan Art</a></li>
                 <li><a onclick="scrollToSection('news')">News</a></li>
                 <li><a onclick="scrollToSection('achievements')">Achievements</a></li>
                 <li><a onclick="scrollToSection('voting')">Voting Proof</a></li>
+                <li><a onclick="scrollToSection('collab')">Collabs</a></li>
+                <li><a onclick="scrollToSection('spotify')">Music</a></li>
+                <li><a onclick="scrollToSection('articles')">Articles</a></li>
                 <li><a onclick="scrollToSection('groupchat')">GC</a></li>
             </ul>
         </nav>
@@ -1390,6 +1761,37 @@
                     <p>The name "All Time Hall of Famer" reflects the group's vision — not just to succeed, but to leave a lasting legacy and become icons remembered for generations. With a diverse international lineup, AHOF showcases a powerful blend of cultures, skills, and personalities that connect with fans worldwide.</p>
                     <p><strong style="color: #c8b89a;">The group consists of:</strong></p>
                     <p style="font-size: 0.85rem; color: #7a706a; font-style: italic;">Tap on a card to flip and see the photo!</p>
+
+                    <!-- Countdown Timer -->
+                    <div class="countdown-section fade-in-up" id="countdownWidget" style="margin-bottom:1.2rem;">
+                        <div class="countdown-title">⏳ Next AHOF Event</div>
+                        <div class="countdown-event-name" id="countdownEventName">AHOF Official Debut — July 1, 2025</div>
+                        <div class="countdown-boxes">
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="cdDays">--</span>
+                                <span class="countdown-label">Days</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="cdHours">--</span>
+                                <span class="countdown-label">Hours</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="cdMins">--</span>
+                                <span class="countdown-label">Mins</span>
+                            </div>
+                            <div class="countdown-box">
+                                <span class="countdown-num" id="cdSecs">--</span>
+                                <span class="countdown-label">Secs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Community Poll -->
+                    <div class="poll-widget fade-in-up">
+                        <div class="poll-question">🗳️ Who is your favorite AHOF member?</div>
+                        <div id="pollOptions"></div>
+                        <div class="poll-total" id="pollTotal">0 votes</div>
+                    </div>
                     <div class="member-info-container">
                         <div class="member-cards-wrapper">
                             <div class="members-grid">
@@ -1518,6 +1920,20 @@
                     </div>
                 </div>
             </div>
+            </section>
+
+            <section id="fanart" class="fade-in-up">
+                <h2>🎨 Fan Art Gallery</h2>
+                <p style="color:#7a706a;font-size:0.9rem;margin-bottom:1rem;">Share your fan art for AHOF! Upload your artwork to show your love for the group.</p>
+                <div class="upload-area" id="fanartUploadArea" role="button" tabindex="0" aria-label="Upload fan art">
+                    <p>🖼️</p>
+                    <h4 style="color:#c8b89a;">Upload Fan Art</h4>
+                    <p style="font-size:0.8rem;color:#7a706a;">Click to choose an image</p>
+                    <input type="file" id="fanartFile" accept="image/*" style="display:none;">
+                </div>
+                <div class="gallery-grid" id="fanartGallery">
+                    <div class="loading"><div class="spinner"></div></div>
+                </div>
             </section>
 
             <section id="news">
@@ -1659,6 +2075,118 @@
                 </div>
             </section>
 
+            <!-- ══════════════════════════════════════════════ -->
+            <!-- VOTING COLLABORATION                          -->
+            <!-- ══════════════════════════════════════════════ -->
+            <section id="collab" class="fade-in-up">
+                <h2>🤝 Voting Collaboration</h2>
+                <p style="color:#7a706a;font-size:0.9rem;margin-bottom:1.5rem;">Partnered fandoms and artists helping AHOF win! Add a collaboration by sharing the fandom/artist name and their voting link.</p>
+
+                <form id="collabForm" style="margin-bottom:1.5rem;">
+                    <div class="form-group">
+                        <label for="collabFandom">Fandom / Artist Name</label>
+                        <input type="text" id="collabFandom" placeholder="e.g. STAY (Stray Kids fandom)" maxlength="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="collabGroup">K-pop Group / Artist</label>
+                        <input type="text" id="collabGroup" placeholder="e.g. Stray Kids" maxlength="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="collabLink">Voting / Collab Link <span style="color:#7a706a;font-weight:normal;">(optional)</span></label>
+                        <input type="url" id="collabLink" placeholder="https://..." maxlength="300">
+                    </div>
+                    <div class="form-group">
+                        <label for="collabNote">Notes <span style="color:#7a706a;font-weight:normal;">(optional — e.g. which app, what campaign)</span></label>
+                        <textarea id="collabNote" rows="2" placeholder="e.g. Mubeat collab for Music Bank Week 4" style="resize:vertical;"></textarea>
+                    </div>
+                    <button type="submit" id="collabSubmitBtn">🤝 Add Collaboration</button>
+                </form>
+
+                <div id="collabContainer">
+                    <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
+                </div>
+            </section>
+
+            <!-- ══════════════════════════════════════════════ -->
+            <!-- SPOTIFY / MUSIC LINKS                         -->
+            <!-- ══════════════════════════════════════════════ -->
+            <section id="spotify" class="fade-in-up">
+                <h2>🎵 Music Links</h2>
+                <p style="color:#7a706a;font-size:0.9rem;margin-bottom:1.5rem;">AHOF music on streaming platforms — stream to support! Add Spotify, YouTube, Melon, or any music link below.</p>
+
+                <form id="spotifyForm" style="margin-bottom:1.5rem;">
+                    <div class="form-group">
+                        <label for="spotifyTitle">Song / Album Title</label>
+                        <input type="text" id="spotifyTitle" placeholder="e.g. AHOF Debut Single" maxlength="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="spotifyPlatform">Platform</label>
+                        <select id="spotifyPlatform" required style="width:100%;padding:0.65rem 0.9rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.95rem;">
+                            <option value="">-- Select Platform --</option>
+                            <option value="Spotify">🟢 Spotify</option>
+                            <option value="YouTube">🔴 YouTube</option>
+                            <option value="YouTube Music">🔴 YouTube Music</option>
+                            <option value="Melon">🍈 Melon</option>
+                            <option value="Genie">🎸 Genie</option>
+                            <option value="FLO">🎧 FLO</option>
+                            <option value="Bugs">🐛 Bugs</option>
+                            <option value="Apple Music">🍎 Apple Music</option>
+                            <option value="Weverse">🌿 Weverse</option>
+                            <option value="Other">🔗 Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="spotifyLink">Link</label>
+                        <input type="url" id="spotifyLink" placeholder="https://open.spotify.com/..." maxlength="500" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="spotifyNote">Notes <span style="color:#7a706a;font-weight:normal;">(optional — e.g. please stream 30+ seconds!)</span></label>
+                        <textarea id="spotifyNote" rows="2" placeholder="e.g. Stream daily to boost chart position!" style="resize:vertical;"></textarea>
+                    </div>
+                    <button type="submit" id="spotifySubmitBtn">🎵 Add Music Link</button>
+                </form>
+
+                <div id="spotifyContainer">
+                    <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
+                </div>
+            </section>
+
+            <!-- ══════════════════════════════════════════════ -->
+            <!-- BRAND REPUTATION ARTICLES                     -->
+            <!-- ══════════════════════════════════════════════ -->
+            <section id="articles" class="fade-in-up">
+                <h2>📰 Brand Reputation Articles</h2>
+                <p style="color:#7a706a;font-size:0.9rem;margin-bottom:1.5rem;">Articles, features, and press mentions that boost AHOF's brand reputation. Submit links to help the community track coverage!</p>
+
+                <form id="articleForm" style="margin-bottom:1.5rem;">
+                    <div class="form-group">
+                        <label for="articleTitle">Article Title</label>
+                        <input type="text" id="articleTitle" placeholder="e.g. AHOF Debuts at #1 on Brand Reputation Chart" maxlength="200" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleSource">Source / Publication</label>
+                        <input type="text" id="articleSource" placeholder="e.g. Naver, Koreaboo, Soompi, AllKPop..." maxlength="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleLink">Article Link</label>
+                        <input type="url" id="articleLink" placeholder="https://..." maxlength="500" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleDate">Date Published</label>
+                        <input type="date" id="articleDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleNote">Notes <span style="color:#7a706a;font-weight:normal;">(optional — summary or why it matters)</span></label>
+                        <textarea id="articleNote" rows="2" placeholder="e.g. First international feature on AHOF!" style="resize:vertical;"></textarea>
+                    </div>
+                    <button type="submit" id="articleSubmitBtn">📰 Submit Article</button>
+                </form>
+
+                <div id="articleContainer">
+                    <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
+                </div>
+            </section>
+
             <section id="groupchat">
                 <h2>💬 FOHA GC</h2>
                 <p style="color:#9a8878; font-size:0.85rem; margin-bottom:1.2rem;">Members-only group chat — enter your name and access code to join.</p>
@@ -1740,6 +2268,9 @@
                         <div style="text-align:center; font-size:0.68rem; color:#3a3428; padding:8px 0;">FOHA GC 💫</div>
                     </div>
 
+                    <!-- Typing Indicator -->
+                    <div id="gcTypingIndicator" class="gc-typing-indicator"></div>
+
                     <!-- Input Row -->
                     <div id="gcInputRow" style="display:none; gap:6px; align-items:flex-end; padding:8px 10px; background:#1a1610; border-top:1px solid #2a2520;">
                         <button id="gcImageBtn" title="Send image" style="background:none;border:none;color:#6a5a50;width:36px;height:36px;cursor:pointer;font-size:1.1rem;flex-shrink:0;padding:0;">🖼️</button>
@@ -1752,92 +2283,7 @@
                 </div>
             </section>
 
-            <section id="privacy">
-                <h2>Privacy Policy</h2>
-                <p style="margin-bottom: 0.8rem;">This Privacy Policy explains how the AHOF Hall of Fame fan community website ("we," "us," or "the Site") collects, uses, stores, and protects information you share when using this platform. By participating in this community, you acknowledge and agree to the practices described below.</p>
-                <p style="margin-bottom: 1rem; font-size: 0.88rem; color: #9a8878;">This policy is aligned with current global privacy standards including the EU General Data Protection Regulation (GDPR), the California Consumer Privacy Act (CCPA/CPRA), and other applicable data protection frameworks as of 2026.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">1. Information We Collect</h3>
-                <p style="margin-bottom: 0.5rem;">We collect only the information you voluntarily provide when using this Site:</p>
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li><strong>Usernames and display names</strong> — entered when joining the Group Chat or submitting content. Once set, your username is permanently locked to your device.</li>
-                    <li><strong>Access code</strong> — entered to gain access to the Members-Only Group Chat. The code itself is not stored on any server; only your approved status is saved locally in your browser.</li>
-                    <li><strong>Photos and images</strong> — uploaded as voting proofs, posts, achievements, or chat images</li>
-                    <li><strong>Text content</strong> — posts, achievement entries, chat messages, reactions, and notes you submit</li>
-                    <li><strong>Device identifier (UID)</strong> — a randomly generated ID saved permanently to your browser's local storage to identify your device. This is used to lock your username and track your presence and reactions. It is not tied to your real identity.</li>
-                </ul>
-                <p style="margin-bottom: 1rem; font-size: 0.88rem; color: #9a8878;">We do <strong style="color:#c8b89a;">not</strong> collect email addresses, phone numbers, payment details, or any sensitive personal data.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">2. Group Chat — How It Works</h3>
-                <p style="margin-bottom: 0.5rem;">The FOHA Group Chat is a <strong>members-only</strong> feature with the following characteristics:</p>
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li><strong>Access</strong> — requires a valid username and the correct access code. The code is verified locally and never stored on any server.</li>
-                    <li><strong>Username lock</strong> — once you choose a username and join the GC on a device, that username is permanently assigned to that device. It cannot be changed.</li>
-                    <li><strong>Member registry</strong> — your username is permanently saved in our Firebase database as part of the GC member list. This allows all members to see who has joined the community.</li>
-                    <li><strong>Presence</strong> — while you are active in the GC, your username appears in the "online" list. This is removed automatically when you leave or close the page.</li>
-                    <li><strong>Reactions</strong> — emoji reactions you place on messages are stored in Firebase along with your username, visible to all GC members.</li>
-                    <li><strong>Profile</strong> — your profile photo (stored as compressed image data in Firebase) and bio are visible to all GC members. You may update these at any time via the Edit Profile option.</li>
-                    <li><strong>Message history</strong> — all messages are stored in Firebase and visible to all GC members, including those who join later (full backread available).</li>
-                    <li><strong>Unsend</strong> — you may delete your own messages at any time. Admins may also delete any message.</li>
-                </ul>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">3. Browser Notifications</h3>
-                <p style="margin-bottom: 1rem;">When you join the Group Chat, the Site may request permission to send <strong>browser notifications</strong>. If granted, you will receive notifications when new messages arrive while you are not viewing the GC. This permission is entirely optional — you may deny it without affecting your ability to use the chat. You can revoke this permission at any time in your browser settings. Notification content (sender name and message preview) is processed locally by your browser and is not transmitted to any third party.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">4. How We Use Your Information</h3>
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li>To display community-submitted content (posts, achievements, voting proofs, chat messages, reactions) to authorized members and visitors</li>
-                    <li>To enable real-time features such as the Members-Only Group Chat, online presence, and reactions</li>
-                    <li>To maintain a permanent member registry showing who has joined the GC community</li>
-                    <li>To allow you to unsend your own messages and manage your content</li>
-                    <li>To send browser notifications for new GC messages (only if you grant permission)</li>
-                </ul>
-                <p style="margin-bottom: 1rem;">We do <strong>not</strong> use your information for advertising, profiling, automated decision-making, or any commercial purpose.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">5. Third-Party Services</h3>
-                <p style="margin-bottom: 0.5rem;">This Site uses the following third-party platforms to operate:</p>
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li><strong>Google Firebase</strong> (Realtime Database &amp; Storage) — stores messages, reactions, member registry, presence data, posts, achievements, and voting proofs. Governed by Google's Privacy Policy.</li>
-                    <li><strong>Cloudinary</strong> — used for image hosting and delivery. Governed by Cloudinary's Privacy Policy.</li>
-                </ul>
-                <p style="margin-bottom: 0.5rem;">This Site also contains links to official AHOF social media platforms:</p>
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li><strong>Instagram, X (Twitter), TikTok, Facebook</strong> — governed by their respective privacy policies</li>
-                    <li><strong>Weverse</strong> — governed by Weverse's Privacy Policy (Hybe)</li>
-                    <li><strong>Weibo</strong> — governed by Weibo's Privacy Policy</li>
-                </ul>
-                <p style="margin-bottom: 1rem; font-size: 0.88rem; color: #9a8878;">Clicking any external link takes you to a third-party platform. We are not responsible for how those platforms handle your data. Data stored in Firebase may be processed on servers outside your country. Google maintains Standard Contractual Clauses (SCCs) for international data transfers in compliance with GDPR.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">6. Public Visibility</h3>
-                <p style="margin-bottom: 1rem;">Content submitted in public sections — including posts, achievements, and voting proofs — is visible to all visitors. Group Chat messages, reactions, and the member list are visible only to users who have joined with the correct access code. Please only share content you are comfortable making available to the GC community.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">7. Local Storage &amp; Device Data</h3>
-                <p style="margin-bottom: 1rem;">This Site stores the following data in your browser's <strong>local storage</strong>: your GC username, device UID, access approval status, admin status (if applicable), and your chosen GC theme/background preference. This data is stored only on your device and is never shared with any server. Your device UID and username are <strong>permanently assigned</strong> — clearing local storage (via browser settings or browser console) will reset your device identity, allowing a new username to be set.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">7a. GC Customization</h3>
-                <p style="margin-bottom: 1rem;">Members of the Group Chat may personalize their chat experience by selecting a background theme from the available options (Default Dark, Midnight, Forest, Sunset, Ocean, Rose). This preference is saved only in your browser's local storage — it is a personal setting that applies only to your device and is not visible to other members. No theme data is transmitted to or stored on any server.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">8. Data Retention</h3>
-                <p style="margin-bottom: 1rem;">Content you submit (posts, chat messages, voting proofs, images, reactions) remains stored in our Firebase database unless you delete it yourself (unsend) or request removal through an admin. Member registry entries are permanent records. We do not have an automatic deletion schedule.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">9. Your Rights</h3>
-                <p style="margin-bottom: 0.5rem;">Depending on your location, you may have the following rights:</p>
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li><strong>Right to Access</strong> — request a copy of information we hold about you</li>
-                    <li><strong>Right to Deletion</strong> — request removal of your content or data, including your member registry entry</li>
-                    <li><strong>Right to Correction</strong> — request that inaccurate information be corrected</li>
-                    <li><strong>Right to Withdraw Consent</strong> — you may stop using the Site and request deletion of your submissions at any time</li>
-                </ul>
-                <p style="margin-bottom: 1rem;">To exercise any of these rights, contact the Site administrators.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">10. Children's Privacy</h3>
-                <p style="margin-bottom: 1rem;">This Site is intended for general audiences. We do not knowingly collect personal information from children under the age of 13. If you believe a minor has submitted personal data without parental consent, please contact us immediately.</p>
-
-                <h3 style="font-size: 1.1rem; margin: 1.2rem 0 0.5rem; color: #c8b89a;">11. Changes to This Policy</h3>
-                <p style="margin-bottom: 1rem;">We may update this Privacy Policy from time to time. Continued use of the Site after changes constitutes your acceptance of the updated policy.</p>
-
-                <p style="font-size: 0.88rem; color: #7a706a; margin-top: 1.5rem; border-top: 1px solid #2a2520; padding-top: 1rem;">Last updated: February 2026 &nbsp;·&nbsp; Aligned with GDPR (EU), CCPA/CPRA (California), and global privacy standards applicable as of 2026.</p>
-            </section>
+            
         </div>
     </div>
 
@@ -1915,8 +2361,11 @@
                 method: 'POST',
                 body: formData
             });
-            if (!res.ok) throw new Error('Image upload failed. Please try again.');
             const data = await res.json();
+            // Show the actual Cloudinary error message so we know what went wrong
+            if (!res.ok || data.error) {
+                throw new Error(data.error?.message || `Upload failed (HTTP ${res.status})`);
+            }
             return data.secure_url;
         }
 
@@ -2134,6 +2583,21 @@
 
         loadPosts();
         loadAchievements();
+        loadFanArt();
+        loadCollabs();
+        loadSpotifyLinks();
+        loadArticles();
+
+        // Fan art file input listener (must be here — inside module scope)
+        document.getElementById('fanartFile')?.addEventListener('change', function() {
+            submitFanArt(this);
+        });
+        document.getElementById('fanartUploadArea')?.addEventListener('click', () => {
+            document.getElementById('fanartFile')?.click();
+        });
+        document.getElementById('fanartUploadArea')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') document.getElementById('fanartFile')?.click();
+        });
         // Restore admin unlock icon if already admin
         if (isAdmin()) {
             const btn = document.getElementById('adminUnlockBtn');
@@ -2765,7 +3229,12 @@
             },
             "achievements": { ".read": true, ".write": true },
             "votingProofs": { ".read": true, ".write": true },
-            "posts":        { ".read": true, ".write": true }
+            "posts":        { ".read": true, ".write": true },
+            "fanart":       { ".read": true, ".write": true },
+            "collabs":      { ".read": true, ".write": true },
+            "musicLinks":   { ".read": true, ".write": true },
+            "articles":     { ".read": true, ".write": true },
+            "community":    { ".read": true, ".write": true }
           }
         }
         */
@@ -3638,6 +4107,448 @@
             }, 600);
         }
 
+        // ══════════════════════════════════════════════════════════════════════
+        //  NEW IMPROVEMENTS
+        // ══════════════════════════════════════════════════════════════════════
+
+        // ── Full-screen Nav Overlay ────────────────────────────────────────────
+        window.openNavOverlay = () => {
+            document.getElementById('navOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        };
+        window.closeNavOverlay = () => {
+            document.getElementById('navOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        };
+        window.navOverlayGo = (sectionId) => {
+            closeNavOverlay();
+            setTimeout(() => {
+                document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        };
+
+        // ── Scroll Animations ─────────────────────────────────────────────────
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(el => {
+            el.classList.add('fade-in-up');
+            fadeObserver.observe(el);
+        });
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            fadeObserver.observe(el);
+        });
+
+        // ── Back to Top Button ────────────────────────────────────────────────
+        const backTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) backTopBtn.classList.add('visible');
+            else backTopBtn.classList.remove('visible');
+        });
+
+        // ── Countdown Timer ───────────────────────────────────────────────────
+        function updateCountdown() {
+            // AHOF debut date — update this to next real event
+            const target = new Date('2025-07-01T00:00:00+09:00');
+            const now = new Date();
+            let diff = target - now;
+
+            const eventName = document.getElementById('countdownEventName');
+            if (diff <= 0) {
+                // Debut already happened — show anniversary countdown for next year
+                const nextAnniv = new Date('2026-07-01T00:00:00+09:00');
+                diff = nextAnniv - now;
+                if (eventName) eventName.textContent = '🎉 AHOF 1st Anniversary — July 1, 2026';
+            }
+
+            const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('cdDays').textContent  = String(days).padStart(2,'0');
+            document.getElementById('cdHours').textContent = String(hours).padStart(2,'0');
+            document.getElementById('cdMins').textContent  = String(mins).padStart(2,'0');
+            document.getElementById('cdSecs').textContent  = String(secs).padStart(2,'0');
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // ── Community Poll ────────────────────────────────────────────────────
+        const POLL_MEMBERS = ['JL', 'DAISUKE', 'SHUAIBO', 'CHIH-EN', 'JUWON', 'STEVEN', 'PARK HAN', 'WOONGKI', 'JEONGWOO'];
+        const POLL_KEY = 'ahof-poll-vote-v1';
+        const POLL_DB_REF = 'community/poll/fave_member';
+
+        function renderPoll(votes, myVote) {
+            const total = Object.values(votes).reduce((a,b) => a+b, 0);
+            const container = document.getElementById('pollOptions');
+            if (!container) return;
+
+            container.innerHTML = POLL_MEMBERS.map(m => {
+                const count = votes[m] || 0;
+                const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                const isVoted = myVote === m;
+                return `<div class="poll-option${isVoted ? ' voted' : ''}" onclick="castVote('${m}')" role="button" tabindex="0" aria-label="Vote for ${m}">
+                    <div class="poll-bar" style="width:${pct}%"></div>
+                    <div class="poll-option-label">
+                        <span>${m}${isVoted ? ' ✓' : ''}</span>
+                        <span class="poll-pct">${pct}%</span>
+                    </div>
+                </div>`;
+            }).join('');
+
+            const totalEl = document.getElementById('pollTotal');
+            if (totalEl) totalEl.textContent = `${total.toLocaleString()} vote${total !== 1 ? 's' : ''}`;
+        }
+
+        let _pollVotes = {};
+        let _myVote = localStorage.getItem(POLL_KEY);
+
+        // Listen for real-time poll updates from Firebase
+        onValue(ref(database, POLL_DB_REF), (snap) => {
+            _pollVotes = snap.val() || {};
+            renderPoll(_pollVotes, _myVote);
+        });
+
+        window.castVote = async (member) => {
+            const prev = localStorage.getItem(POLL_KEY);
+            if (prev === member) return; // already voted for same
+            
+            try {
+                if (prev) {
+                    // Remove old vote
+                    await update(ref(database, POLL_DB_REF), {
+                        [prev]: Math.max(0, (_pollVotes[prev] || 0) - 1)
+                    });
+                }
+                await update(ref(database, POLL_DB_REF), {
+                    [member]: (_pollVotes[member] || 0) + 1
+                });
+                localStorage.setItem(POLL_KEY, member);
+                _myVote = member;
+                showToast('Voted for ' + member + '! 💫', 'success');
+            } catch(e) {
+                showToast('Vote failed — try again', 'error');
+            }
+        };
+
+        // ── Fan Art Gallery ───────────────────────────────────────────────────
+        function loadFanArt() {
+            onValue(ref(database, 'fanart'), (snap) => {
+                const container = document.getElementById('fanartGallery');
+                if (!container) return;
+                const items = [];
+                snap.forEach(child => items.push({ id: child.key, ...child.val() }));
+                items.sort((a,b) => b.timestamp - a.timestamp);
+
+                if (items.length === 0) {
+                    container.innerHTML = '<p style="color:#7a706a;text-align:center;padding:1rem;grid-column:1/-1;">No fan art yet. Be the first to submit!</p>';
+                    return;
+                }
+
+                container.innerHTML = items.map(item => `
+                    <div class="gallery-item" onclick="openModal('${sanitize(item.imageUrl)}')">
+                        <img loading="lazy" src="${sanitize(item.imageUrl)}" alt="Fan art by ${sanitize(item.author)}" style="width:100%;height:140px;object-fit:cover;">
+                        <div class="gallery-overlay">
+                            <div style="font-weight:700;font-size:0.8rem;">By ${sanitize(item.author)}</div>
+                            <div style="font-size:0.7rem;opacity:0.7;">${new Date(item.timestamp).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+        window.submitFanArt = async (input) => {
+            const file = input.files[0];
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) {
+                alert('Image must be under 10MB.');
+                input.value = '';
+                return;
+            }
+            const name = prompt('Your name (for credit):');
+            if (!name || !name.trim()) { input.value = ''; return; }
+
+            // Show loading state on upload area
+            const uploadArea = document.getElementById('fanartUploadArea');
+            const uploadLabel = uploadArea?.querySelector('h4');
+            if (uploadLabel) uploadLabel.textContent = '⏳ Uploading...';
+
+            try {
+                const url = await uploadToCloudinary(file);
+                await push(ref(database, 'fanart'), {
+                    imageUrl: url,
+                    author: name.trim(),
+                    sessionKey: getSessionKey(),
+                    timestamp: Date.now()
+                });
+                showToast('Fan art submitted! 🎨', 'success');
+            } catch(e) {
+                showToast('Upload failed: ' + e.message, 'error');
+                alert('Fan Art Upload Error:\n' + e.message);
+            } finally {
+                if (uploadLabel) uploadLabel.textContent = 'Upload Fan Art';
+                input.value = '';
+            }
+        };
+
+        // ── Typing Indicator in GC ────────────────────────────────────────────
+        let gcTypingTimeout = null;
+
+        // Listen to typing states from Firebase
+        function gcListenTyping() {
+            onValue(ref(database, 'groupchat/typing'), (snap) => {
+                const typingEl = document.getElementById('gcTypingIndicator');
+                if (!typingEl || !gcUsername) return;
+                const data = snap.val() || {};
+                const others = Object.entries(data)
+                    .filter(([uid, val]) => uid !== gcUid && val && Date.now() - val.ts < 4000)
+                    .map(([, val]) => val.name);
+                if (others.length === 0) typingEl.textContent = '';
+                else if (others.length === 1) typingEl.textContent = `${others[0]} is typing...`;
+                else typingEl.textContent = `${others.slice(0,-1).join(', ')} and ${others.at(-1)} are typing...`;
+            });
+        }
+
+        // Broadcast typing when user types in GC input
+        const gcInputEl = document.getElementById('gcInput');
+        if (gcInputEl) {
+            gcInputEl.addEventListener('input', () => {
+                if (!gcUsername) return;
+                clearTimeout(gcTypingTimeout);
+                set(ref(database, 'groupchat/typing/' + gcUid), { name: gcUsername, ts: Date.now() });
+                gcTypingTimeout = setTimeout(() => {
+                    remove(ref(database, 'groupchat/typing/' + gcUid));
+                }, 3000);
+            });
+        }
+
+        // Start typing listener when user joins chat
+        const _origGcShowScreen = gcShowScreen;
+
+        // ── Improved lazy loading for all images ─────────────────────────────
+        document.querySelectorAll('img:not([loading])').forEach(img => {
+            img.setAttribute('loading', 'lazy');
+        });
+
+        // ── Accessibility: add missing alt texts ──────────────────────────────
+        document.querySelectorAll('img:not([alt])').forEach(img => {
+            img.setAttribute('alt', 'AHOF image');
+        });
+
+        // Start typing listener once user is in GC
+        setTimeout(gcListenTyping, 2000);
+
+        console.log('✨ AHOF Improvements Loaded — v2.0');
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  VOTING COLLABORATION
+        // ══════════════════════════════════════════════════════════════════════
+        function loadCollabs() {
+            onValue(ref(database, 'collabs'), (snap) => {
+                const container = document.getElementById('collabContainer');
+                if (!container) return;
+                const items = [];
+                snap.forEach(child => items.push({ id: child.key, ...child.val() }));
+                items.sort((a,b) => b.timestamp - a.timestamp);
+
+                if (items.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;color:#7a706a;padding:1rem;">No collaborations yet — be the first to add one!</p>';
+                    return;
+                }
+                container.innerHTML = items.map(item => `
+                    <div class="collab-card" id="collab-${sanitize(item.id)}">
+                        <div class="card-title">🤝 ${sanitize(item.fandom)}</div>
+                        <div class="card-meta">
+                            <span class="card-badge">👥 ${sanitize(item.group)}</span>
+                            <span>Added by ${sanitize(item.author)} · ${new Date(item.timestamp).toLocaleDateString()}</span>
+                        </div>
+                        ${item.note ? `<div class="card-note">${sanitize(item.note)}</div>` : ''}
+                        ${item.link ? `<a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="card-link">🔗 View Collab Link</a>` : ''}
+                        ${(item.sessionKey === getSessionKey() || isAdmin()) ? `
+                        <div style="margin-top:0.6rem;display:flex;gap:6px;">
+                            <button onclick="deleteCollab('${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
+                        </div>` : ''}
+                    </div>
+                `).join('');
+            });
+        }
+
+        document.getElementById('collabForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fandom = document.getElementById('collabFandom').value.trim();
+            const group  = document.getElementById('collabGroup').value.trim();
+            const link   = document.getElementById('collabLink').value.trim();
+            const note   = document.getElementById('collabNote').value.trim();
+            if (!fandom || !group) return alert('Fandom name and group are required.');
+            const btn = document.getElementById('collabSubmitBtn');
+            btn.disabled = true; btn.textContent = 'Adding...';
+            try {
+                const result = await push(ref(database, 'collabs'), {
+                    fandom, group, link, note,
+                    author: getUserName() || 'Anonymous',
+                    sessionKey: getSessionKey(),
+                    timestamp: Date.now()
+                });
+                if (!result.key) throw new Error('No key returned from Firebase.');
+                e.target.reset();
+                showToast('Collaboration added! 🤝', 'success');
+            } catch(err) {
+                alert('Error saving collab:\n' + err.message);
+            } finally {
+                btn.disabled = false; btn.textContent = '🤝 Add Collaboration';
+            }
+        });
+
+        window.deleteCollab = async (id) => {
+            if (!confirm('Delete this collaboration?')) return;
+            try { await remove(ref(database, 'collabs/' + id)); }
+            catch(e) { alert('Error: ' + e.message); }
+        };
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  SPOTIFY / MUSIC LINKS
+        // ══════════════════════════════════════════════════════════════════════
+        const PLATFORM_ICONS = {
+            'Spotify': '🟢', 'YouTube': '🔴', 'YouTube Music': '🔴',
+            'Melon': '🍈', 'Genie': '🎸', 'FLO': '🎧', 'Bugs': '🐛',
+            'Apple Music': '🍎', 'Weverse': '🌿', 'Other': '🔗'
+        };
+
+        function loadSpotifyLinks() {
+            onValue(ref(database, 'musicLinks'), (snap) => {
+                const container = document.getElementById('spotifyContainer');
+                if (!container) return;
+                const items = [];
+                snap.forEach(child => items.push({ id: child.key, ...child.val() }));
+                items.sort((a,b) => b.timestamp - a.timestamp);
+
+                if (items.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;color:#7a706a;padding:1rem;">No music links yet — add AHOF\'s songs to stream!</p>';
+                    return;
+                }
+                container.innerHTML = items.map(item => `
+                    <div class="spotify-card" id="music-${sanitize(item.id)}">
+                        <div class="card-title">${PLATFORM_ICONS[item.platform] || '🎵'} ${sanitize(item.title)}</div>
+                        <div class="card-meta">
+                            <span class="card-badge">${sanitize(item.platform)}</span>
+                            <span>Added by ${sanitize(item.author)} · ${new Date(item.timestamp).toLocaleDateString()}</span>
+                        </div>
+                        ${item.note ? `<div class="card-note">${sanitize(item.note)}</div>` : ''}
+                        <a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="card-link">▶ Stream Now</a>
+                        ${(item.sessionKey === getSessionKey() || isAdmin()) ? `
+                        <div style="margin-top:0.6rem;display:flex;gap:6px;">
+                            <button onclick="deleteMusicLink('${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
+                        </div>` : ''}
+                    </div>
+                `).join('');
+            });
+        }
+
+        document.getElementById('spotifyForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title    = document.getElementById('spotifyTitle').value.trim();
+            const platform = document.getElementById('spotifyPlatform').value;
+            const link     = document.getElementById('spotifyLink').value.trim();
+            const note     = document.getElementById('spotifyNote').value.trim();
+            if (!title || !platform || !link) return alert('Title, platform, and link are required.');
+            const btn = document.getElementById('spotifySubmitBtn');
+            btn.disabled = true; btn.textContent = 'Adding...';
+            try {
+                const result = await push(ref(database, 'musicLinks'), {
+                    title, platform, link, note,
+                    author: getUserName() || 'Anonymous',
+                    sessionKey: getSessionKey(),
+                    timestamp: Date.now()
+                });
+                if (!result.key) throw new Error('No key returned from Firebase.');
+                e.target.reset();
+                showToast('Music link added! 🎵', 'success');
+            } catch(err) {
+                alert('Error saving music link:\n' + err.message);
+            } finally {
+                btn.disabled = false; btn.textContent = '🎵 Add Music Link';
+            }
+        });
+
+        window.deleteMusicLink = async (id) => {
+            if (!confirm('Delete this music link?')) return;
+            try { await remove(ref(database, 'musicLinks/' + id)); }
+            catch(e) { alert('Error: ' + e.message); }
+        };
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  BRAND REPUTATION ARTICLES
+        // ══════════════════════════════════════════════════════════════════════
+        function loadArticles() {
+            onValue(ref(database, 'articles'), (snap) => {
+                const container = document.getElementById('articleContainer');
+                if (!container) return;
+                const items = [];
+                snap.forEach(child => items.push({ id: child.key, ...child.val() }));
+                items.sort((a,b) => b.timestamp - a.timestamp);
+
+                if (items.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;color:#7a706a;padding:1rem;">No articles yet — submit the first AHOF press coverage!</p>';
+                    return;
+                }
+                container.innerHTML = items.map(item => `
+                    <div class="article-card" id="article-${sanitize(item.id)}">
+                        <div class="card-title">📰 ${sanitize(item.title)}</div>
+                        <div class="card-meta">
+                            <span class="card-badge">📌 ${sanitize(item.source)}</span>
+                            <span>${item.date ? new Date(item.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : ''}</span>
+                            <span>· Added by ${sanitize(item.author)}</span>
+                        </div>
+                        ${item.note ? `<div class="card-note">${sanitize(item.note)}</div>` : ''}
+                        <a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="card-link">📖 Read Article</a>
+                        ${(item.sessionKey === getSessionKey() || isAdmin()) ? `
+                        <div style="margin-top:0.6rem;display:flex;gap:6px;">
+                            <button onclick="deleteArticle('${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
+                        </div>` : ''}
+                    </div>
+                `).join('');
+            });
+        }
+
+        document.getElementById('articleForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title  = document.getElementById('articleTitle').value.trim();
+            const source = document.getElementById('articleSource').value.trim();
+            const link   = document.getElementById('articleLink').value.trim();
+            const date   = document.getElementById('articleDate').value;
+            const note   = document.getElementById('articleNote').value.trim();
+            if (!title || !source || !link || !date) return alert('Title, source, link, and date are required.');
+            const btn = document.getElementById('articleSubmitBtn');
+            btn.disabled = true; btn.textContent = 'Submitting...';
+            try {
+                const result = await push(ref(database, 'articles'), {
+                    title, source, link, date, note,
+                    author: getUserName() || 'Anonymous',
+                    sessionKey: getSessionKey(),
+                    timestamp: Date.now()
+                });
+                if (!result.key) throw new Error('No key returned from Firebase.');
+                e.target.reset();
+                showToast('Article submitted! 📰', 'success');
+            } catch(err) {
+                alert('Error saving article:\n' + err.message);
+            } finally {
+                btn.disabled = false; btn.textContent = '📰 Submit Article';
+            }
+        });
+
+        window.deleteArticle = async (id) => {
+            if (!confirm('Delete this article?')) return;
+            try { await remove(ref(database, 'articles/' + id)); }
+            catch(e) { alert('Error: ' + e.message); }
+        };
+
         document.getElementById('gcJoinBtn').addEventListener('click', () => {
             const name = document.getElementById('gcUsernameInput').value.trim();
             const code = document.getElementById('gcCodeInput').value.trim();
@@ -3663,6 +4574,9 @@
             const text = input.value.trim();
             if (!text || !gcUsername) return;
             input.value = ''; input.style.height = '';
+            // Clear typing indicator on send
+            clearTimeout(gcTypingTimeout);
+            remove(ref(database, 'groupchat/typing/' + gcUid));
             await gcSend(text);
         });
         document.getElementById('gcInput').addEventListener('keydown', async e => {
@@ -3695,6 +4609,7 @@
                 gcStartListening();
                 gcShowScreen('chat');
                 gcRequestNotifPermission();
+                gcListenTyping();
             } else {
                 gcShowScreen('entry');
             }
@@ -3705,25 +4620,99 @@
     <footer style="background:#1a1410; border-top:1px solid #2a2520; padding:2rem 1rem; text-align:center; margin-top:1rem;">
         <p style="color:#6a5a4a; font-size:0.78rem; margin-bottom:1rem; letter-spacing:1px; text-transform:uppercase;">Follow AHOF</p>
         <div class="social-links" style="justify-content:center;">
-            <a href="https://www.instagram.com/ahof_official" target="_blank" title="Instagram">
+            <a href="https://www.instagram.com/ahof_official" target="_blank" title="Instagram" aria-label="Follow AHOF on Instagram" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </a>
-            <a href="https://x.com/AHOF_official" target="_blank" title="X (Twitter)">
+            <a href="https://x.com/AHOF_official" target="_blank" title="X (Twitter)" aria-label="Follow AHOF on X" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.737-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
-            <a href="https://www.tiktok.com/@ahof_official" target="_blank" title="TikTok">
+            <a href="https://www.tiktok.com/@ahof_official" target="_blank" title="TikTok" aria-label="Follow AHOF on TikTok" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.54V6.75a4.85 4.85 0 01-1.07-.06z"/></svg>
             </a>
-            <a href="https://www.facebook.com/AHOF.offcl" target="_blank" title="Facebook">
+            <a href="https://www.facebook.com/AHOF.offcl" target="_blank" title="Facebook" aria-label="Follow AHOF on Facebook" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
-            <a href="https://weverse.io/ahof" target="_blank" title="Weverse">
+            <a href="https://weverse.io/ahof" target="_blank" title="Weverse" aria-label="Follow AHOF on Weverse" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.173l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.386z"/></svg>
             </a>
-            <a href="https://m.weibo.cn/u/7922989043" target="_blank" title="Weibo">
+            <a href="https://m.weibo.cn/u/7922989043" target="_blank" title="Weibo" aria-label="Follow AHOF on Weibo" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.098 20.323c-3.977.416-7.408-1.554-7.67-4.402-.259-2.849 2.759-5.464 6.74-5.879 3.979-.417 7.408 1.553 7.67 4.402.26 2.848-2.759 5.462-6.74 5.879zm8.43-11.485c-.34-.12-.577-.2-.397-.722.39-1.101.43-2.049.007-2.73-.789-1.27-2.951-1.205-5.43-.034 0 0-.777.34-.578-.276.38-1.225.323-2.25-.27-2.843-1.318-1.318-4.826.048-7.839 3.061C2.227 7.1.731 9.546.731 11.75c0 4.258 5.462 6.849 10.812 6.849 7.006 0 11.672-4.076 11.672-7.308 0-1.951-1.644-3.057-4.687-2.453zm-1.843 8.173c-.548 1.225-1.971 2.069-3.57 2.069-1.599 0-3.022-.844-3.57-2.069-.254-.567-.278-1.191-.064-1.744.214-.553.664-1.009 1.274-1.286.61-.277 1.27-.327 1.872-.144.303.092.566.249.761.451.195.202.322.451.373.715.051.264.03.534-.061.789-.091.255-.257.479-.481.641-.224.162-.487.254-.764.264-.277.01-.549-.065-.779-.213.138.318.394.565.718.7.325.135.683.147 1.011.033.329-.114.607-.338.782-.632.175-.294.238-.642.177-.98-.061-.338-.245-.643-.516-.856-.271-.213-.601-.32-.941-.305-.34.015-.667.152-.917.382-.25.23-.418.541-.473.879-.055.338.002.683.163.975.161.292.412.524.712.657.3.133.63.16.942.077.312-.083.588-.268.78-.527.192-.259.292-.576.286-.9.117.206.18.44.18.678 0 .738-.562 1.338-1.254 1.338-.692 0-1.254-.6-1.254-1.338 0-.156.028-.307.079-.447z"/></svg>
             </a>
         </div>
+        <!-- Rules & Privacy accordion in footer -->
+        <div style="max-width:700px;margin:1.8rem auto 0;text-align:left;border-top:1px solid #2a2520;padding-top:1.2rem;">
+
+            <!-- Rules accordion -->
+            <details style="margin-bottom:0.4rem;">
+                <summary style="cursor:pointer;font-size:0.75rem;color:#6a5a4a;letter-spacing:1px;text-transform:uppercase;list-style:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:0.5rem 0;user-select:none;">
+                    <span>📋 Rules &amp; Regulations</span> <span style="font-size:0.6rem;opacity:0.6;">▼</span>
+                </summary>
+                <div style="padding:1.2rem;background:#1a1610;border:1px solid #2a2520;border-radius:10px;margin-top:0.5rem;font-size:0.82rem;color:#b0a090;line-height:1.8;">
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">🌟 General Conduct</p>
+                    <ul style="margin-left:1.2rem;margin-bottom:0.8rem;">
+                        <li>Be respectful to all members, visitors, and AHOF at all times.</li>
+                        <li>No harassment, bullying, hate speech, or discrimination of any kind.</li>
+                        <li>Do not spread false information or unverified rumors about AHOF or other artists.</li>
+                        <li>Do not impersonate AHOF members, FNF Entertainment staff, or other community members.</li>
+                    </ul>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">📝 Content Submission</p>
+                    <ul style="margin-left:1.2rem;margin-bottom:0.8rem;">
+                        <li>Only submit AHOF-related content. No spam, duplicates, or irrelevant links.</li>
+                        <li>No inappropriate, offensive, sexually explicit, or violent content.</li>
+                        <li>Fan art must be original or properly credited. Do not claim others' artwork.</li>
+                        <li>Music links must point to legitimate streaming platforms only — no piracy.</li>
+                        <li>Voting proofs and articles must be genuine. No fabricated screenshots or fake articles.</li>
+                        <li>Admins may remove any content that violates these rules without prior notice.</li>
+                    </ul>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">💬 Group Chat (GC)</p>
+                    <ul style="margin-left:1.2rem;margin-bottom:0.8rem;">
+                        <li>GC is members only — do not share the access code publicly.</li>
+                        <li>No spamming, flooding, or sharing personal information of others in the GC.</li>
+                        <li>No self-promotion or unrelated links.</li>
+                        <li>Treat all members with kindness. Targeted harassment will result in immediate removal.</li>
+                        <li>Admins may delete any message and revoke access for repeated rule violations.</li>
+                    </ul>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">🗳️ Voting &amp; Collaboration</p>
+                    <ul style="margin-left:1.2rem;margin-bottom:0.8rem;">
+                        <li>No bots, macros, or automated tools for voting — this violates voting platform terms.</li>
+                        <li>Respect partner fandoms. No fandom wars while representing AHOF in voting activities.</li>
+                        <li>Only submit genuine voting screenshots — manipulated proofs are not allowed.</li>
+                    </ul>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">⚠️ Disclaimer</p>
+                    <ul style="margin-left:1.2rem;">
+                        <li>This is an <strong>unofficial</strong> fan community site — not affiliated with AHOF, FNF Entertainment, or Universe League.</li>
+                        <li>All AHOF-related content, images, and trademarks belong to their respective owners.</li>
+                        <li>By using this site, you accept full responsibility for your own submissions and interactions.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <!-- Privacy accordion -->
+            <details style="margin-bottom:0.4rem;">
+                <summary style="cursor:pointer;font-size:0.75rem;color:#6a5a4a;letter-spacing:1px;text-transform:uppercase;list-style:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:0.5rem 0;border-top:1px solid #2a2520;user-select:none;">
+                    <span>🔐 Privacy Policy</span> <span style="font-size:0.6rem;opacity:0.6;">▼</span>
+                </summary>
+                <div style="padding:1.2rem;background:#1a1610;border:1px solid #2a2520;border-radius:10px;margin-top:0.5rem;font-size:0.82rem;color:#b0a090;line-height:1.8;">
+                    <p style="margin-bottom:0.7rem;">This is an unofficial AHOF fan community site. We collect only the information you voluntarily provide: your display name, a randomly generated device UID (stored locally on your browser), submitted content (posts, fan art, voting proofs, collaborations, music links, articles, GC messages and reactions), and community poll votes. We do <strong style="color:#c8b89a;">not</strong> collect email addresses, phone numbers, or payment details.</p>
+
+                    <p style="margin-bottom:0.5rem;"><strong style="color:#c8b89a;">Group Chat:</strong> Your GC username is permanently locked to your device. Messages, reactions, profiles, typing status, and presence data are stored in Firebase and visible to all GC members with the access code. Typing status is temporary and cleared automatically when you send or stop typing.</p>
+
+                    <p style="margin-bottom:0.5rem;"><strong style="color:#c8b89a;">Public content:</strong> Posts, achievements, voting proofs, fan art, voting collaborations, music links, and brand reputation articles are visible to all site visitors.</p>
+
+                    <p style="margin-bottom:0.5rem;"><strong style="color:#c8b89a;">Third-party services:</strong> Google Firebase (database &amp; storage) and Cloudinary (image hosting). External links to social media, streaming platforms, and news sources submitted by members are governed by each platform's own privacy policy.</p>
+
+                    <p style="margin-bottom:0.5rem;"><strong style="color:#c8b89a;">Your rights:</strong> You may request access to, correction of, or deletion of your data by contacting site administrators through our official social media channels.</p>
+
+                    <p style="font-size:0.75rem;color:#5a4a3a;margin-top:0.8rem;">Last updated: February 2026 · Aligned with GDPR (EU), CCPA/CPRA (California), and global privacy standards applicable as of 2026.</p>
+                </div>
+            </details>
+        </div>
+
         <p style="color:#3a3028; font-size:0.72rem; margin-top:1.2rem;">© 2025 AHOF Fan Community</p>
     </footer>
 
