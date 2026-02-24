@@ -1762,27 +1762,36 @@
                     <p><strong style="color: #c8b89a;">The group consists of:</strong></p>
                     <p style="font-size: 0.85rem; color: #7a706a; font-style: italic;">Tap on a card to flip and see the photo!</p>
 
-                    <!-- Countdown Timer -->
+                    <!-- Dynamic Events Countdown -->
                     <div class="countdown-section fade-in-up" id="countdownWidget" style="margin-bottom:1.2rem;">
                         <div class="countdown-title">⏳ Next AHOF Event</div>
-                        <div class="countdown-event-name" id="countdownEventName">AHOF Official Debut — July 1, 2025</div>
+                        <div class="countdown-event-name" id="countdownEventName">Loading...</div>
                         <div class="countdown-boxes">
-                            <div class="countdown-box">
-                                <span class="countdown-num" id="cdDays">--</span>
-                                <span class="countdown-label">Days</span>
-                            </div>
-                            <div class="countdown-box">
-                                <span class="countdown-num" id="cdHours">--</span>
-                                <span class="countdown-label">Hours</span>
-                            </div>
-                            <div class="countdown-box">
-                                <span class="countdown-num" id="cdMins">--</span>
-                                <span class="countdown-label">Mins</span>
-                            </div>
-                            <div class="countdown-box">
-                                <span class="countdown-num" id="cdSecs">--</span>
-                                <span class="countdown-label">Secs</span>
-                            </div>
+                            <div class="countdown-box"><span class="countdown-num" id="cdDays">--</span><span class="countdown-label">Days</span></div>
+                            <div class="countdown-box"><span class="countdown-num" id="cdHours">--</span><span class="countdown-label">Hours</span></div>
+                            <div class="countdown-box"><span class="countdown-num" id="cdMins">--</span><span class="countdown-label">Mins</span></div>
+                            <div class="countdown-box"><span class="countdown-num" id="cdSecs">--</span><span class="countdown-label">Secs</span></div>
+                        </div>
+                        <!-- Upcoming events list (shows after countdown) -->
+                        <div id="upcomingEventsList" style="margin-top:0.8rem;"></div>
+                        <!-- Admin: add event form (hidden for non-admins) -->
+                        <div id="adminEventForm" style="display:none;margin-top:1rem;border-top:1px solid #3a3028;padding-top:1rem;">
+                            <div style="font-size:0.75rem;color:#c8b89a;font-weight:700;margin-bottom:0.6rem;text-align:left;">➕ Add Event (Admin)</div>
+                            <input type="text" id="evtName" placeholder="Event name (e.g. Music Bank Stage)" maxlength="100"
+                                style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
+                            <input type="datetime-local" id="evtDate"
+                                style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
+                            <select id="evtType" style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
+                                <option value="📺">📺 TV Show</option>
+                                <option value="🎤">🎤 Concert / Stage</option>
+                                <option value="💿">💿 Release</option>
+                                <option value="🎉">🎉 Anniversary / Birthday</option>
+                                <option value="🌍">🌍 Fan Meeting</option>
+                                <option value="🏆">🏆 Award Show</option>
+                                <option value="📸">📸 Fansign / Event</option>
+                                <option value="📅">📅 Other</option>
+                            </select>
+                            <button onclick="addAhofEvent()" style="width:100%;background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;padding:0.5rem;color:#1a1410;font-weight:700;font-size:0.85rem;cursor:pointer;">➕ Add Event</button>
                         </div>
                     </div>
 
@@ -3234,6 +3243,7 @@
             "collabs":      { ".read": true, ".write": true },
             "musicLinks":   { ".read": true, ".write": true },
             "articles":     { ".read": true, ".write": true },
+            "ahofEvents":   { ".read": true, ".write": true },
             "community":    { ".read": true, ".write": true }
           }
         }
@@ -4152,19 +4162,31 @@
             else backTopBtn.classList.remove('visible');
         });
 
-        // ── Countdown Timer ───────────────────────────────────────────────────
-        function updateCountdown() {
-            // AHOF debut date — update this to next real event
-            const target = new Date('2025-07-01T00:00:00+09:00');
-            const now = new Date();
-            let diff = target - now;
+        // ── Dynamic Events & Countdown ────────────────────────────────────────
+        let _countdownTarget = null;
+        let _countdownInterval = null;
 
-            const eventName = document.getElementById('countdownEventName');
+        function updateCountdown() {
+            const now = new Date();
+            const eventNameEl = document.getElementById('countdownEventName');
+            const cdWidget    = document.getElementById('countdownWidget');
+
+            if (!_countdownTarget) {
+                // Fallback: AHOF 1st Anniversary
+                _countdownTarget = { name: '🎉 AHOF 1st Anniversary', date: new Date('2026-07-01T00:00:00+09:00') };
+            }
+
+            let diff = _countdownTarget.date - now;
+            if (eventNameEl) eventNameEl.textContent = _countdownTarget.name;
+
             if (diff <= 0) {
-                // Debut already happened — show anniversary countdown for next year
-                const nextAnniv = new Date('2026-07-01T00:00:00+09:00');
-                diff = nextAnniv - now;
-                if (eventName) eventName.textContent = '🎉 AHOF 1st Anniversary — July 1, 2026';
+                // Event has passed — show "Event Today! 🎉" or 0s
+                document.getElementById('cdDays').textContent  = '00';
+                document.getElementById('cdHours').textContent = '00';
+                document.getElementById('cdMins').textContent  = '00';
+                document.getElementById('cdSecs').textContent  = '00';
+                if (eventNameEl) eventNameEl.textContent = '🎉 ' + _countdownTarget.name + ' — Today!';
+                return;
             }
 
             const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -4177,8 +4199,99 @@
             document.getElementById('cdMins').textContent  = String(mins).padStart(2,'0');
             document.getElementById('cdSecs').textContent  = String(secs).padStart(2,'0');
         }
+
+        function loadAhofEvents() {
+            const ref = firebase.database().ref('ahofEvents');
+            ref.on('value', snap => {
+                const data = snap.val() || {};
+                const now  = new Date();
+                const events = Object.entries(data)
+                    .map(([k, v]) => ({ id: k, ...v, dateObj: new Date(v.date) }))
+                    .filter(e => e.dateObj > now)
+                    .sort((a, b) => a.dateObj - b.dateObj);
+
+                // Set countdown to the soonest upcoming event
+                if (events.length > 0) {
+                    _countdownTarget = { name: events[0].icon + ' ' + events[0].name, date: events[0].dateObj };
+                } else {
+                    // Fallback to anniversary
+                    _countdownTarget = { name: '🎉 AHOF 1st Anniversary', date: new Date('2026-07-01T00:00:00+09:00') };
+                }
+                updateCountdown();
+
+                // Render other upcoming events list (skip the first one shown in countdown)
+                const listEl = document.getElementById('upcomingEventsList');
+                if (!listEl) return;
+                const otherEvents = events.slice(1);
+
+                if (otherEvents.length === 0) {
+                    listEl.innerHTML = events.length > 0
+                        ? '<p style="font-size:0.75rem;color:#7a706a;text-align:center;margin:0.4rem 0 0;">No other upcoming events.</p>'
+                        : '';
+                    return;
+                }
+
+                listEl.innerHTML = `
+                    <div style="font-size:0.7rem;color:#c8b89a;font-weight:700;text-align:left;margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.05em;">📅 Other Upcoming Events</div>
+                    ${otherEvents.map(e => {
+                        const d = e.dateObj;
+                        const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                        const timeStr = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                        const diffMs = d - now;
+                        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                        const diffLabel = diffDays === 0 ? 'Today' : diffDays === 1 ? 'Tomorrow' : `In ${diffDays} days`;
+                        return `
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.45rem 0.6rem;margin-bottom:0.3rem;background:#1a1a14;border-radius:8px;border-left:3px solid #c8b89a;">
+                            <div style="text-align:left;">
+                                <div style="font-size:0.78rem;color:#e8ddd0;font-weight:600;">${e.icon} ${e.name}</div>
+                                <div style="font-size:0.68rem;color:#7a706a;">${dateStr} · ${timeStr}</div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:0.4rem;">
+                                <span style="font-size:0.65rem;background:#2a231e;color:#c8b89a;border-radius:6px;padding:0.15rem 0.4rem;white-space:nowrap;">${diffLabel}</span>
+                                ${isAdmin() ? `<button onclick="deleteAhofEvent('${e.id}')" style="background:none;border:none;color:#7a706a;cursor:pointer;font-size:0.7rem;padding:0.1rem 0.3rem;" title="Delete">🗑</button>` : ''}
+                            </div>
+                        </div>`;
+                    }).join('')}`;
+            });
+
+            // Show admin form if admin
+            const adminForm = document.getElementById('adminEventForm');
+            if (adminForm && isAdmin()) adminForm.style.display = 'block';
+        }
+
+        async function addAhofEvent() {
+            if (!isAdmin()) { alert('Admins only!'); return; }
+            const name = document.getElementById('evtName').value.trim();
+            const date = document.getElementById('evtDate').value;
+            const icon = document.getElementById('evtType').value;
+            if (!name || !date) { alert('Please fill in event name and date.'); return; }
+
+            const isoDate = new Date(date).toISOString();
+            try {
+                await firebase.database().ref('ahofEvents').push({ name, date: isoDate, icon, createdAt: Date.now() });
+                document.getElementById('evtName').value = '';
+                document.getElementById('evtDate').value = '';
+                showToast('✅ Event added!');
+            } catch (err) {
+                alert('Error adding event:\n' + err.message);
+            }
+        }
+
+        async function deleteAhofEvent(id) {
+            if (!isAdmin()) return;
+            if (!confirm('Delete this event?')) return;
+            try {
+                await firebase.database().ref('ahofEvents/' + id).remove();
+                showToast('🗑 Event deleted.');
+            } catch (err) {
+                alert('Error deleting event:\n' + err.message);
+            }
+        }
+
+        // Start countdown interval & load from Firebase
+        _countdownInterval = setInterval(updateCountdown, 1000);
         updateCountdown();
-        setInterval(updateCountdown, 1000);
+        loadAhofEvents();
 
         // ── Community Poll ────────────────────────────────────────────────────
         const POLL_MEMBERS = ['JL', 'DAISUKE', 'SHUAIBO', 'CHIH-EN', 'JUWON', 'STEVEN', 'PARK HAN', 'WOONGKI', 'JEONGWOO'];
