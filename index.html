@@ -1791,13 +1791,6 @@
         }
 
         /* ── Poll / Voting widget ── */
-        .poll-widget {
-            background: #1e1a14;
-            border: 1px solid #3a3028;
-            border-radius: 14px;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-        }
         .poll-question {
             font-size: 0.95rem;
             font-weight: 700;
@@ -1817,13 +1810,6 @@
         }
         .poll-option:hover { border-color: #c8b89a; }
         .poll-option.voted { border-color: #c8b89a; }
-        .poll-bar {
-            position: absolute;
-            top: 0; left: 0; bottom: 0;
-            background: rgba(200,184,154,0.12);
-            border-radius: 10px;
-            transition: width 0.6s ease;
-        }
         .poll-option-label {
             position: relative;
             z-index: 1;
@@ -1838,13 +1824,6 @@
             color: #9a8878;
             font-weight: 700;
         }
-        .poll-total {
-            font-size: 0.72rem;
-            color: #5a4a3a;
-            margin-top: 0.5rem;
-            text-align: right;
-        }
-
         /* ── Fan Art Gallery ── */
         .fanart-heading {
             display: flex;
@@ -2059,14 +2038,6 @@
             border: 1px solid rgba(200,184,154,0.22) !important;
             box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
         }
-        .poll-widget {
-            background: rgba(30,26,20,0.65) !important;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(200,184,154,0.12) !important;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-        }
-
         /* ══════════════════════════════════════════════
            IMPROVEMENT 3 — SHIMMER SKELETON LOADERS
         ══════════════════════════════════════════════ */
@@ -2440,12 +2411,6 @@
                         </div>
                     </div>
 
-                    <!-- Community Poll -->
-                    <div class="poll-widget fade-in-up">
-                        <div class="poll-question">🗳️ Who is your favorite AHOF member?</div>
-                        <div id="pollOptions"></div>
-                        <div class="poll-total" id="pollTotal">0 votes</div>
-                    </div>
                     <div class="member-info-container">
                         <div class="member-cards-wrapper">
                             <div class="members-grid">
@@ -4933,64 +4898,6 @@
         _countdownInterval = setInterval(updateCountdown, 1000);
         updateCountdown();
         loadAhofEvents();
-
-        // ── Community Poll ────────────────────────────────────────────────────
-        const POLL_MEMBERS = ['JL', 'DAISUKE', 'SHUAIBO', 'CHIH-EN', 'JUWON', 'STEVEN', 'PARK HAN', 'WOONGKI', 'JEONGWOO'];
-        const POLL_KEY = 'ahof-poll-vote-v1';
-        const POLL_DB_REF = 'community/poll/fave_member';
-
-        function renderPoll(votes, myVote) {
-            const total = Object.values(votes).reduce((a,b) => a+b, 0);
-            const container = document.getElementById('pollOptions');
-            if (!container) return;
-
-            container.innerHTML = POLL_MEMBERS.map(m => {
-                const count = votes[m] || 0;
-                const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-                const isVoted = myVote === m;
-                return `<div class="poll-option${isVoted ? ' voted' : ''}" onclick="castVote('${m}')" role="button" tabindex="0" aria-label="Vote for ${m}">
-                    <div class="poll-bar" style="width:${pct}%"></div>
-                    <div class="poll-option-label">
-                        <span>${m}${isVoted ? ' ✓' : ''}</span>
-                        <span class="poll-pct">${pct}%</span>
-                    </div>
-                </div>`;
-            }).join('');
-
-            const totalEl = document.getElementById('pollTotal');
-            if (totalEl) totalEl.textContent = `${total.toLocaleString()} vote${total !== 1 ? 's' : ''}`;
-        }
-
-        let _pollVotes = {};
-        let _myVote = localStorage.getItem(POLL_KEY);
-
-        // Listen for real-time poll updates from Firebase
-        onValue(ref(database, POLL_DB_REF), (snap) => {
-            _pollVotes = snap.val() || {};
-            renderPoll(_pollVotes, _myVote);
-        });
-
-        window.castVote = async (member) => {
-            const prev = localStorage.getItem(POLL_KEY);
-            if (prev === member) return; // already voted for same
-            
-            try {
-                if (prev) {
-                    // Remove old vote
-                    await update(ref(database, POLL_DB_REF), {
-                        [prev]: Math.max(0, (_pollVotes[prev] || 0) - 1)
-                    });
-                }
-                await update(ref(database, POLL_DB_REF), {
-                    [member]: (_pollVotes[member] || 0) + 1
-                });
-                localStorage.setItem(POLL_KEY, member);
-                _myVote = member;
-                showToast('Voted for ' + member + '! 💫', 'success');
-            } catch(e) {
-                showToast('Vote failed — try again', 'error');
-            }
-        };
 
         // ── Fan Art Gallery ───────────────────────────────────────────────────
         function loadFanArt() {
