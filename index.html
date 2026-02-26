@@ -2494,7 +2494,7 @@
                         <label for="spotifyPlatform">Platform</label>
                         <select id="spotifyPlatform" required style="width:100%;padding:0.65rem 0.9rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.95rem;">
                             <option value="">-- Select Platform --</option>
-                            <option value="Spotify">🟢 Spotify</option>
+                            <option value="Spotify">🎵 Spotify</option>
                             <option value="YouTube">🔴 YouTube</option>
                             <option value="YouTube Music">🔴 YouTube Music</option>
                             <option value="Melon">🍈 Melon</option>
@@ -2508,7 +2508,7 @@
                     </div>
                     <div class="form-group">
                         <label for="spotifyLink">Link</label>
-                        <input type="url" id="spotifyLink" placeholder="https://open.spotify.com/..." maxlength="500" required>
+                        <input type="text" id="spotifyLink" placeholder="https://open.spotify.com/..." maxlength="500" required>
                     </div>
                     <div class="form-group">
                         <label for="spotifyNote">Notes <span style="color:#7a706a;font-weight:normal;">(optional — e.g. please stream 30+ seconds!)</span></label>
@@ -2516,6 +2516,10 @@
                     </div>
                     <button type="submit" id="spotifySubmitBtn">🎵 Add Music Link</button>
                 </form>
+
+                <div id="musicFolderNav" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem;">
+                    <button class="folder-tab active" onclick="showMusicFolder('all', this)">📂 All</button>
+                </div>
 
                 <div id="spotifyContainer">
                     <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
@@ -4938,41 +4942,79 @@
         };
 
         // ══════════════════════════════════════════════════════════════════════
-        //  SPOTIFY / MUSIC LINKS
+        //  SPOTIFY / MUSIC LINKS  (folder system — per platform)
         // ══════════════════════════════════════════════════════════════════════
         const PLATFORM_ICONS = {
-            'Spotify': '🟢', 'YouTube': '🔴', 'YouTube Music': '🔴',
+            'Spotify': '🎵', 'YouTube': '🔴', 'YouTube Music': '🔴',
             'Melon': '🍈', 'Genie': '🎸', 'FLO': '🎧', 'Bugs': '🐛',
             'Apple Music': '🍎', 'Weverse': '🌿', 'Other': '🔗'
         };
 
-        function loadSpotifyLinks() {
-            onValue(ref(database, 'musicLinks'), (snap) => {
-                const container = document.getElementById('spotifyContainer');
-                if (!container) return;
-                const items = [];
-                snap.forEach(child => items.push({ id: child.key, ...child.val() }));
-                items.sort((a,b) => b.timestamp - a.timestamp);
+        let _allMusicLinks     = [];
+        let _activeMusicFolder = 'all';
 
-                if (items.length === 0) {
-                    container.innerHTML = '<p style="text-align:center;color:#7a706a;padding:1rem;">No music links yet — add AHOF\'s songs to stream!</p>';
-                    return;
-                }
-                container.innerHTML = items.map(item => `
-                    <div class="spotify-card" id="music-${sanitize(item.id)}">
-                        <div class="card-title">${PLATFORM_ICONS[item.platform] || '🎵'} ${sanitize(item.title)}</div>
-                        <div class="card-meta">
-                            <span class="card-badge">${sanitize(item.platform)}</span>
-                            <span>Added by ${sanitize(item.author)} · ${new Date(item.timestamp).toLocaleDateString()}</span>
-                        </div>
-                        ${item.note ? `<div class="card-note">${sanitize(item.note)}</div>` : ''}
-                        <a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="card-link">▶ Stream Now</a>
-                        ${(item.sessionKey === getSessionKey() || isAdmin()) ? `
-                        <div style="margin-top:0.6rem;display:flex;gap:6px;">
-                            <button onclick="deleteMusicLink('${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
-                        </div>` : ''}
+        window.showMusicFolder = (platform, el) => {
+            _activeMusicFolder = platform;
+            document.querySelectorAll('#musicFolderNav .folder-tab').forEach(t => t.classList.remove('active'));
+            if (el) el.classList.add('active');
+            renderMusicLinks();
+        };
+
+        function renderMusicLinks() {
+            const container = document.getElementById('spotifyContainer');
+            if (!container) return;
+            const filtered = _activeMusicFolder === 'all'
+                ? _allMusicLinks
+                : _allMusicLinks.filter(m => m.platform === _activeMusicFolder);
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:#7a706a;padding:1rem 0;">No music links in this folder yet.</p>';
+                return;
+            }
+            container.innerHTML = filtered.map(item => `
+                <div class="spotify-card" id="music-${sanitize(item.id)}">
+                    <div class="card-title">${PLATFORM_ICONS[item.platform] || '🎵'} ${sanitize(item.title)}</div>
+                    <div class="card-meta">
+                        <span class="card-badge">${sanitize(item.platform)}</span>
+                        <span>Added by ${sanitize(item.author)} · ${new Date(item.timestamp).toLocaleDateString()}</span>
                     </div>
-                `).join('');
+                    ${item.note ? `<div class="card-note">${sanitize(item.note)}</div>` : ''}
+                    <a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="card-link">▶ Stream Now</a>
+                    <div style="margin-top:0.6rem;display:flex;gap:6px;">
+                        <button onclick="deleteMusicLink('${sanitize(item._platformKey)}','${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function buildMusicFolderTabs(platformsWithData) {
+            const nav = document.getElementById('musicFolderNav');
+            if (!nav) return;
+            nav.innerHTML = `<button class="folder-tab ${_activeMusicFolder === 'all' ? 'active' : ''}" onclick="showMusicFolder('all', this)">📂 All (${_allMusicLinks.length})</button>`;
+            platformsWithData.forEach(({ platform, count }) => {
+                const isActive = _activeMusicFolder === platform ? 'active' : '';
+                const icon = PLATFORM_ICONS[platform] || '🎵';
+                nav.innerHTML += `<button class="folder-tab ${isActive}" onclick="showMusicFolder('${platform.replace(/'/g,"\\'")}', this)">${icon} ${platform} <span style="opacity:0.7;font-size:0.75rem;">(${count})</span></button>`;
+            });
+        }
+
+        function loadSpotifyLinks() {
+            onValue(ref(database, 'musicLinks'), (snapshot) => {
+                _allMusicLinks = [];
+                const platformCounts = {};
+                snapshot.forEach((platformSnap) => {
+                    const platformKey = platformSnap.key;
+                    platformSnap.forEach((child) => {
+                        const item = { id: child.key, _platformKey: platformKey, ...child.val() };
+                        _allMusicLinks.push(item);
+                        platformCounts[item.platform] = (platformCounts[item.platform] || 0) + 1;
+                    });
+                });
+                _allMusicLinks.sort((a, b) => b.timestamp - a.timestamp);
+                const platformsWithData = Object.entries(platformCounts)
+                    .map(([platform, count]) => ({ platform, count }))
+                    .sort((a, b) => b.count - a.count);
+                buildMusicFolderTabs(platformsWithData);
+                renderMusicLinks();
             });
         }
 
@@ -4986,26 +5028,35 @@
             const btn = document.getElementById('spotifySubmitBtn');
             btn.disabled = true; btn.textContent = 'Adding...';
             try {
-                const result = await push(ref(database, 'musicLinks'), {
+                const platformKey = platform.replace(/[^a-zA-Z0-9]/g, '_');
+                await push(ref(database, 'musicLinks/' + platformKey), {
                     title, platform, link, note,
                     author: getUserName() || 'Anonymous',
                     sessionKey: getSessionKey(),
                     timestamp: Date.now()
                 });
-                if (!result.key) throw new Error('No key returned from Firebase.');
-                e.target.reset();
+                document.getElementById('spotifyTitle').value = '';
+                document.getElementById('spotifyPlatform').value = '';
+                document.getElementById('spotifyLink').value = '';
+                document.getElementById('spotifyNote').value = '';
                 showToast('Music link added! 🎵', 'success');
-            } catch(err) {
+            } catch (err) {
+                console.error('Music link error:', err);
                 alert('Error saving music link:\n' + err.message);
             } finally {
                 btn.disabled = false; btn.textContent = '🎵 Add Music Link';
             }
         });
 
-        window.deleteMusicLink = async (id) => {
+        window.deleteMusicLink = async (platformKey, id) => {
             if (!confirm('Delete this music link?')) return;
-            try { await remove(ref(database, 'musicLinks/' + id)); }
-            catch(e) { alert('Error: ' + e.message); }
+            try {
+                await remove(ref(database, 'musicLinks/' + platformKey + '/' + id));
+                showToast('Deleted! 🗑️', 'success');
+            } catch (err) {
+                console.error('deleteMusicLink error:', err);
+                alert('Error deleting:\n' + err.message);
+            }
         };
 
         // ══════════════════════════════════════════════════════════════════════
