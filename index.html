@@ -1362,6 +1362,261 @@
             display: flex; align-items: center; justify-content: center;
         }
         
+        /* ══════════════════════════════════════════════
+           ANNOUNCEMENT BANNER
+        ══════════════════════════════════════════════ */
+        #announcementBanner {
+            display: none;
+            position: relative;
+            background: linear-gradient(135deg, #1a1208 0%, #2a1e10 50%, #1a1208 100%);
+            border-bottom: 1px solid rgba(212,170,120,0.3);
+            padding: 10px 48px 10px 20px;
+            z-index: 900;
+            animation: bannerSlideDown 0.4s ease;
+        }
+        @keyframes bannerSlideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+        #announcementBanner.visible { display: block; }
+        .banner-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #d4aa78;
+        }
+        .banner-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+            animation: bellShake 2s ease infinite;
+        }
+        @keyframes bellShake {
+            0%,90%,100% { transform: rotate(0); }
+            92% { transform: rotate(-12deg); }
+            96% { transform: rotate(12deg); }
+        }
+        .banner-text { flex: 1; color: #e8c99a; line-height: 1.4; }
+        #bannerDismiss {
+            position: absolute;
+            top: 50%; right: 14px;
+            transform: translateY(-50%);
+            background: none; border: none;
+            color: rgba(212,170,120,0.5);
+            font-size: 1rem; cursor: pointer;
+            line-height: 1; padding: 4px;
+            transition: color 0.2s;
+        }
+        #bannerDismiss:hover { color: #d4aa78; }
+        /* Admin banner editor */
+        #bannerEditor {
+            display: none;
+            background: rgba(26,20,10,0.95);
+            border: 1px solid rgba(212,170,120,0.25);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+        #bannerEditor.open { display: block; }
+
+        /* ══════════════════════════════════════════════
+           POLL WIDGET
+        ══════════════════════════════════════════════ */
+        .poll-card {
+            background: rgba(26,20,10,0.8);
+            border: 1px solid rgba(212,170,120,0.15);
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+        .poll-question {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e8c99a;
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
+        .poll-option {
+            position: relative;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .poll-option-bar {
+            position: absolute;
+            top: 0; left: 0; height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, rgba(212,170,120,0.2), rgba(212,170,120,0.1));
+            transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+            z-index: 0;
+        }
+        .poll-option-bar.winner {
+            background: linear-gradient(90deg, rgba(212,170,120,0.35), rgba(212,170,120,0.15));
+        }
+        .poll-option-label {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 12px;
+            border: 1px solid #3a3028;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            color: #c8b89a;
+            transition: border-color 0.2s;
+        }
+        .poll-option:hover .poll-option-label { border-color: #c8b89a; }
+        .poll-option.voted .poll-option-label { border-color: rgba(212,170,120,0.5); color: #e8c99a; }
+        .poll-pct { font-size: 0.75rem; color: #9a8878; font-weight: 700; min-width: 36px; text-align: right; }
+        .poll-meta { font-size: 0.72rem; color: #5a4a3a; margin-top: 8px; }
+        .poll-create-form {
+            background: rgba(20,16,8,0.7);
+            border: 1px solid #3a3028;
+            border-radius: 12px;
+            padding: 16px 18px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .poll-create-form.open { display: block; }
+        .poll-option-input {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        #pollsContainer { margin-top: 8px; }
+
+        /* ══════════════════════════════════════════════
+           NOTIFICATION BELL
+        ══════════════════════════════════════════════ */
+        #notifBell {
+            position: fixed;
+            top: 16px;
+            right: 60px;
+            z-index: 1000;
+            background: rgba(26,22,16,0.8);
+            border: 1px solid #3a3028;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+        }
+        #notifBell:hover { transform: scale(1.1); }
+        #notifBadge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #c06888;
+            color: #fff;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid var(--midnight);
+        }
+        #notifBadge.show { display: flex; }
+        #notifPanel {
+            position: fixed;
+            top: 60px;
+            right: 14px;
+            width: 300px;
+            max-height: 360px;
+            background: #1a1610;
+            border: 1px solid #3a3028;
+            border-radius: 14px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+            z-index: 1500;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: notifPanelIn 0.2s ease;
+        }
+        @keyframes notifPanelIn {
+            from { opacity: 0; transform: translateY(-10px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        #notifPanel.open { display: flex; }
+        .notif-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid #2a2520;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .notif-header span { font-size: 0.85rem; font-weight: 700; color: #c8b89a; }
+        .notif-clear-btn {
+            background: none; border: none;
+            color: #6a5a4a; font-size: 0.72rem;
+            cursor: pointer;
+        }
+        .notif-clear-btn:hover { color: #c8b89a; }
+        #notifList {
+            overflow-y: auto;
+            flex: 1;
+        }
+        .notif-item {
+            padding: 10px 16px;
+            border-bottom: 1px solid #1a1610;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .notif-item:hover { background: rgba(255,255,255,0.04); }
+        .notif-item.unread { background: rgba(212,170,120,0.04); }
+        .notif-emoji { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+        .notif-body { flex: 1; }
+        .notif-title { font-size: 0.8rem; font-weight: 600; color: #d4cfc8; }
+        .notif-sub { font-size: 0.72rem; color: #6a5a4a; margin-top: 2px; }
+        .notif-empty { padding: 24px; text-align: center; font-size: 0.8rem; color: #5a4a3a; }
+
+        /* ══════════════════════════════════════════════
+           ENHANCED REACTIONS (emoji reactions on cards)
+        ══════════════════════════════════════════════ */
+        .reactions-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .reaction-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: 1px solid #3a3028;
+            border-radius: 20px;
+            padding: 4px 10px;
+            color: #9a8878;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            line-height: 1;
+        }
+        .reaction-btn:hover { border-color: #c8b89a; background: rgba(200,184,154,0.08); }
+        .reaction-btn.active { background: rgba(200,184,154,0.15); border-color: #c8b89a; color: #e8c99a; }
+        .reaction-count { font-weight: 700; min-width: 10px; }
+
+        /* Fan art search */
+        #fanartSearchBar {
+            display: none;
+            margin-bottom: 14px;
+        }
+        #fanartSearchBar.visible { display: flex; }
+
         /* ── Search / Filter ── */
         .search-bar {
             display: flex;
@@ -2043,6 +2298,30 @@
 
     <!-- Toast Container -->
     <div id="toastContainer"></div>
+
+    <!-- ── Announcement Banner ─────────────────────────────────── -->
+    <div id="announcementBanner">
+        <div class="banner-inner">
+            <span class="banner-icon">📣</span>
+            <span class="banner-text" id="bannerText"></span>
+        </div>
+        <button id="bannerDismiss" onclick="dismissBanner()" title="Dismiss">✕</button>
+    </div>
+
+    <!-- ── Notification Bell ───────────────────────────────────── -->
+    <button id="notifBell" onclick="toggleNotifPanel()" title="Notifications" aria-label="Notifications">
+        🔔
+        <span id="notifBadge"></span>
+    </button>
+    <div id="notifPanel">
+        <div class="notif-header">
+            <span>🔔 Notifications</span>
+            <button class="notif-clear-btn" onclick="clearNotifs()">Clear all</button>
+        </div>
+        <div id="notifList">
+            <div class="notif-empty">No new notifications</div>
+        </div>
+    </div>
     <!-- Dark/Light Mode Toggle -->
     <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle light/dark mode" aria-label="Toggle light/dark mode">🌙</button>
     <!-- Brand Name Top Left -->
@@ -2057,12 +2336,12 @@
         <button class="nav-overlay-close" onclick="closeNavOverlay()" aria-label="Close menu">✕</button>
         <a onclick="navOverlayGo('about')">About</a>
         <a onclick="navOverlayGo('fanart')">Fan Art</a>
-        <a onclick="navOverlayGo('news')">News</a>
         <a onclick="navOverlayGo('achievements')">Achievements</a>
         <a onclick="navOverlayGo('voting')">Voting Proof</a>
         <a onclick="navOverlayGo('collab')">Collabs</a>
         <a onclick="navOverlayGo('spotify')">Music Links</a>
         <a onclick="navOverlayGo('articles')">Articles</a>
+        <a onclick="navOverlayGo('polls')">Polls</a>
         <a onclick="navOverlayGo('groupchat')">GC</a>
     </div>
 
@@ -2104,12 +2383,12 @@
             <ul>
                 <li><a onclick="scrollToSection('about')" class="active">About</a></li>
                 <li><a onclick="scrollToSection('fanart')">Fan Art</a></li>
-                <li><a onclick="scrollToSection('news')">News</a></li>
                 <li><a onclick="scrollToSection('achievements')">Achievements</a></li>
                 <li><a onclick="scrollToSection('voting')">Voting Proof</a></li>
                 <li><a onclick="scrollToSection('collab')">Collabs</a></li>
                 <li><a onclick="scrollToSection('spotify')">Music</a></li>
                 <li><a onclick="scrollToSection('articles')">Articles</a></li>
+                <li><a onclick="scrollToSection('polls')">Polls</a></li>
                 <li><a onclick="scrollToSection('groupchat')">GC</a></li>
             </ul>
         </nav>
@@ -2133,26 +2412,31 @@
                             <div class="countdown-box"><span class="countdown-num" id="cdMins">--</span><span class="countdown-label">Mins</span></div>
                             <div class="countdown-box"><span class="countdown-num" id="cdSecs">--</span><span class="countdown-label">Secs</span></div>
                         </div>
-                        <!-- Upcoming events list (shows after countdown) -->
+                        <!-- Upcoming events list -->
                         <div id="upcomingEventsList" style="margin-top:0.8rem;"></div>
-                        <!-- Admin: add event form (hidden for non-admins) -->
-                        <div id="adminEventForm" style="display:none;margin-top:1rem;border-top:1px solid #3a3028;padding-top:1rem;">
-                            <div style="font-size:0.75rem;color:#c8b89a;font-weight:700;margin-bottom:0.6rem;text-align:left;">➕ Add Event (Admin)</div>
-                            <input type="text" id="evtName" placeholder="Event name (e.g. Music Bank Stage)" maxlength="100"
-                                style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
-                            <input type="datetime-local" id="evtDate"
-                                style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
-                            <select id="evtType" style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
-                                <option value="📺">📺 TV Show</option>
-                                <option value="🎤">🎤 Concert / Stage</option>
-                                <option value="💿">💿 Release</option>
-                                <option value="🎉">🎉 Anniversary / Birthday</option>
-                                <option value="🌍">🌍 Fan Meeting</option>
-                                <option value="🏆">🏆 Award Show</option>
-                                <option value="📸">📸 Fansign / Event</option>
-                                <option value="📅">📅 Other</option>
-                            </select>
-                            <button onclick="addAhofEvent()" style="width:100%;background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;padding:0.5rem;color:#1a1410;font-weight:700;font-size:0.85rem;cursor:pointer;">➕ Add Event</button>
+                        <!-- Admin: manage events (hidden for non-admins) -->
+                        <div id="adminEventForm" style="display:none;margin-top:1rem;">
+                            <button onclick="toggleAddEventForm()" style="width:100%;background:rgba(212,170,120,0.12);border:1px dashed rgba(212,170,120,0.35);border-radius:10px;color:#c8b89a;padding:0.5rem;font-size:0.82rem;cursor:pointer;margin-bottom:0.5rem;">➕ Add New Event</button>
+                            <div id="addEventFormInner" style="display:none;background:rgba(20,16,8,0.6);border:1px solid #3a3028;border-radius:10px;padding:0.8rem;margin-bottom:0.5rem;">
+                                <input type="text" id="evtName" placeholder="Event name (e.g. Music Bank Stage)" maxlength="100"
+                                    style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
+                                <input type="datetime-local" id="evtDate"
+                                    style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
+                                <select id="evtType" style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
+                                    <option value="📺">📺 TV Show</option>
+                                    <option value="🎤">🎤 Concert / Stage</option>
+                                    <option value="💿">💿 Release</option>
+                                    <option value="🎉">🎉 Anniversary / Birthday</option>
+                                    <option value="🌍">🌍 Fan Meeting</option>
+                                    <option value="🏆">🏆 Award Show</option>
+                                    <option value="📸">📸 Fansign / Event</option>
+                                    <option value="📅">📅 Other</option>
+                                </select>
+                                <div style="display:flex;gap:0.4rem;">
+                                    <button onclick="addAhofEvent()" style="flex:1;background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;padding:0.5rem;color:#1a1410;font-weight:700;font-size:0.85rem;cursor:pointer;">✅ Save Event</button>
+                                    <button onclick="toggleAddEventForm()" style="background:none;border:1px solid #3a3028;border-radius:8px;padding:0.5rem 0.8rem;color:#7a706a;font-size:0.85rem;cursor:pointer;">Cancel</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -2301,51 +2585,12 @@
                     <p style="font-size:0.8rem;color:#7a706a;">Click to choose an image</p>
                     <input type="file" id="fanartFile" accept="image/*" style="display:none;">
                 </div>
+                <!-- Search bar for fan art -->
+                <div class="search-bar" id="fanartSearchBar">
+                    <input class="search-input" id="fanartSearchInput" placeholder="🔍 Search fan art by artist..." oninput="filterFanArt(this.value)">
+                </div>
                 <div class="gallery-grid" id="fanartGallery">
                     <div class="loading"><div class="spinner"></div></div>
-                </div>
-            </section>
-
-            <section id="news">
-                <h2>News & Updates</h2>
-
-                <!-- Search bar for posts -->
-                <div class="search-bar" id="postSearchBar" style="display:none;">
-                    <input class="search-input" id="postSearchInput" placeholder="🔍 Search news & updates..." oninput="filterPosts(this.value)">
-                </div>
-
-                <div class="name-input-section">
-                    <h4>Enter your name to post:</h4>
-                    <div class="form-group">
-                        <input type="text" id="userName" placeholder="Your Name (required to post)" style="margin-bottom: 0;" oninput="this.style.borderColor=this.value.trim()?'#8a7060':'#3a3028';">
-                        <p id="userNameHint" style="display:none;color:#e8c898;font-size:0.78rem;margin-top:4px;">⚠️ Please enter your name before submitting.</p>
-                    </div>
-                </div>
-
-                <form id="postForm">
-                    <div class="form-group">
-                        <label for="postTitle">Title</label>
-                        <input type="text" id="postTitle" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="postContent">Content</label>
-                        <textarea id="postContent" rows="4" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="postImage">Attach Image <span style="color:#7a706a;font-weight:normal;">(optional)</span></label>
-                        <input type="file" id="postImage" accept="image/*" style="color:#c8b89a;">
-                        <div id="postImagePreview" style="margin-top:0.6rem;display:none;">
-                            <img id="postImageThumb" src="" alt="Preview" style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid #3a3028;">
-                            <button type="button" onclick="clearPostImage()" style="display:block;margin-top:0.4rem;background:transparent;color:#e8a898;border:none;cursor:pointer;font-size:0.85rem;">✕ Remove image</button>
-                        </div>
-                    </div>
-                    <button type="submit">Publish Post</button>
-                </form>
-                <div id="postsContainer">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <p>Loading posts...</p>
-                    </div>
                 </div>
             </section>
 
@@ -2533,9 +2778,21 @@
                 <h2>📰 Brand Reputation Articles</h2>
                 <p style="color:#7a706a;font-size:0.9rem;margin-bottom:1.5rem;">Articles, features, and press mentions that boost AHOF's brand reputation. Submit links to help the community track coverage!</p>
 
+                <!-- Admin: Pinned Announcement Banner (only visible to admins) -->
+                <div id="bannerEditorSection" style="display:none; margin-bottom:16px;">
+                    <button onclick="toggleBannerEditor()" style="background:none;border:1px solid rgba(212,170,120,0.3);border-radius:8px;color:#9a8878;padding:5px 14px;font-size:0.78rem;cursor:pointer;margin-bottom:8px;">📣 Manage Pinned Announcement</button>
+                    <div id="bannerEditor">
+                        <label style="font-size:0.78rem;color:#c8b89a;display:block;margin-bottom:6px;">📣 Pinned Announcement (visible to all visitors)</label>
+                        <textarea id="bannerInput" rows="2" maxlength="300" placeholder="Type announcement text here..." style="width:100%;background:#2a2520;border:1px solid #4a3a2a;border-radius:8px;padding:8px 12px;color:#d4cfc8;font-size:0.85rem;resize:none;font-family:inherit;box-sizing:border-box;margin-bottom:8px;"></textarea>
+                        <div style="display:flex;gap:8px;">
+                            <button onclick="pinAnnouncement()" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;color:#1a1410;font-weight:700;padding:7px 18px;font-size:0.82rem;cursor:pointer;">📌 Pin Banner</button>
+                            <button onclick="clearAnnouncement()" style="background:none;border:1px solid #4a3a2a;border-radius:8px;color:#9a8878;padding:7px 16px;font-size:0.82rem;cursor:pointer;">✕ Clear Banner</button>
+                        </div>
+                    </div>
+                </div>
+
                 <form id="articleForm" style="margin-bottom:1.5rem;">
                     <div class="form-group">
-                        <label for="articleTitle">Article Title</label>
                         <input type="text" id="articleTitle" placeholder="e.g. AHOF Debuts at #1 on Brand Reputation Chart" maxlength="200" required>
                     </div>
                     <div class="form-group">
@@ -2559,6 +2816,39 @@
 
                 <div id="articleContainer">
                     <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
+                </div>
+            </section>
+
+            <section id="polls" class="fade-in-up">
+                <h2>📊 Community Polls</h2>
+                <p style="color:#7a706a;font-size:0.9rem;margin-bottom:1.5rem;">Vote and share your opinions! Results update in real-time.</p>
+
+                <!-- Admin: Create Poll -->
+                <div id="pollAdminToggle" style="display:none; margin-bottom:12px;">
+                    <button onclick="togglePollCreateForm()" style="background:rgba(212,170,120,0.12);border:1px solid rgba(212,170,120,0.3);border-radius:10px;color:#c8b89a;padding:8px 18px;font-size:0.85rem;cursor:pointer;">＋ Create New Poll</button>
+                </div>
+                <div class="poll-create-form" id="pollCreateForm">
+                    <div class="form-group">
+                        <label>Poll Question</label>
+                        <input type="text" id="pollQuestion" placeholder="e.g. Who is your favorite AHOF member?" maxlength="200" style="width:100%;padding:9px 12px;background:#2a2520;border:1px solid #3a3028;border-radius:8px;color:#d4cfc8;font-size:0.9rem;box-sizing:border-box;">
+                    </div>
+                    <div id="pollOptionsContainer">
+                        <label style="font-size:0.82rem;color:#7a6a5a;display:block;margin-bottom:6px;">Options</label>
+                        <div class="poll-option-input">
+                            <input type="text" class="poll-opt-inp" placeholder="Option 1" maxlength="80" style="flex:1;padding:8px 12px;background:#2a2520;border:1px solid #3a3028;border-radius:8px;color:#d4cfc8;font-size:0.85rem;">
+                        </div>
+                        <div class="poll-option-input">
+                            <input type="text" class="poll-opt-inp" placeholder="Option 2" maxlength="80" style="flex:1;padding:8px 12px;background:#2a2520;border:1px solid #3a3028;border-radius:8px;color:#d4cfc8;font-size:0.85rem;">
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+                        <button onclick="addPollOption()" style="background:none;border:1px dashed #3a3028;border-radius:8px;color:#7a6a5a;padding:6px 14px;font-size:0.82rem;cursor:pointer;">+ Add option</button>
+                        <button onclick="submitPoll()" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;color:#1a1410;font-weight:700;padding:7px 20px;font-size:0.85rem;cursor:pointer;">🗳️ Create Poll</button>
+                    </div>
+                </div>
+
+                <div id="pollsContainer">
+                    <div class="loading"><div class="spinner"></div><p>Loading polls...</p></div>
                 </div>
             </section>
 
@@ -2755,28 +3045,6 @@
         }
 
         // Image preview — Posts
-        document.getElementById('postImage').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            if (file.size > 10 * 1024 * 1024) {
-                alert('Image must be under 10MB.');
-                e.target.value = '';
-                return;
-            }
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                document.getElementById('postImageThumb').src = ev.target.result;
-                document.getElementById('postImagePreview').style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        });
-
-        window.clearPostImage = () => {
-            document.getElementById('postImage').value = '';
-            document.getElementById('postImagePreview').style.display = 'none';
-            document.getElementById('postImageThumb').src = '';
-        };
-
         // Image preview — Achievements
         document.getElementById('achImage').addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -2979,8 +3247,9 @@
             }
         });
 
-        loadPosts();
-        loadAchievements();
+        // loadPosts and loadAchievements are replaced by enhanced versions
+        // loadAchievements is replaced by loadAchievementsWithReactions (defined later)
+        // They are called at the bottom of the script instead.
         loadFanArt();
         loadCollabs();
         loadSpotifyLinks();
@@ -3001,38 +3270,6 @@
             const btn = document.getElementById('adminUnlockBtn');
             if (btn) btn.textContent = '🔓';
         }
-
-        document.getElementById('postForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const title = document.getElementById('postTitle').value.trim();
-            const content = document.getElementById('postContent').value.trim();
-            if (!title || !content) return alert('Title and content are required.');
-            if (title.length > 200) return alert('Title must be 200 characters or fewer.');
-            if (content.length > 5000) return alert('Content must be 5000 characters or fewer.');
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.disabled = true;
-            btn.textContent = 'Publishing...';
-            try {
-                let imageUrl = null;
-                const imageFile = document.getElementById('postImage').files[0];
-                if (imageFile) {
-                    btn.textContent = 'Uploading image...';
-                    imageUrl = await uploadToCloudinary(imageFile);
-                }
-                await push(ref(database, 'posts'), {
-                    title,
-                    content,
-                    imageUrl,
-                    author: getUserName(),
-                    sessionKey: getSessionKey(),
-                    timestamp: Date.now()
-                });
-                document.getElementById('postForm').reset();
-                clearPostImage();
-            } catch (error) {
-                alert('Error: ' + error.message);
-            }
-        });
 
         document.getElementById('achievementForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -3071,69 +3308,14 @@
             }
         });
 
-        function loadPosts() {
-            onValue(ref(database, 'posts'), (snapshot) => {
-                const container = document.getElementById('postsContainer');
-                const posts = [];
-                snapshot.forEach((child) => {
-                    posts.push({ id: child.key, ...child.val() });
-                });
-                posts.sort((a, b) => b.timestamp - a.timestamp);
-                // Show search bar once posts exist
-                const psb = document.getElementById('postSearchBar');
-                if (psb) psb.style.display = posts.length > 2 ? 'flex' : 'none';
-                container.innerHTML = posts.length === 0 
-                    ? '<p style="text-align: center; color: #7a706a;">No posts yet</p>'
-                    : posts.map(post => `
-                        <div class="post" id="post-${sanitize(post.id)}">
-                            <h3>${sanitize(post.title)}</h3>
-                            <div class="post-date">By ${sanitize(post.author)} • ${new Date(post.timestamp).toLocaleDateString()}</div>
-                            <p style="margin-top: 0.8rem;">${sanitize(post.content)}</p>
-                            ${post.imageUrl ? `<img loading="lazy" src="${sanitize(post.imageUrl)}" alt="Post image" loading="lazy" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid #3a3028;" onclick="openModal('${sanitize(post.imageUrl)}')">` : ''}
-                            ${post.sessionKey === getSessionKey() ? `
-                            <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-                                <button onclick="editPost('${sanitize(post.id)}', this)" style="background:#3a3028;color:#c8b89a;border:1px solid #5a4a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
-                                <button onclick="deletePost('${sanitize(post.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
-                            </div>` : ''}
-                            ${lcBar('post', sanitize(post.id))}
-                        </div>
-                    `).join('');
-                // Start listeners after render
-                posts.forEach(post => {
-                    lcListenLikes('post', post.id);
-                    lcListenComments('post', post.id);
-                });
-            });
-        }
-
-        window.editPost = async (id, btn) => {
-            const postDiv = document.getElementById('post-' + id);
-            const titleEl = postDiv.querySelector('h3');
-            const contentEl = postDiv.querySelector('p');
-            const newTitle = prompt('Edit title:', titleEl.textContent);
-            if (newTitle === null) return;
-            const newContent = prompt('Edit content:', contentEl.textContent);
-            if (newContent === null) return;
-            try {
-                btn.disabled = true;
-                await update(ref(database, 'posts/' + id), { title: newTitle, content: newContent });
-            } catch (e) { alert('Error: ' + e.message); }
-            finally { btn.disabled = false; }
-        };
-
-        window.deletePost = async (id) => {
-            if (!confirm('Delete this post?')) return;
-            try {
-                await remove(ref(database, 'posts/' + id));
-            } catch (e) { alert('Error: ' + e.message); }
-        };
 
         window.promptAdminUnlock = () => {
             if (isAdmin()) {
                 localStorage.removeItem('ahof-chat-admin');
-                loadAchievements();
+                loadAchievementsWithReactions();
                 document.getElementById('adminUnlockBtn').textContent = '🔒';
                 showToast('Admin mode disabled.', 'info');
+                updateAdminVisibility();
                 return;
             }
             // Show custom admin login modal instead of browser prompt
@@ -3377,19 +3559,6 @@
             if (noRes) noRes.style.display = visible.length === 0 ? 'block' : 'none';
         };
 
-        window.filterPosts = (query) => {
-            const q = query.toLowerCase().trim();
-            document.querySelectorAll('#postsContainer .post').forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = (!q || text.includes(q)) ? '' : 'none';
-            });
-            const visible = [...document.querySelectorAll('#postsContainer .post')].filter(c => c.style.display !== 'none');
-            const noRes = document.getElementById('postNoResults');
-            if (noRes) noRes.style.display = visible.length === 0 ? 'block' : 'none';
-        };
-
-        // Show post search bar once posts load
-        const _origLoadPosts = loadPosts;
 
                 // ══════════════════════════════════════════════════════════════════════
         //  LIKE / COMMENT SYSTEM
@@ -4595,7 +4764,13 @@
             }
 
             let diff = _countdownTarget.date - now;
-            if (eventNameEl) eventNameEl.textContent = _countdownTarget.name;
+            if (eventNameEl) {
+                const delBtn = (_countdownTarget.id && isAdmin())
+                    ? ` <button onclick="deleteAhofEvent('${_countdownTarget.id}')" title="Delete this event"
+                          style="background:none;border:none;color:rgba(200,184,154,0.4);cursor:pointer;font-size:0.7rem;vertical-align:middle;padding:0 2px;" >🗑️</button>`
+                    : '';
+                eventNameEl.innerHTML = sanitize(_countdownTarget.name) + delBtn;
+            }
 
             if (diff <= 0) {
                 // Event has passed — show "Event Today! 🎉" or 0s
@@ -4627,71 +4802,120 @@
                     .filter(e => e.dateObj > now)
                     .sort((a, b) => a.dateObj - b.dateObj);
 
-                // Set countdown to the soonest upcoming event
+                // Set countdown to soonest upcoming event
                 if (events.length > 0) {
-                    _countdownTarget = { name: events[0].icon + ' ' + events[0].name, date: events[0].dateObj };
+                    _countdownTarget = { id: events[0].id, name: events[0].icon + ' ' + events[0].name, date: events[0].dateObj };
                 } else {
-                    // Fallback to anniversary
-                    _countdownTarget = { name: '🎉 AHOF 1st Anniversary', date: new Date('2026-07-01T00:00:00+09:00') };
+                    _countdownTarget = { id: null, name: '🎉 AHOF 1st Anniversary', date: new Date('2026-07-01T00:00:00+09:00') };
                 }
                 updateCountdown();
 
-                // Render other upcoming events list (skip the first one shown in countdown)
+                // Render all events list
                 const listEl = document.getElementById('upcomingEventsList');
                 if (!listEl) return;
-                const otherEvents = events.slice(1);
 
-                if (otherEvents.length === 0) {
-                    listEl.innerHTML = events.length > 0
-                        ? '<p style="font-size:0.75rem;color:#7a706a;text-align:center;margin:0.4rem 0 0;">No other upcoming events.</p>'
-                        : '';
+                if (events.length === 0) {
+                    listEl.innerHTML = '<p style="font-size:0.75rem;color:#5a4a3a;text-align:center;margin:0.6rem 0 0;">No upcoming events scheduled.</p>';
                     return;
                 }
 
-                listEl.innerHTML = `
-                    <div style="font-size:0.7rem;color:#c8b89a;font-weight:700;text-align:left;margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.05em;">📅 Other Upcoming Events</div>
-                    ${otherEvents.map(e => {
-                        const d = e.dateObj;
-                        const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                        const timeStr = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-                        const diffMs = d - now;
-                        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-                        const diffLabel = diffDays === 0 ? 'Today' : diffDays === 1 ? 'Tomorrow' : `In ${diffDays} days`;
-                        return `
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.45rem 0.6rem;margin-bottom:0.3rem;background:#1a1a14;border-radius:8px;border-left:3px solid #c8b89a;">
-                            <div style="text-align:left;">
-                                <div style="font-size:0.78rem;color:#e8ddd0;font-weight:600;">${e.icon} ${e.name}</div>
-                                <div style="font-size:0.68rem;color:#7a706a;">${dateStr} · ${timeStr}</div>
-                            </div>
-                            <div style="display:flex;align-items:center;gap:0.4rem;">
-                                <span style="font-size:0.65rem;background:#2a231e;color:#c8b89a;border-radius:6px;padding:0.15rem 0.4rem;white-space:nowrap;">${diffLabel}</span>
-                                ${isAdmin() ? `<button onclick="deleteAhofEvent('${e.id}')" style="background:none;border:none;color:#7a706a;cursor:pointer;font-size:0.7rem;padding:0.1rem 0.3rem;" title="Delete">🗑</button>` : ''}
-                            </div>
-                        </div>`;
-                    }).join('')}`;
-            });
+                // Show all events (first one is the countdown target, rest are "also upcoming")
+                listEl.innerHTML = events.map((e, idx) => {
+                    const d = e.dateObj;
+                    const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    const timeStr = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    const diffMs   = d - now;
+                    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                    const diffLabel = diffDays === 0 ? 'Today!' : diffDays === 1 ? 'Tomorrow' : `In ${diffDays} days`;
+                    const isNext = idx === 0;
+                    return `
+                    <div style="display:flex;justify-content:space-between;align-items:center;
+                        padding:0.45rem 0.6rem;margin-bottom:0.3rem;
+                        background:${isNext ? 'rgba(200,184,154,0.08)' : '#1a1a14'};
+                        border-radius:8px;
+                        border-left:3px solid ${isNext ? '#c8b89a' : '#4a3a2a'};">
+                        <div style="text-align:left;flex:1;min-width:0;">
+                            <div style="font-size:0.78rem;color:#e8ddd0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${e.icon} ${sanitize(e.name)}</div>
+                            <div style="font-size:0.68rem;color:#7a706a;">${dateStr} · ${timeStr}</div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:0.4rem;flex-shrink:0;margin-left:0.5rem;">
+                            <span style="font-size:0.65rem;background:#2a231e;color:${isNext ? '#c8b89a' : '#7a706a'};border-radius:6px;padding:0.15rem 0.4rem;white-space:nowrap;">${diffLabel}</span>
+                            ${isAdmin() ? `
+                            <button onclick="editAhofEvent('${e.id}','${sanitize(e.name).replace(/'/g,"\\'")}','${e.date}','${e.icon}')"
+                                style="background:none;border:none;color:#7a706a;cursor:pointer;font-size:0.75rem;padding:0.15rem 0.3rem;" title="Edit">✏️</button>
+                            <button onclick="deleteAhofEvent('${e.id}')"
+                                style="background:none;border:none;color:#7a706a;cursor:pointer;font-size:0.75rem;padding:0.15rem 0.3rem;" title="Delete">🗑️</button>` : ''}
+                        </div>
+                    </div>`;
+                }).join('');
 
-            // Show admin form if admin
-            const adminForm = document.getElementById('adminEventForm');
-            if (adminForm && isAdmin()) adminForm.style.display = 'block';
+                // Keep admin form visible if admin
+                const adminForm = document.getElementById('adminEventForm');
+                if (adminForm) adminForm.style.display = isAdmin() ? 'block' : 'none';
+            });
         }
 
-        window.addAhofEvent = async () => {
-            if (!isAdmin()) { alert('Admins only!'); return; }
-            const name = document.getElementById('evtName').value.trim();
-            const date = document.getElementById('evtDate').value;
-            const icon = document.getElementById('evtType').value;
-            if (!name || !date) { alert('Please fill in event name and date.'); return; }
-
-            const isoDate = new Date(date).toISOString();
-            try {
-                await push(ref(database, 'ahofEvents'), { name, date: isoDate, icon, createdAt: Date.now() });
+        window.toggleAddEventForm = () => {
+            const inner = document.getElementById('addEventFormInner');
+            if (!inner) return;
+            const isOpen = inner.style.display !== 'none';
+            inner.style.display = isOpen ? 'none' : 'block';
+            if (!isOpen) {
+                // Clear fields when opening
                 document.getElementById('evtName').value = '';
                 document.getElementById('evtDate').value = '';
-                showToast('✅ Event added!');
-            } catch (err) {
-                alert('Error adding event:\n' + err.message);
+                document.getElementById('evtType').value = '📺';
+                document.getElementById('evtName').removeAttribute('data-edit-id');
             }
+        };
+
+        window.addAhofEvent = async () => {
+            if (!isAdmin()) return showToast('Admin only!', 'error');
+            const nameEl = document.getElementById('evtName');
+            const name   = nameEl.value.trim();
+            const date   = document.getElementById('evtDate').value;
+            const icon   = document.getElementById('evtType').value;
+            if (!name) return showToast('Please enter an event name.', 'error');
+            if (!date)  return showToast('Please select a date and time.', 'error');
+
+            const isoDate  = new Date(date).toISOString();
+            const editId   = nameEl.getAttribute('data-edit-id');
+
+            try {
+                if (editId) {
+                    // Edit mode — update existing
+                    await update(ref(database, 'ahofEvents/' + editId), { name, date: isoDate, icon });
+                    nameEl.removeAttribute('data-edit-id');
+                    showToast('✅ Event updated!', 'success');
+                } else {
+                    // Add new
+                    await push(ref(database, 'ahofEvents'), { name, date: isoDate, icon, createdAt: Date.now() });
+                    showToast('✅ Event added!', 'success');
+                }
+                document.getElementById('addEventFormInner').style.display = 'none';
+            } catch (err) {
+                showToast('Error: ' + err.message, 'error');
+            }
+        };
+
+        window.editAhofEvent = (id, name, isoDate, icon) => {
+            if (!isAdmin()) return;
+            const inner = document.getElementById('addEventFormInner');
+            inner.style.display = 'block';
+            const nameEl = document.getElementById('evtName');
+            nameEl.value = name;
+            nameEl.setAttribute('data-edit-id', id);
+            // Convert ISO to datetime-local format
+            try {
+                const d = new Date(isoDate);
+                const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+                    .toISOString().slice(0, 16);
+                document.getElementById('evtDate').value = local;
+            } catch(e) {}
+            document.getElementById('evtType').value = icon || '📅';
+            // Scroll to form
+            inner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            showToast('Editing event — make changes and click Save.', 'info', 3000);
         };
 
         window.deleteAhofEvent = async (id) => {
@@ -4699,9 +4923,9 @@
             if (!confirm('Delete this event?')) return;
             try {
                 await remove(ref(database, 'ahofEvents/' + id));
-                showToast('🗑 Event deleted.');
+                showToast('🗑️ Event deleted.', 'info');
             } catch (err) {
-                alert('Error deleting event:\n' + err.message);
+                showToast('Error: ' + err.message, 'error');
             }
         };
 
@@ -4783,7 +5007,7 @@
                 }
 
                 container.innerHTML = items.map(item => `
-                    <div class="gallery-item" onclick="openModal('${sanitize(item.imageUrl)}')">
+                    <div class="gallery-item" data-author="${sanitize(item.author||'')}" onclick="openModal('${sanitize(item.imageUrl)}')">
                         <img loading="lazy" src="${sanitize(item.imageUrl)}" alt="Fan art by ${sanitize(item.author)}" style="width:100%;height:140px;object-fit:cover;">
                         <div class="gallery-overlay">
                             <div style="font-weight:700;font-size:0.8rem;">By ${sanitize(item.author)}</div>
@@ -5206,7 +5430,7 @@
                 </div>`).join('');
         }
         // Inject skeletons immediately on page load
-        ['postsContainer','achievementsContainer','votingContainer','collabContainer','spotifyContainer','articleContainer'].forEach(id => {
+        ['achievementsContainer','votingContainer','collabContainer','spotifyContainer','articleContainer'].forEach(id => {
             const el = document.getElementById(id);
             if (el && el.innerHTML.trim() === '') el.innerHTML = skeletonCards(2);
         });
@@ -5254,7 +5478,7 @@
                 if (m.addedNodes.length) applyStaggerToNewCards(m.target);
             });
         });
-        ['postsContainer','achievementsContainer','votingContainer','collabContainer',
+        ['achievementsContainer','votingContainer','collabContainer',
          'spotifyContainer','articleContainer','fanartGallery'].forEach(id => {
             const el = document.getElementById(id);
             if (el) mutObs.observe(el, { childList: true });
@@ -5420,6 +5644,509 @@
                 }
             }, { passive: true });
         })();
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  FEATURE 1: PINNED ANNOUNCEMENT BANNER
+        // ══════════════════════════════════════════════════════════════════════
+        let _bannerDismissed = false;
+
+        function loadAnnouncementBanner() {
+            onValue(ref(database, 'announcement'), (snap) => {
+                const data = snap.val();
+                const banner = document.getElementById('announcementBanner');
+                const bannerText = document.getElementById('bannerText');
+                const bannerInput = document.getElementById('bannerInput');
+                if (data && data.text && data.text.trim()) {
+                    if (!_bannerDismissed) {
+                        bannerText.textContent = data.text;
+                        banner.classList.add('visible');
+                    }
+                    if (bannerInput) bannerInput.value = data.text;
+                } else {
+                    banner.classList.remove('visible');
+                    if (bannerInput) bannerInput.value = '';
+                }
+            });
+        }
+
+        window.dismissBanner = () => {
+            _bannerDismissed = true;
+            document.getElementById('announcementBanner').classList.remove('visible');
+        };
+
+        window.pinAnnouncement = async () => {
+            const text = document.getElementById('bannerInput')?.value.trim();
+            if (!text) return showToast('Please enter announcement text.', 'error');
+            try {
+                await set(ref(database, 'announcement'), { text, updatedAt: Date.now() });
+                showToast('📌 Announcement pinned!', 'success');
+                toggleBannerEditor();
+            } catch(e) { showToast('Error: ' + e.message, 'error'); }
+        };
+
+        window.clearAnnouncement = async () => {
+            if (!confirm('Remove the pinned announcement?')) return;
+            try {
+                await remove(ref(database, 'announcement'));
+                showToast('Announcement cleared.', 'info');
+            } catch(e) { showToast('Error: ' + e.message, 'error'); }
+        };
+
+        window.toggleBannerEditor = () => {
+            const ed = document.getElementById('bannerEditor');
+            ed?.classList.toggle('open');
+        };
+
+        // Show banner editor only if admin
+        function updateAdminVisibility() {
+            const bannerSection   = document.getElementById('bannerEditorSection');
+            const pollAdminToggle = document.getElementById('pollAdminToggle');
+            const adminEventForm  = document.getElementById('adminEventForm');
+            if (bannerSection)   bannerSection.style.display   = isAdmin() ? 'block' : 'none';
+            if (pollAdminToggle) pollAdminToggle.style.display  = isAdmin() ? 'block' : 'none';
+            if (adminEventForm)  adminEventForm.style.display   = isAdmin() ? 'block' : 'none';
+        }
+
+        // Call on load and after admin state changes
+        loadAnnouncementBanner();
+        updateAdminVisibility();
+
+        // Patch submitAdminKey to also update admin visibility
+        const _origSubmitAdminKey = window.submitAdminKey;
+        window.submitAdminKey = function() {
+            _origSubmitAdminKey();
+            setTimeout(updateAdminVisibility, 100);
+        };
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  FEATURE 2: NOTIFICATION SYSTEM
+        // ══════════════════════════════════════════════════════════════════════
+        const _notifKey = 'ahof-notif-read-ts';
+        let _notifList = JSON.parse(localStorage.getItem('ahof-notifs') || '[]');
+        let _notifOpen = false;
+
+        function saveNotifs() {
+            // Keep only last 30
+            if (_notifList.length > 30) _notifList = _notifList.slice(-30);
+            localStorage.setItem('ahof-notifs', JSON.stringify(_notifList));
+        }
+
+        function addNotif(emoji, title, sub, section) {
+            const n = { id: Date.now(), emoji, title, sub, section, unread: true, ts: Date.now() };
+            _notifList.unshift(n);
+            saveNotifs();
+            renderNotifPanel();
+            updateNotifBadge();
+            // Also show as toast
+            showToast(emoji + ' ' + title, 'info', 3500);
+        }
+
+        function renderNotifPanel() {
+            const list = document.getElementById('notifList');
+            if (!list) return;
+            if (_notifList.length === 0) {
+                list.innerHTML = '<div class="notif-empty">No notifications yet</div>';
+                return;
+            }
+            list.innerHTML = _notifList.map(n => `
+                <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="notifClick('${n.id}','${n.section||''}')">
+                    <span class="notif-emoji">${n.emoji}</span>
+                    <div class="notif-body">
+                        <div class="notif-title">${sanitize(n.title)}</div>
+                        <div class="notif-sub">${sanitize(n.sub)} • ${new Date(n.ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateNotifBadge() {
+            const badge = document.getElementById('notifBadge');
+            if (!badge) return;
+            const unread = _notifList.filter(n => n.unread).length;
+            if (unread > 0) {
+                badge.textContent = unread > 9 ? '9+' : unread;
+                badge.classList.add('show');
+            } else {
+                badge.classList.remove('show');
+            }
+        }
+
+        window.toggleNotifPanel = () => {
+            const panel = document.getElementById('notifPanel');
+            _notifOpen = !_notifOpen;
+            if (_notifOpen) {
+                panel.classList.add('open');
+                // Mark all as read
+                _notifList.forEach(n => n.unread = false);
+                saveNotifs();
+                updateNotifBadge();
+                renderNotifPanel();
+            } else {
+                panel.classList.remove('open');
+            }
+        };
+
+        window.notifClick = (id, section) => {
+            document.getElementById('notifPanel')?.classList.remove('open');
+            _notifOpen = false;
+            if (section) {
+                const el = document.getElementById(section);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        };
+
+        window.clearNotifs = () => {
+            _notifList = [];
+            saveNotifs();
+            renderNotifPanel();
+            updateNotifBadge();
+        };
+
+        // Close notif panel on outside click
+        document.addEventListener('click', (e) => {
+            const panel = document.getElementById('notifPanel');
+            const bell = document.getElementById('notifBell');
+            if (panel && bell && _notifOpen && !panel.contains(e.target) && !bell.contains(e.target)) {
+                panel.classList.remove('open');
+                _notifOpen = false;
+            }
+        });
+
+        // Watch Firebase for new posts/achievements/fanart and fire notifications
+        // Use a small delay to let initial data load finish before listening
+        let _notifInitTs = Date.now();
+        setTimeout(() => {
+            onChildAdded(ref(database, 'posts'), (snap) => {
+                const p = snap.val();
+                if (p && p.timestamp && p.timestamp > _notifInitTs) {
+                    addNotif('📰', 'New Post: ' + (p.title||'Untitled').slice(0, 40), 'By ' + (p.author||'Someone'), 'news');
+                }
+            });
+            onChildAdded(ref(database, 'achievements'), (snap) => {
+                const a = snap.val();
+                if (a && a.timestamp && a.timestamp > _notifInitTs) {
+                    addNotif('🏆', 'New Achievement: ' + (a.title||'Untitled').slice(0, 40), 'By ' + (a.author||'Someone'), 'achievements');
+                }
+            });
+            onChildAdded(ref(database, 'fanart'), (snap) => {
+                const f = snap.val();
+                if (f && f.timestamp && f.timestamp > _notifInitTs) {
+                    addNotif('🎨', 'New Fan Art uploaded!', 'By ' + (f.author||'Someone'), 'fanart');
+                }
+            });
+        }, 3000); // wait 3s for initial Firebase data to sync before listening
+
+        renderNotifPanel();
+        updateNotifBadge();
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  FEATURE 3: FAN ART SEARCH
+        // ══════════════════════════════════════════════════════════════════════
+        let _allFanArt = [];
+
+        window.filterFanArt = (query) => {
+            const q = query.toLowerCase().trim();
+            const gallery = document.getElementById('fanartGallery');
+            if (!gallery) return;
+            const items = gallery.querySelectorAll('.gallery-item');
+            let visible = 0;
+            items.forEach(item => {
+                const author = (item.dataset.author || '').toLowerCase();
+                const show = !q || author.includes(q);
+                item.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+        };
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  FEATURE 4: EMOJI REACTIONS ON POSTS/ACHIEVEMENTS
+        // ══════════════════════════════════════════════════════════════════════
+        const REACTIONS = ['🔥', '👏', '💙'];
+
+        function reactionsBar(type, id) {
+            return `<div class="reactions-row" id="reactions-row-${type}-${id}">
+                ${REACTIONS.map(emoji => `
+                    <button class="reaction-btn" id="react-${type}-${id}-${encodeURIComponent(emoji)}"
+                        onclick="toggleReaction('${type}','${id}','${emoji}')">
+                        ${emoji} <span class="reaction-count" id="rcount-${type}-${id}-${encodeURIComponent(emoji)}">0</span>
+                    </button>
+                `).join('')}
+            </div>`;
+        }
+
+        window.toggleReaction = async (type, id, emoji) => {
+            const path = 'reactions/' + type + '/' + id + '/' + encodeURIComponent(emoji) + '/' + lcUid;
+            try {
+                const snap = await get(ref(database, path));
+                if (snap.exists()) {
+                    await remove(ref(database, path));
+                } else {
+                    await set(ref(database, path), { t: Date.now() });
+                }
+            } catch(e) { showToast('Error: ' + e.message, 'error'); }
+        };
+
+        function listenReactions(type, id) {
+            REACTIONS.forEach(emoji => {
+                onValue(ref(database, 'reactions/' + type + '/' + id + '/' + encodeURIComponent(emoji)), snap => {
+                    const count = snap.numChildren();
+                    const el = document.getElementById('rcount-' + type + '-' + id + '-' + encodeURIComponent(emoji));
+                    const btn = document.getElementById('react-' + type + '-' + id + '-' + encodeURIComponent(emoji));
+                    if (el) el.textContent = count;
+                    if (btn) btn.classList.toggle('active', snap.child(lcUid).exists());
+                });
+            });
+        }
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  FEATURE 5: COMMUNITY POLLS
+        // ══════════════════════════════════════════════════════════════════════
+        const pollVoterKey = localStorage.getItem('ahof-gc-uid') || ('p_' + Math.random().toString(36).slice(2,10));
+
+        window.togglePollCreateForm = () => {
+            document.getElementById('pollCreateForm')?.classList.toggle('open');
+        };
+
+        window.addPollOption = () => {
+            const container = document.getElementById('pollOptionsContainer');
+            const count = container.querySelectorAll('.poll-opt-inp').length + 1;
+            if (count > 8) return showToast('Maximum 8 options allowed.', 'info');
+            const div = document.createElement('div');
+            div.className = 'poll-option-input';
+            div.innerHTML = `<input type="text" class="poll-opt-inp" placeholder="Option ${count}" maxlength="80" style="flex:1;padding:8px 12px;background:#2a2520;border:1px solid #3a3028;border-radius:8px;color:#d4cfc8;font-size:0.85rem;">
+                <button onclick="this.parentElement.remove()" style="background:none;border:none;color:#6a3a3a;font-size:1rem;cursor:pointer;">✕</button>`;
+            container.appendChild(div);
+        };
+
+        window.submitPoll = async () => {
+            if (!isAdmin()) return showToast('Admin only.', 'error');
+            const question = document.getElementById('pollQuestion')?.value.trim();
+            if (!question) return showToast('Please enter a question.', 'error');
+            const opts = [...document.querySelectorAll('.poll-opt-inp')]
+                .map(i => i.value.trim()).filter(Boolean);
+            if (opts.length < 2) return showToast('At least 2 options required.', 'error');
+            try {
+                await push(ref(database, 'polls'), {
+                    question,
+                    options: opts,
+                    createdAt: Date.now(),
+                    active: true
+                });
+                document.getElementById('pollQuestion').value = '';
+                document.querySelectorAll('.poll-opt-inp').forEach((i,idx) => { i.value = ''; if(idx>1) i.parentElement?.remove(); });
+                document.getElementById('pollCreateForm')?.classList.remove('open');
+                showToast('✅ Poll created!', 'success');
+            } catch(e) { showToast('Error: ' + e.message, 'error'); }
+        };
+
+        window.voteOnPoll = async (pollId, optionIndex) => {
+            const path = 'pollVotes/' + pollId + '/' + pollVoterKey;
+            try {
+                const snap = await get(ref(database, path));
+                if (snap.exists()) {
+                    showToast('You already voted on this poll!', 'info');
+                    return;
+                }
+                await set(ref(database, path), { option: optionIndex, t: Date.now() });
+                showToast('🗳️ Vote counted!', 'success');
+            } catch(e) { showToast('Error: ' + e.message, 'error'); }
+        };
+
+        window.deletePoll = async (pollId) => {
+            if (!isAdmin()) return;
+            if (!confirm('Delete this poll?')) return;
+            try {
+                await remove(ref(database, 'polls/' + pollId));
+                await remove(ref(database, 'pollVotes/' + pollId));
+                showToast('Poll deleted.', 'info');
+            } catch(e) { showToast('Error: ' + e.message, 'error'); }
+        };
+
+        // ── POLLS — real-time: listens to both polls & pollVotes simultaneously ──
+        let _pollsData = {};
+        let _pollVotesData = {};
+        let _pollsLoaded = false;
+        let _pollVotesLoaded = false;
+        let _pollRenderTimer = null;
+
+        function renderPolls() {
+            // Debounce: only render once both listeners have fired at least once
+            if (!_pollsLoaded || !_pollVotesLoaded) return;
+            clearTimeout(_pollRenderTimer);
+            _pollRenderTimer = setTimeout(_doRenderPolls, 50);
+        }
+
+        function _doRenderPolls() {
+            const container = document.getElementById('pollsContainer');
+            if (!container) return;
+
+            const polls = Object.entries(_pollsData).map(([id, p]) => ({ id, ...p }));
+            polls.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            if (polls.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:#5a4a3a;padding:1.5rem 0;">No polls yet.' + (isAdmin() ? '<br><span style="font-size:0.8rem;color:#7a6a5a;">Create one using the button above!</span>' : '') + '</p>';
+                updateAdminVisibility();
+                return;
+            }
+
+            container.innerHTML = polls.map(poll => {
+                const votes = _pollVotesData[poll.id] || {};
+                const myVote = votes[pollVoterKey];
+                const hasVoted = myVote !== undefined;
+                const voteCounts = (poll.options || []).map((_, i) =>
+                    Object.values(votes).filter(v => v.option === i).length
+                );
+                const totalVotes = voteCounts.reduce((a, b) => a + b, 0);
+                const maxCount = totalVotes > 0 ? Math.max(...voteCounts) : 0;
+
+                const optionsHtml = (poll.options || []).map((opt, i) => {
+                    const count = voteCounts[i];
+                    const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+                    const isWinner = hasVoted && count === maxCount && count > 0;
+                    const myChoice = hasVoted && myVote.option === i;
+                    return `<div class="poll-option${myChoice ? ' voted' : ''}"
+                        onclick="${hasVoted ? 'void(0)' : `voteOnPoll('${poll.id}',${i})`}"
+                        style="cursor:${hasVoted ? 'default' : 'pointer'};">
+                        <div class="poll-option-bar${isWinner ? ' winner' : ''}"
+                             style="width:${hasVoted ? pct : 0}%;transition:width 0.7s cubic-bezier(0.4,0,0.2,1);"></div>
+                        <div class="poll-option-label">
+                            <span>${sanitize(opt)}${myChoice ? ' ✓' : ''}</span>
+                            ${hasVoted ? `<span class="poll-pct">${pct}%<span style="font-size:0.65rem;color:#5a4a3a;margin-left:3px;">(${count})</span></span>` : ''}
+                        </div>
+                    </div>`;
+                }).join('');
+
+                return `<div class="poll-card">
+                    <div class="poll-question">${sanitize(poll.question)}</div>
+                    ${optionsHtml}
+                    <div class="poll-meta">
+                        ${totalVotes} vote${totalVotes !== 1 ? 's' : ''}
+                        ${hasVoted ? ' · You voted ✓' : ' · Tap an option to vote'}
+                    </div>
+                    ${isAdmin() ? `<button onclick="deletePoll('${poll.id}')" style="margin-top:10px;background:none;border:1px solid #4a2020;border-radius:8px;color:#8a4a4a;padding:4px 12px;font-size:0.75rem;cursor:pointer;">🗑️ Delete poll</button>` : ''}
+                </div>`;
+            }).join('');
+
+            updateAdminVisibility();
+        }
+
+        function loadPolls() {
+            // Listen to polls structure
+            onValue(ref(database, 'polls'), (snap) => {
+                _pollsData = {};
+                if (snap.exists()) snap.forEach(c => { _pollsData[c.key] = c.val(); });
+                _pollsLoaded = true;
+                renderPolls();
+            });
+            // Listen to votes — fires whenever anyone votes
+            onValue(ref(database, 'pollVotes'), (snap) => {
+                _pollVotesData = {};
+                if (snap.exists()) {
+                    snap.forEach(pollSnap => {
+                        _pollVotesData[pollSnap.key] = {};
+                        pollSnap.forEach(v => { _pollVotesData[pollSnap.key][v.key] = v.val(); });
+                    });
+                }
+                _pollVotesLoaded = true;
+                renderPolls();
+            });
+        }
+
+        loadPolls();
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  PATCH: Inject emoji reactions into lcBar HTML template
+        //  We do this by overriding the lcBar function in place.
+        //  Since lcBar is a local function in module scope, we re-declare it
+        //  as a new function that wraps the reactions HTML inside it.
+        // ══════════════════════════════════════════════════════════════════════
+
+        // Override lcBar to include emoji reactions row
+        // (This must be defined AFTER the original lcBar above,
+        //  in the same module scope — JS function hoisting won't help here,
+        //  but variable reassignment at runtime will.)
+        // The trick: patch the string template used in loadPosts / loadAchievements.
+        // Instead of modifying those functions, we override lcBar so the next
+        // time Firebase triggers a re-render, the new lcBar HTML is used.
+
+        const _lcBarOrig = lcBar;
+
+        function loadAchievementsWithReactions() {
+            onValue(ref(database, 'achievements'), (snapshot) => {
+                const container = document.getElementById('achievementsContainer');
+                const achievements = [];
+                snapshot.forEach((child) => {
+                    achievements.push({ id: child.key, ...child.val() });
+                });
+                achievements.sort((a, b) => b.timestamp - a.timestamp);
+                container.innerHTML = achievements.length === 0
+                    ? '<p style="text-align: center; color: #7a706a;">No achievements yet</p>'
+                    : achievements.map(ach => `
+                        <div class="achievement-card" id="ach-${sanitize(ach.id)}">
+                            <h3>${sanitize(ach.title)}</h3>
+                            <div class="date">${new Date(ach.date).toLocaleDateString()} • ${sanitize(ach.author)}</div>
+                            <p>${sanitize(ach.description)}</p>
+                            ${ach.imageUrl ? `<img loading="lazy" src="${sanitize(ach.imageUrl)}" alt="Achievement image" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="openModal('${sanitize(ach.imageUrl)}')">` : ''}
+                            ${isAdmin() ? `
+                            <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                <button onclick="editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
+                                <button onclick="deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.3);color:#fff;border:1px solid rgba(220,50,50,0.5);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
+                            </div>` : ''}
+                            ${reactionsBar('ach', sanitize(ach.id))}
+                            ${_lcBarOrig('ach', sanitize(ach.id))}
+                        </div>
+                    `).join('');
+                achievements.forEach(ach => {
+                    lcListenLikes('ach', ach.id);
+                    lcListenComments('ach', ach.id);
+                    listenReactions('ach', ach.id);
+                });
+            });
+        }
+
+        // Replace the initial load calls with our enhanced versions
+        loadAchievementsWithReactions();
+
+        // Make loadAchievements point to enhanced version so admin unlock works
+        // (loadAchievements is called in submitAdminKey and GC admin detection)
+        const _origLoadAchievements = loadAchievements;
+        // Reassign via window alias so all callers get the enhanced version
+        window._loadAchievementsEnhanced = loadAchievementsWithReactions;
+        // Patch all existing callers by overwriting the local reference:
+        // Can't directly override a local function, but we can patch the
+        // submitAdminKey to call the enhanced version
+        const _adminKeyFn = window.submitAdminKey;
+        window.submitAdminKey = function() {
+            const key = document.getElementById('adminKeyInput').value.trim();
+            const errEl = document.getElementById('adminKeyError');
+            if (!key) return;
+            if (key === 'ahof-admin-2024') {
+                localStorage.setItem('ahof-chat-admin', 'true');
+                loadAchievementsWithReactions(); // use enhanced version
+                const btn = document.getElementById('adminUnlockBtn');
+                if (btn) btn.textContent = '🔓';
+                window.closeAdminModal();
+                showToast('✅ Admin mode unlocked!', 'success');
+                updateAdminVisibility();
+            } else {
+                errEl.style.display = 'block';
+                document.getElementById('adminKeyInput').value = '';
+                document.getElementById('adminKeyInput').focus();
+                setTimeout(() => { errEl.style.display = 'none'; }, 3000);
+            }
+        };
+
+        // Fan art search bar visibility via MutationObserver (safe — no infinite loop)
+        const fanartObs = new MutationObserver(() => {
+            const gallery = document.getElementById('fanartGallery');
+            const searchBar = document.getElementById('fanartSearchBar');
+            if (!gallery || !searchBar) return;
+            const items = gallery.querySelectorAll('.gallery-item');
+            if (items.length > 2) searchBar.classList.add('visible');
+        });
+        const fanartGallery = document.getElementById('fanartGallery');
+        if (fanartGallery) fanartObs.observe(fanartGallery, { childList: true });
+
 
     </script>
 
