@@ -305,58 +305,231 @@
             padding: 1rem;
         }
 
-        nav {
-            background: rgba(8,9,20,0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(185,79,255,0.2);
-            box-shadow: 0 2px 20px rgba(185,79,255,0.12);
-            position: sticky;
+        /* ══ LEFT SIDEBAR NAV ══════════════════════════════════ */
+        .sidebar {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        nav ul {
-            list-style: none;
+            left: 0;
+            height: 100vh;
+            width: 220px;
+            background: rgba(6,8,18,0.97);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: 1px solid rgba(194,100,255,0.15);
+            box-shadow: 4px 0 40px rgba(0,0,0,0.5), inset -1px 0 0 rgba(194,100,255,0.08);
+            z-index: 200;
             display: flex;
-            padding: 0;
-            margin: 0;
-            white-space: nowrap;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
         }
 
-        nav li {
+        .sidebar::-webkit-scrollbar { width: 2px; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(194,100,255,0.3); border-radius: 99px; }
+
+        .sidebar-logo {
+            padding: 1.4rem 1.2rem 1rem;
+            border-bottom: 1px solid rgba(194,100,255,0.1);
             flex-shrink: 0;
         }
 
-        nav a {
-            display: block;
-            padding: 1rem 1.2rem;
-            text-decoration: none;
-            color: #a89ac8;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
-            touch-action: manipulation;
-            position: relative;
+        .sidebar-logo-title {
+            font-family: var(--font-accent);
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
         }
-        nav a:hover {
-            color: #fff;
-            text-shadow: 0 0 10px var(--neon-cyan);
+
+        .sidebar-logo-sub {
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 3px;
         }
-        nav a:active, nav a.active {
+
+        .sidebar-stats {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid rgba(194,100,255,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-stat-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.7rem;
+        }
+
+        .sidebar-stat-label { color: var(--text-muted); }
+        .sidebar-stat-num {
+            font-weight: 700;
             color: var(--neon-cyan);
-            border-bottom-color: var(--neon-purple);
-            text-shadow: 0 0 12px var(--neon-cyan);
-            background: rgba(185,79,255,0.08);
+            font-family: var(--font-mono);
         }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0.6rem 0;
+            margin: 0;
+            flex: 1;
+        }
+
+        .sidebar-nav li { margin: 2px 8px; }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.65rem 1rem;
+            text-decoration: none;
+            color: #8a82aa;
+            font-weight: 600;
+            font-size: 0.82rem;
+            letter-spacing: 0.3px;
+            border-radius: var(--radius-md);
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .sidebar-nav a .nav-icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-nav a .nav-badge {
+            margin-left: auto;
+            background: rgba(194,100,255,0.15);
+            color: var(--neon-purple);
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 99px;
+            font-family: var(--font-mono);
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(194,100,255,0.08);
+            color: #e0d8f5;
+        }
+
+        .sidebar-nav a.active {
+            background: linear-gradient(135deg, rgba(194,100,255,0.15), rgba(0,212,255,0.08));
+            color: var(--neon-cyan);
+            border: 1px solid rgba(194,100,255,0.2);
+            box-shadow: 0 0 12px rgba(194,100,255,0.08);
+        }
+
+        .sidebar-nav a.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 3px;
+            background: linear-gradient(180deg, var(--neon-purple), var(--neon-cyan));
+            border-radius: 0 3px 3px 0;
+        }
+
+        .sidebar-section-label {
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            padding: 0.6rem 1.2rem 0.2rem;
+            margin-top: 4px;
+        }
+
+        .sidebar-bottom {
+            padding: 0.8rem 1rem;
+            border-top: 1px solid rgba(194,100,255,0.08);
+            flex-shrink: 0;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* ── Sidebar toggle button (mobile) ── */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1600;
+            background: rgba(10,8,22,0.9);
+            border: 1px solid rgba(194,100,255,0.25);
+            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+            transition: all 0.2s;
+        }
+
+        .sidebar-toggle span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: var(--neon-purple);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-toggle:hover { background: rgba(194,100,255,0.15); }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 190;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ── Main content shifts right of sidebar ── */
+        body.has-sidebar { padding-left: 220px; }
+        body.has-sidebar header { margin-left: 0; }
+        body.has-sidebar .hamburger-menu { display: none !important; }
+        body.has-sidebar .header-brand { display: none !important; }
+        body.has-sidebar nav { display: none !important; }
+
+        /* ── Responsive: collapse sidebar ── */
+        @media (max-width: 820px) {
+            body.has-sidebar { padding-left: 0; }
+            .sidebar {
+                transform: translateX(-100%);
+                width: 240px;
+                z-index: 500;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: 8px 0 60px rgba(0,0,0,0.7);
+            }
+            .sidebar-toggle { display: flex; }
+            .sidebar-overlay.visible { display: block; }
+            body.has-sidebar .hamburger-menu { display: none !important; }
+        }
+
+        /* legacy nav hidden by default once sidebar exists */
+        nav { display: none; }
 
         section {
             background: rgba(13,11,28,0.7);
@@ -1335,11 +1508,14 @@
             height: 36px;
             cursor: pointer;
             font-size: 1rem;
-            display: flex;
+            display: none; /* hidden on desktop — sidebar has theme toggle */
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(8px);
             transition: all 0.2s;
+        }
+        @media (max-width: 820px) {
+            #darkModeToggle { display: flex; } /* visible on mobile */
         }
         #darkModeToggle:hover { transform: scale(1.1); }
         body.light-mode #darkModeToggle { background: rgba(245,240,232,0.9); border-color: #d8cfc0; }
@@ -1350,11 +1526,8 @@
             h2 { font-size: 1.2rem; }
             #gcMessages { height: 260px !important; }
             .gc-avatar, .gc-avatar-initials { width: 28px; height: 28px; }
-            nav ul { gap: 6px; }
-            nav a { font-size: 0.7rem; padding: 4px 8px; }
         }
         @media (max-width: 400px) {
-            nav { display: none; } /* use hamburger only */
             #gcMessages { height: 220px !important; }
         }
         
@@ -3614,7 +3787,109 @@
 </style>
     <!-- Fonts already loaded above -->
 </head>
-<body>
+<body class="has-sidebar">
+
+    <!-- ══ SIDEBAR NAVIGATION ══════════════════════════════════════ -->
+    <aside class="sidebar" id="mainSidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-title">꧁ AHOF ꧂</div>
+            <div class="sidebar-logo-sub">All Time Hall of Famer</div>
+        </div>
+
+        <div class="sidebar-stats">
+            <div class="sidebar-stat-row">
+                <span class="sidebar-stat-label">🖼️ Fan Arts</span>
+                <span class="sidebar-stat-num" id="sidebarStatFanArt">—</span>
+            </div>
+            <div class="sidebar-stat-row">
+                <span class="sidebar-stat-label">🏆 Achievements</span>
+                <span class="sidebar-stat-num" id="sidebarStatAchieve">—</span>
+            </div>
+            <div class="sidebar-stat-row">
+                <span class="sidebar-stat-label">🗳️ Voting Proofs</span>
+                <span class="sidebar-stat-num" id="sidebarStatVotes">—</span>
+            </div>
+            <div class="sidebar-stat-row">
+                <span class="sidebar-stat-label">💬 GC Messages</span>
+                <span class="sidebar-stat-num" id="sidebarStatGC">—</span>
+            </div>
+        </div>
+
+        <div class="sidebar-section-label">Navigation</div>
+        <ul class="sidebar-nav">
+            <li>
+                <a onclick="sidebarGo('about')" id="snav-about" class="active">
+                    <span class="nav-icon">🌟</span>
+                    About
+                </a>
+            </li>
+            <li>
+                <a onclick="sidebarGo('fanart')" id="snav-fanart">
+                    <span class="nav-icon">🎨</span>
+                    Fan Art
+                </a>
+            </li>
+            <li>
+                <a onclick="sidebarGo('achievements')" id="snav-achievements">
+                    <span class="nav-icon">🏆</span>
+                    Achievements
+                </a>
+            </li>
+            <li>
+                <a onclick="sidebarGo('voting')" id="snav-voting">
+                    <span class="nav-icon">🗳️</span>
+                    Voting Proof
+                </a>
+            </li>
+
+            <div class="sidebar-section-label">Content</div>
+            <li>
+                <a onclick="sidebarGo('collab')" id="snav-collab">
+                    <span class="nav-icon">🤝</span>
+                    Collabs
+                </a>
+            </li>
+            <li>
+                <a onclick="sidebarGo('spotify')" id="snav-spotify">
+                    <span class="nav-icon">🎵</span>
+                    Music
+                </a>
+            </li>
+            <li>
+                <a onclick="sidebarGo('articles')" id="snav-articles">
+                    <span class="nav-icon">📰</span>
+                    Articles
+                </a>
+            </li>
+
+            <div class="sidebar-section-label">Community</div>
+            <li>
+                <a onclick="sidebarGo('polls')" id="snav-polls">
+                    <span class="nav-icon">📊</span>
+                    Polls
+                </a>
+            </li>
+            <li>
+                <a onclick="sidebarGo('groupchat')" id="snav-groupchat">
+                    <span class="nav-icon">💬</span>
+                    Group Chat
+                    <span class="nav-badge" id="gcNavBadge" style="display:none">●</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-bottom">
+            <button id="darkModeToggleSidebar" onclick="document.getElementById('darkModeToggle').click()" style="background:rgba(194,100,255,0.08);border:1px solid rgba(194,100,255,0.2);border-radius:8px;color:var(--neon-purple);cursor:pointer;padding:6px 10px;font-size:0.75rem;transition:all 0.2s;flex:1;" title="Toggle dark/light mode">☀️ Theme</button>
+        </div>
+    </aside>
+
+    <!-- Mobile sidebar overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- Mobile sidebar toggle button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+    </button>
 
     <!-- Particle canvas -->
     <canvas id="particleCanvas"></canvas>
@@ -4561,9 +4836,7 @@
         }
 
         window.scrollToSection = (sectionId) => {
-            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            sidebarGo(sectionId);
         };
 
         window.viewImage = (url) => {
@@ -6100,10 +6373,10 @@
         //  NEW IMPROVEMENTS
         // ══════════════════════════════════════════════════════════════════════
 
-        // ── Full-screen Nav Overlay ────────────────────────────────────────────
+        // ── Full-screen Nav Overlay (kept for backward compat) ─────────────────
         window.openNavOverlay = () => {
-            document.getElementById('navOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
+            // On mobile, open the sidebar instead
+            toggleSidebar();
         };
         window.closeNavOverlay = () => {
             document.getElementById('navOverlay').classList.remove('open');
@@ -6111,10 +6384,83 @@
         };
         window.navOverlayGo = (sectionId) => {
             closeNavOverlay();
-            setTimeout(() => {
-                document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 300);
+            sidebarGo(sectionId);
         };
+
+        // ── Sidebar Navigation ────────────────────────────────────────────────
+        window.sidebarGo = (sectionId) => {
+            // Update active state
+            document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+            const activeLink = document.getElementById('snav-' + sectionId);
+            if (activeLink) activeLink.classList.add('active');
+            // Scroll to section
+            const el = document.getElementById(sectionId);
+            if (el) {
+                const offset = window.innerWidth <= 820 ? 0 : 0;
+                const top = el.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top: top - 20, behavior: 'smooth' });
+            }
+            // Close sidebar on mobile
+            if (window.innerWidth <= 820) closeSidebar();
+        };
+
+        window.toggleSidebar = () => {
+            const sidebar = document.getElementById('mainSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const isOpen = sidebar.classList.contains('open');
+            if (isOpen) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('visible');
+                document.body.style.overflow = '';
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.closeSidebar = () => {
+            document.getElementById('mainSidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('visible');
+            document.body.style.overflow = '';
+        };
+
+        // Update sidebar stats when dashboard stats update
+        const sidebarStatSync = () => {
+            const mappings = [
+                ['dashFanArtNum', 'sidebarStatFanArt'],
+                ['dashAchieveNum', 'sidebarStatAchieve'],
+                ['dashVotesNum', 'sidebarStatVotes'],
+                ['dashGCNum', 'sidebarStatGC'],
+            ];
+            mappings.forEach(([src, dest]) => {
+                const srcEl = document.getElementById(src);
+                const destEl = document.getElementById(dest);
+                if (srcEl && destEl) {
+                    const obs = new MutationObserver(() => { destEl.textContent = srcEl.textContent; });
+                    obs.observe(srcEl, { childList: true, subtree: true, characterData: true });
+                    destEl.textContent = srcEl.textContent;
+                }
+            });
+        };
+        sidebarStatSync();
+
+        // Highlight active nav item on scroll
+        const sidebarScrollSpy = () => {
+            const sections = ['about','fanart','achievements','voting','collab','spotify','articles','polls','groupchat'];
+            const onScroll = () => {
+                let current = sections[0];
+                sections.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && el.getBoundingClientRect().top <= 120) current = id;
+                });
+                document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+                const link = document.getElementById('snav-' + current);
+                if (link) link.classList.add('active');
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+        };
+        sidebarScrollSpy();
 
         // ── Scroll Animations ─────────────────────────────────────────────────
         const fadeObserver = new IntersectionObserver((entries) => {
