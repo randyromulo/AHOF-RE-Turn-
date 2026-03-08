@@ -85,7 +85,15 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: auto; }
+
+        /* ── SPA Section Visibility ─────────────────────────────────────────── */
+        .container > section {
+            display: none;
+        }
+        .container > section.section-active {
+            display: block;
+        }
 
         body {
             font-family: var(--font-body);
@@ -3818,25 +3826,25 @@
         <div class="sidebar-section-label">Navigation</div>
         <ul class="sidebar-nav">
             <li>
-                <a onclick="sidebarGo('about')" id="snav-about" class="active">
+                <a onclick="window.sidebarGo('about')" id="snav-about" class="active">
                     <span class="nav-icon">🌟</span>
                     About
                 </a>
             </li>
             <li>
-                <a onclick="sidebarGo('fanart')" id="snav-fanart">
+                <a onclick="window.sidebarGo('fanart')" id="snav-fanart">
                     <span class="nav-icon">🎨</span>
                     Fan Art
                 </a>
             </li>
             <li>
-                <a onclick="sidebarGo('achievements')" id="snav-achievements">
+                <a onclick="window.sidebarGo('achievements')" id="snav-achievements">
                     <span class="nav-icon">🏆</span>
                     Achievements
                 </a>
             </li>
             <li>
-                <a onclick="sidebarGo('voting')" id="snav-voting">
+                <a onclick="window.sidebarGo('voting')" id="snav-voting">
                     <span class="nav-icon">🗳️</span>
                     Voting Proof
                 </a>
@@ -3844,19 +3852,19 @@
 
             <div class="sidebar-section-label">Content</div>
             <li>
-                <a onclick="sidebarGo('collab')" id="snav-collab">
+                <a onclick="window.sidebarGo('collab')" id="snav-collab">
                     <span class="nav-icon">🤝</span>
                     Collabs
                 </a>
             </li>
             <li>
-                <a onclick="sidebarGo('spotify')" id="snav-spotify">
+                <a onclick="window.sidebarGo('spotify')" id="snav-spotify">
                     <span class="nav-icon">🎵</span>
                     Music
                 </a>
             </li>
             <li>
-                <a onclick="sidebarGo('articles')" id="snav-articles">
+                <a onclick="window.sidebarGo('articles')" id="snav-articles">
                     <span class="nav-icon">📰</span>
                     Articles
                 </a>
@@ -3864,13 +3872,13 @@
 
             <div class="sidebar-section-label">Community</div>
             <li>
-                <a onclick="sidebarGo('polls')" id="snav-polls">
+                <a onclick="window.sidebarGo('polls')" id="snav-polls">
                     <span class="nav-icon">📊</span>
                     Polls
                 </a>
             </li>
             <li>
-                <a onclick="sidebarGo('groupchat')" id="snav-groupchat">
+                <a onclick="window.sidebarGo('groupchat')" id="snav-groupchat">
                     <span class="nav-icon">💬</span>
                     Group Chat
                     <span class="nav-badge" id="gcNavBadge" style="display:none">●</span>
@@ -3884,10 +3892,10 @@
     </aside>
 
     <!-- Mobile sidebar overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="window.closeSidebar()"></div>
 
     <!-- Mobile sidebar toggle button -->
-    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="window.toggleSidebar()" aria-label="Toggle menu">
         <span></span><span></span><span></span>
     </button>
 
@@ -3905,25 +3913,25 @@
             <span class="banner-icon">📣</span>
             <span class="banner-text" id="bannerText"></span>
         </div>
-        <button id="bannerDismiss" onclick="dismissBanner()" title="Dismiss">✕</button>
+        <button id="bannerDismiss" onclick="window.dismissBanner()" title="Dismiss">✕</button>
     </div>
 
     <!-- ── Notification Bell ───────────────────────────────────── -->
-    <button id="notifBell" onclick="toggleNotifPanel()" title="Notifications" aria-label="Notifications">
+    <button id="notifBell" onclick="window.toggleNotifPanel()" title="Notifications" aria-label="Notifications">
         🔔
         <span id="notifBadge"></span>
     </button>
     <div id="notifPanel">
         <div class="notif-header">
             <span>🔔 Notifications</span>
-            <button class="notif-clear-btn" onclick="clearNotifs()">Clear all</button>
+            <button class="notif-clear-btn" onclick="window.clearNotifs()">Clear all</button>
         </div>
         <div id="notifList">
             <div class="notif-empty">No new notifications</div>
         </div>
     </div>
     <!-- Dark/Light Mode Toggle -->
-    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle light/dark mode" aria-label="Toggle light/dark mode">🌙</button>
+    <button id="darkModeToggle" onclick="window.toggleDarkMode()" title="Toggle light/dark mode" aria-label="Toggle light/dark mode">🌙</button>
     <!-- Brand Name Top Left -->
     <div class="header-brand" aria-label="AHOF Site Brand">꧁|•𝙰𝙷𝙾𝙵 𝚁𝙴:𝚃𝚞𝚛𝚗•|꧂</div>
 
@@ -3933,20 +3941,20 @@
     <!-- Full-screen nav overlay -->
     <div class="nav-overlay" id="navOverlay" role="navigation" aria-label="Full screen menu">
         <div class="nav-overlay-brand">꧁ AHOF ꧂</div>
-        <button class="nav-overlay-close" onclick="closeNavOverlay()" aria-label="Close menu">✕</button>
-        <a onclick="navOverlayGo('about')">About</a>
-        <a onclick="navOverlayGo('fanart')">Fan Art</a>
-        <a onclick="navOverlayGo('achievements')">Achievements</a>
-        <a onclick="navOverlayGo('voting')">Voting Proof</a>
-        <a onclick="navOverlayGo('collab')">Collabs</a>
-        <a onclick="navOverlayGo('spotify')">Music Links</a>
-        <a onclick="navOverlayGo('articles')">Articles</a>
-        <a onclick="navOverlayGo('polls')">Polls</a>
-        <a onclick="navOverlayGo('groupchat')">GC</a>
+        <button class="nav-overlay-close" onclick="window.closeNavOverlay()" aria-label="Close menu">✕</button>
+        <a onclick="window.navOverlayGo('about')">About</a>
+        <a onclick="window.navOverlayGo('fanart')">Fan Art</a>
+        <a onclick="window.navOverlayGo('achievements')">Achievements</a>
+        <a onclick="window.navOverlayGo('voting')">Voting Proof</a>
+        <a onclick="window.navOverlayGo('collab')">Collabs</a>
+        <a onclick="window.navOverlayGo('spotify')">Music Links</a>
+        <a onclick="window.navOverlayGo('articles')">Articles</a>
+        <a onclick="window.navOverlayGo('polls')">Polls</a>
+        <a onclick="window.navOverlayGo('groupchat')">GC</a>
     </div>
 
     <!-- Hamburger Menu -->
-    <div class="hamburger-menu" onclick="openNavOverlay()" aria-label="Open menu" role="button" tabindex="0">
+    <div class="hamburger-menu" onclick="window.openNavOverlay()" aria-label="Open menu" role="button" tabindex="0">
         <div class="hamburger-icon">
             <span></span>
             <span></span>
@@ -3981,15 +3989,15 @@
 
         <nav>
             <ul>
-                <li><a onclick="scrollToSection('about')" class="active">About</a></li>
-                <li><a onclick="scrollToSection('fanart')">Fan Art</a></li>
-                <li><a onclick="scrollToSection('achievements')">Achievements</a></li>
-                <li><a onclick="scrollToSection('voting')">Voting Proof</a></li>
-                <li><a onclick="scrollToSection('collab')">Collabs</a></li>
-                <li><a onclick="scrollToSection('spotify')">Music</a></li>
-                <li><a onclick="scrollToSection('articles')">Articles</a></li>
-                <li><a onclick="scrollToSection('polls')">Polls</a></li>
-                <li><a onclick="scrollToSection('groupchat')">GC</a></li>
+                <li><a onclick="window.scrollToSection('about')" class="active">About</a></li>
+                <li><a onclick="window.scrollToSection('fanart')">Fan Art</a></li>
+                <li><a onclick="window.scrollToSection('achievements')">Achievements</a></li>
+                <li><a onclick="window.scrollToSection('voting')">Voting Proof</a></li>
+                <li><a onclick="window.scrollToSection('collab')">Collabs</a></li>
+                <li><a onclick="window.scrollToSection('spotify')">Music</a></li>
+                <li><a onclick="window.scrollToSection('articles')">Articles</a></li>
+                <li><a onclick="window.scrollToSection('polls')">Polls</a></li>
+                <li><a onclick="window.scrollToSection('groupchat')">GC</a></li>
             </ul>
         </nav>
         <!-- ═══════════════ DASHBOARD STATS HERO ═══════════════ -->
@@ -4052,7 +4060,7 @@
                         <div id="upcomingEventsList" style="margin-top:0.8rem;"></div>
                         <!-- Admin: manage events (hidden for non-admins) -->
                         <div id="adminEventForm" style="display:none;margin-top:1rem;">
-                            <button onclick="toggleAddEventForm()" style="width:100%;background:rgba(212,170,120,0.12);border:1px dashed rgba(212,170,120,0.35);border-radius:10px;color:#c8b89a;padding:0.5rem;font-size:0.82rem;cursor:pointer;margin-bottom:0.5rem;">➕ Add New Event</button>
+                            <button onclick="window.toggleAddEventForm()" style="width:100%;background:rgba(212,170,120,0.12);border:1px dashed rgba(212,170,120,0.35);border-radius:10px;color:#c8b89a;padding:0.5rem;font-size:0.82rem;cursor:pointer;margin-bottom:0.5rem;">➕ Add New Event</button>
                             <div id="addEventFormInner" style="display:none;background:rgba(20,16,8,0.6);border:1px solid #3a3028;border-radius:10px;padding:0.8rem;margin-bottom:0.5rem;">
                                 <input type="text" id="evtName" placeholder="Event name (e.g. Music Bank Stage)" maxlength="100"
                                     style="width:100%;padding:0.5rem 0.8rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.85rem;margin-bottom:0.5rem;box-sizing:border-box;">
@@ -4069,8 +4077,8 @@
                                     <option value="📅">📅 Other</option>
                                 </select>
                                 <div style="display:flex;gap:0.4rem;">
-                                    <button onclick="addAhofEvent()" style="flex:1;background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;padding:0.5rem;color:#1a1410;font-weight:700;font-size:0.85rem;cursor:pointer;">✅ Save Event</button>
-                                    <button onclick="toggleAddEventForm()" style="background:none;border:1px solid #3a3028;border-radius:8px;padding:0.5rem 0.8rem;color:#7a706a;font-size:0.85rem;cursor:pointer;">Cancel</button>
+                                    <button onclick="window.addAhofEvent()" style="flex:1;background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;padding:0.5rem;color:#1a1410;font-weight:700;font-size:0.85rem;cursor:pointer;">✅ Save Event</button>
+                                    <button onclick="window.toggleAddEventForm()" style="background:none;border:1px solid #3a3028;border-radius:8px;padding:0.5rem 0.8rem;color:#7a706a;font-size:0.85rem;cursor:pointer;">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -4079,7 +4087,7 @@
                     <div class="member-info-container">
                         <div class="member-cards-wrapper">
                             <div class="members-grid">
-                        <div class="member-card-container" data-member="STEVEN" onclick="toggleMemberCard(this, 'STEVEN')">
+                        <div class="member-card-container" data-member="STEVEN" onclick="window.toggleMemberCard(this, 'STEVEN')">
                             <div class="member-card">
                                 <div class="member-card-front">
                                     <div class="member-name">STEVEN</div>
@@ -4092,7 +4100,7 @@
                             </div>
                         </div>
 
-                        <div class="member-card-container" data-member="JEONGWOO" onclick="toggleMemberCard(this, 'JEONGWOO')">
+                        <div class="member-card-container" data-member="JEONGWOO" onclick="window.toggleMemberCard(this, 'JEONGWOO')">
                             <div class="member-card">
                                 <div class="member-card-front">
                                     <div class="member-name">JEONGWOO</div>
@@ -4105,7 +4113,7 @@
                             </div>
                         </div>
 
-                        <div class="member-card-container" data-member="WOONGKI" onclick="toggleMemberCard(this, 'WOONGKI')">
+                        <div class="member-card-container" data-member="WOONGKI" onclick="window.toggleMemberCard(this, 'WOONGKI')">
                             <div class="member-card">
                                 <div class="member-card-front">
                                     <div class="member-name">WOONGKI</div>
@@ -4118,7 +4126,7 @@
                             </div>
                         </div>
 
-                        <div class="member-card-container" data-member="SHUAIBO" onclick="toggleMemberCard(this, 'SHUAIBO')">
+                        <div class="member-card-container" data-member="SHUAIBO" onclick="window.toggleMemberCard(this, 'SHUAIBO')">
                             <div class="member-card">
                                 <div class="member-card-front">
                                     <div class="member-name">SHUAIBO</div>
@@ -4131,7 +4139,7 @@
                             </div>
                         </div>
 
-                        <div class="member-card-container" data-member="PARK HAN" onclick="toggleMemberCard(this, 'PARK HAN')">
+                        <div class="member-card-container" data-member="PARK HAN" onclick="window.toggleMemberCard(this, 'PARK HAN')">
                             <div class="member-card">
                                 <div class="member-card-front">
                                     <div class="member-name">PARK HAN</div>
@@ -4144,7 +4152,7 @@
                             </div>
                         </div>
 
-                        <div class="member-card-container" data-member="JL" onclick="toggleMemberCard(this, 'JL')">
+                        <div class="member-card-container" data-member="JL" onclick="window.toggleMemberCard(this, 'JL')">
                             <div class="member-card">
                                 <div class="member-card-front">
                                     <div class="member-name">JL</div>
@@ -4157,7 +4165,7 @@
                             </div>
                         </div>
 
-                        <div class="member-card-container" data-member="JUWON" onclick="toggleMemberCard(this, 'JUWON')">
+                        <div class="member-card-container" data-member="JUWON" onclick="window.toggleMemberCard(this, 'JUWON')">
                             <div class="member-card">
                                 <div class="member-card-front">
                                     <div class="member-name">JUWON</div>
@@ -4170,7 +4178,7 @@
                             </div>
                         </div>
 
-                        <div class="member-card-container" data-member="CHIH-EN" onclick="toggleMemberCard(this, 'CHIH-EN')">
+                        <div class="member-card-container" data-member="CHIH-EN" onclick="window.toggleMemberCard(this, 'CHIH-EN')">
                             <div class="member-card">
                                 <div class="member-card-front">
                                     <div class="member-name">CHIH-EN</div>
@@ -4183,7 +4191,7 @@
                             </div>
                         </div>
 
-                        <div class="member-card-container" data-member="DAISUKE" onclick="toggleMemberCard(this, 'DAISUKE')">
+                        <div class="member-card-container" data-member="DAISUKE" onclick="window.toggleMemberCard(this, 'DAISUKE')">
                             <div class="member-card">
                                 <div class="member-card-front">
                                     <div class="member-name">DAISUKE</div>
@@ -4244,7 +4252,7 @@
             </section>
 
             <section id="achievements">
-                <h2>Achievements <span id="adminUnlockBtn" onclick="promptAdminUnlock()" style="font-size:0.6rem;color:#3a3028;cursor:pointer;font-weight:400;vertical-align:middle;margin-left:6px;" title="Admin">🔒</span></h2>
+                <h2>Achievements <span id="adminUnlockBtn" onclick="window.promptAdminUnlock()" style="font-size:0.6rem;color:#3a3028;cursor:pointer;font-weight:400;vertical-align:middle;margin-left:6px;" title="Admin">🔒</span></h2>
                 <form id="achievementForm">
                     <div class="form-group">
                         <label for="achievementTitle">Achievement Title</label>
@@ -4263,7 +4271,7 @@
                         <input type="file" id="achImage" accept="image/*" style="color:#c8b89a;">
                         <div id="achImagePreview" style="margin-top:0.6rem;display:none;">
                             <img id="achImageThumb" src="" alt="Preview" style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid #3a3028;">
-                            <button type="button" onclick="clearAchImage()" style="display:block;margin-top:0.4rem;background:transparent;color:#e8a898;border:none;cursor:pointer;font-size:0.85rem;">✕ Remove image</button>
+                            <button type="button" onclick="window.clearAchImage()" style="display:block;margin-top:0.4rem;background:transparent;color:#e8a898;border:none;cursor:pointer;font-size:0.85rem;">✕ Remove image</button>
                         </div>
                     </div>
                     <button type="submit">Add Achievement</button>
@@ -4326,7 +4334,7 @@
                         <input type="file" id="votingImage" accept="image/*" required style="color:#c8b89a;">
                         <div id="votingImagePreview" style="margin-top:0.6rem;display:none;">
                             <img id="votingImageThumb" src="" alt="Preview" style="max-width:100%;max-height:200px;border-radius:8px;border:1px solid #3a3028;">
-                            <button type="button" onclick="clearVotingImage()" style="display:block;margin-top:0.4rem;background:transparent;color:#e8a898;border:none;cursor:pointer;font-size:0.85rem;">✕ Remove</button>
+                            <button type="button" onclick="window.clearVotingImage()" style="display:block;margin-top:0.4rem;background:transparent;color:#e8a898;border:none;cursor:pointer;font-size:0.85rem;">✕ Remove</button>
                         </div>
                     </div>
                     <button type="submit">📤 Submit Voting Proof</button>
@@ -4334,7 +4342,7 @@
 
                 <!-- Folder Tabs -->
                 <div id="votingFolderNav" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem;">
-                    <button class="folder-tab active" onclick="showVotingFolder('all', this)">📂 All</button>
+                    <button class="folder-tab active" onclick="window.showVotingFolder('all', this)">📂 All</button>
                 </div>
 
                 <div id="votingContainer">
@@ -4419,7 +4427,7 @@
                 </form>
 
                 <div id="musicFolderNav" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem;">
-                    <button class="folder-tab active" onclick="showMusicFolder('all', this)">📂 All</button>
+                    <button class="folder-tab active" onclick="window.showMusicFolder('all', this)">📂 All</button>
                 </div>
 
                 <div id="spotifyContainer">
@@ -4436,13 +4444,13 @@
 
                 <!-- Admin: Pinned Announcement Banner (only visible to admins) -->
                 <div id="bannerEditorSection" style="display:none; margin-bottom:16px;">
-                    <button onclick="toggleBannerEditor()" style="background:none;border:1px solid rgba(212,170,120,0.3);border-radius:8px;color:#9a8878;padding:5px 14px;font-size:0.78rem;cursor:pointer;margin-bottom:8px;">📣 Manage Pinned Announcement</button>
+                    <button onclick="window.toggleBannerEditor()" style="background:none;border:1px solid rgba(212,170,120,0.3);border-radius:8px;color:#9a8878;padding:5px 14px;font-size:0.78rem;cursor:pointer;margin-bottom:8px;">📣 Manage Pinned Announcement</button>
                     <div id="bannerEditor">
                         <label style="font-size:0.78rem;color:#c8b89a;display:block;margin-bottom:6px;">📣 Pinned Announcement (visible to all visitors)</label>
                         <textarea id="bannerInput" rows="2" maxlength="300" placeholder="Type announcement text here..." style="width:100%;background:#2a2520;border:1px solid #4a3a2a;border-radius:8px;padding:8px 12px;color:#d4cfc8;font-size:0.85rem;resize:none;font-family:inherit;box-sizing:border-box;margin-bottom:8px;"></textarea>
                         <div style="display:flex;gap:8px;">
-                            <button onclick="pinAnnouncement()" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;color:#1a1410;font-weight:700;padding:7px 18px;font-size:0.82rem;cursor:pointer;">📌 Pin Banner</button>
-                            <button onclick="clearAnnouncement()" style="background:none;border:1px solid #4a3a2a;border-radius:8px;color:#9a8878;padding:7px 16px;font-size:0.82rem;cursor:pointer;">✕ Clear Banner</button>
+                            <button onclick="window.pinAnnouncement()" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;color:#1a1410;font-weight:700;padding:7px 18px;font-size:0.82rem;cursor:pointer;">📌 Pin Banner</button>
+                            <button onclick="window.clearAnnouncement()" style="background:none;border:1px solid #4a3a2a;border-radius:8px;color:#9a8878;padding:7px 16px;font-size:0.82rem;cursor:pointer;">✕ Clear Banner</button>
                         </div>
                     </div>
                 </div>
@@ -4481,7 +4489,7 @@
 
                 <!-- Admin: Create Poll -->
                 <div id="pollAdminToggle" style="display:none; margin-bottom:12px;">
-                    <button onclick="togglePollCreateForm()" style="background:rgba(212,170,120,0.12);border:1px solid rgba(212,170,120,0.3);border-radius:10px;color:#c8b89a;padding:8px 18px;font-size:0.85rem;cursor:pointer;">＋ Create New Poll</button>
+                    <button onclick="window.togglePollCreateForm()" style="background:rgba(212,170,120,0.12);border:1px solid rgba(212,170,120,0.3);border-radius:10px;color:#c8b89a;padding:8px 18px;font-size:0.85rem;cursor:pointer;">＋ Create New Poll</button>
                 </div>
                 <div class="poll-create-form" id="pollCreateForm">
                     <div class="form-group">
@@ -4498,8 +4506,8 @@
                         </div>
                     </div>
                     <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-                        <button onclick="addPollOption()" style="background:none;border:1px dashed #3a3028;border-radius:8px;color:#7a6a5a;padding:6px 14px;font-size:0.82rem;cursor:pointer;">+ Add option</button>
-                        <button onclick="submitPoll()" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;color:#1a1410;font-weight:700;padding:7px 20px;font-size:0.85rem;cursor:pointer;">🗳️ Create Poll</button>
+                        <button onclick="window.addPollOption()" style="background:none;border:1px dashed #3a3028;border-radius:8px;color:#7a6a5a;padding:6px 14px;font-size:0.82rem;cursor:pointer;">+ Add option</button>
+                        <button onclick="window.submitPoll()" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;color:#1a1410;font-weight:700;padding:7px 20px;font-size:0.85rem;cursor:pointer;">🗳️ Create Poll</button>
                     </div>
                 </div>
 
@@ -4520,10 +4528,10 @@
                         <span id="gcConnIndicator" style="font-size:0.6rem;" title="Connection status">🔴</span>
                         <div style="flex:1; min-width:0;">
                             <div style="display:flex; align-items:center; gap:6px;">
-                                <span id="gcCurrentName" style="color:#c8b89a; font-weight:700; font-size:0.88rem; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" onclick="gcViewProfile(gcUid)" title="View profile"></span>
-                                <span id="gcMemberCount" style="font-size:0.65rem; color:#5a504a; background:#2a2520; padding:1px 7px; border-radius:8px; cursor:pointer; white-space:nowrap;" onclick="gcToggleMemberPanel('online')">0 online</span>
+                                <span id="gcCurrentName" style="color:#c8b89a; font-weight:700; font-size:0.88rem; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" onclick="window.gcViewProfile(gcUid)" title="View profile"></span>
+                                <span id="gcMemberCount" style="font-size:0.65rem; color:#5a504a; background:#2a2520; padding:1px 7px; border-radius:8px; cursor:pointer; white-space:nowrap;" onclick="window.gcToggleMemberPanel('online')">0 online</span>
                             </div>
-                            <div style="font-size:0.62rem; color:#5a504a; margin-top:1px; cursor:pointer;" onclick="gcToggleMemberPanel('all')">
+                            <div style="font-size:0.62rem; color:#5a504a; margin-top:1px; cursor:pointer;" onclick="window.gcToggleMemberPanel('all')">
                                 <span id="gcTotalMembers">👥 0 members</span>
                             </div>
                         </div>
@@ -4538,18 +4546,18 @@
                         <!-- Color themes row -->
                         <div style="display:flex;align-items:center;gap:6px;width:100%;flex-wrap:wrap;">
                             <span style="font-size:0.65rem;color:#6a5a4a;white-space:nowrap;">🎨 Theme:</span>
-                            <div class="gc-theme-btn" style="background:#15120e;" onclick="gcSetTheme('default')" title="Default Dark"></div>
-                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#1a1020,#0d0a18);" onclick="gcSetTheme('midnight')" title="Midnight"></div>
-                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#0a1a0f,#0d1f15);" onclick="gcSetTheme('forest')" title="Forest"></div>
-                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#1a0e08,#2a1505);" onclick="gcSetTheme('sunset')" title="Sunset"></div>
-                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#08101a,#0a1525);" onclick="gcSetTheme('ocean')" title="Ocean"></div>
-                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#1a0810,#250d18);" onclick="gcSetTheme('rose')" title="Rose"></div>
+                            <div class="gc-theme-btn" style="background:#15120e;" onclick="window.gcSetTheme('default')" title="Default Dark"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#1a1020,#0d0a18);" onclick="window.gcSetTheme('midnight')" title="Midnight"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#0a1a0f,#0d1f15);" onclick="window.gcSetTheme('forest')" title="Forest"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#1a0e08,#2a1505);" onclick="window.gcSetTheme('sunset')" title="Sunset"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#08101a,#0a1525);" onclick="window.gcSetTheme('ocean')" title="Ocean"></div>
+                            <div class="gc-theme-btn" style="background:linear-gradient(135deg,#1a0810,#250d18);" onclick="window.gcSetTheme('rose')" title="Rose"></div>
                         </div>
                         <!-- Custom background photo row -->
                         <div style="display:flex;align-items:center;gap:8px;width:100%;margin-top:4px;flex-wrap:wrap;">
                             <span style="font-size:0.65rem;color:#6a5a4a;white-space:nowrap;">🖼️ Background:</span>
                             <button onclick="document.getElementById('gcBgFile').click()" style="background:#2a2520;border:1px solid #3a3028;border-radius:8px;color:#9a8878;font-size:0.72rem;padding:3px 10px;cursor:pointer;">Upload photo</button>
-                            <button onclick="gcRemoveBg()" style="background:none;border:1px solid #3a3028;border-radius:8px;color:#6a5a4a;font-size:0.72rem;padding:3px 10px;cursor:pointer;">Remove</button>
+                            <button onclick="window.gcRemoveBg()" style="background:none;border:1px solid #3a3028;border-radius:8px;color:#6a5a4a;font-size:0.72rem;padding:3px 10px;cursor:pointer;">Remove</button>
                             <input type="file" id="gcBgFile" accept="image/*" style="display:none;">
                             <span id="gcBgStatus" style="font-size:0.65rem;color:#5a4a3a;"></span>
                         </div>
@@ -4572,7 +4580,7 @@
                     <!-- Reply Bar -->
                     <div id="gcReplyBar" style="display:none; padding:6px 12px; background:#1e1a14; border-bottom:1px solid #2a2520; align-items:center; gap:8px;">
                         <div id="gcReplyText" style="flex:1; font-size:0.75rem; color:#9a8878; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></div>
-                        <button onclick="gcClearReply()" style="background:none;border:none;color:#6a6058;cursor:pointer;font-size:0.9rem;line-height:1;">✕</button>
+                        <button onclick="window.gcClearReply()" style="background:none;border:none;color:#6a6058;cursor:pointer;font-size:0.9rem;line-height:1;">✕</button>
                     </div>
 
                     <!-- Pull to Refresh Indicator -->
@@ -4616,10 +4624,10 @@
     </div>
 
     <div class="modal" id="imageModal" onclick="if(event.target===this)closeModal()">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <button class="modal-nav prev" onclick="lightboxPrev()">‹</button>
+        <span class="modal-close" onclick="window.closeModal()">&times;</span>
+        <button class="modal-nav prev" onclick="window.lightboxPrev()">‹</button>
         <img id="modalImage" src="" alt="Full size">
-        <button class="modal-nav next" onclick="lightboxNext()">›</button>
+        <button class="modal-nav next" onclick="window.lightboxNext()">›</button>
         <div class="modal-caption" id="modalCaption"></div>
     </div>
 
@@ -5026,11 +5034,11 @@
                             <h3>${sanitize(ach.title)}</h3>
                             <div class="date">${new Date(ach.date).toLocaleDateString()} • ${sanitize(ach.author)}</div>
                             <p>${sanitize(ach.description)}</p>
-                            ${ach.imageUrl ? `<img loading="lazy" src="${sanitize(ach.imageUrl)}" alt="Achievement image" loading="lazy" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="openModal('${sanitize(ach.imageUrl)}')">` : ''}
+                            ${ach.imageUrl ? `<img loading="lazy" src="${sanitize(ach.imageUrl)}" alt="Achievement image" loading="lazy" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="window.openModal('${sanitize(ach.imageUrl)}')">` : ''}
                             ${isAdmin() ? `
                             <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-                                <button onclick="editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
-                                <button onclick="deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.3);color:#fff;border:1px solid rgba(220,50,50,0.5);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
+                                <button onclick="window.editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
+                                <button onclick="window.deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.3);color:#fff;border:1px solid rgba(220,50,50,0.5);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
                             </div>` : ''}
                             ${lcBar('ach', sanitize(ach.id))}
                         </div>
@@ -5142,11 +5150,11 @@
                         <span class="post-date">By ${sanitize(p.author)} • ${new Date(p.timestamp).toLocaleDateString()}</span>
                     </div>
                     ${p.note ? `<p style="margin:0.3rem 0 0.5rem;font-size:0.9rem;color:#b0a090;">${sanitize(p.note)}</p>` : ''}
-                    <img loading="lazy" src="${sanitize(p.imageUrl)}" alt="Voting proof" style="max-width:100%;max-height:340px;object-fit:contain;border-radius:10px;cursor:pointer;border:1px solid #3a3028;display:block;" onclick="openModal('${sanitize(p.imageUrl)}')">
+                    <img loading="lazy" src="${sanitize(p.imageUrl)}" alt="Voting proof" style="max-width:100%;max-height:340px;object-fit:contain;border-radius:10px;cursor:pointer;border:1px solid #3a3028;display:block;" onclick="window.openModal('${sanitize(p.imageUrl)}')">
                     ${(p.sessionKey === getSessionKey() || isAdmin()) ? `
                     <div style="margin-top:0.6rem;display:flex;gap:6px;flex-wrap:wrap;">
-                        ${p.sessionKey === getSessionKey() ? `<button onclick="editVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}','${sanitize(p.caption||'')}')" style="background:#2a3020;color:#a8c898;border:1px solid #4a6a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>` : ''}
-                        <button onclick="deleteVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
+                        ${p.sessionKey === getSessionKey() ? `<button onclick="window.editVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}','${sanitize(p.caption||'')}')" style="background:#2a3020;color:#a8c898;border:1px solid #4a6a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>` : ''}
+                        <button onclick="window.deleteVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
                     </div>` : ''}
                 </div>
             `).join('');
@@ -5154,10 +5162,10 @@
 
         function buildFolderTabs(appsWithData) {
             const nav = document.getElementById('votingFolderNav');
-            nav.innerHTML = `<button class="folder-tab ${_activeVotingFolder === 'all' ? 'active' : ''}" onclick="showVotingFolder('all', this)">📂 All (${_allVotingProofs.length})</button>`;
+            nav.innerHTML = `<button class="folder-tab ${_activeVotingFolder === 'all' ? 'active' : ''}" onclick="window.showVotingFolder('all', this)">📂 All (${_allVotingProofs.length})</button>`;
             appsWithData.forEach(({ app, count }) => {
                 const isActive = _activeVotingFolder === app ? 'active' : '';
-                nav.innerHTML += `<button class="folder-tab ${isActive}" data-app="${app}" onclick="showVotingFolder('${app.replace(/'/g,"\\'")}', this)">📁 ${app} <span style="opacity:0.7;font-size:0.75rem;">(${count})</span></button>`;
+                nav.innerHTML += `<button class="folder-tab ${isActive}" data-app="${app}" onclick="window.showVotingFolder('${app.replace(/'/g,"\\'")}', this)">📁 ${app} <span style="opacity:0.7;font-size:0.75rem;">(${count})</span></button>`;
             });
         }
 
@@ -5223,10 +5231,10 @@
         // Build like+comment bar HTML (inserted into each card)
         function lcBar(type, id) {
             return `<div class="lc-bar" id="lc-bar-${type}-${id}">
-                <button class="lc-like-btn" id="lc-like-${type}-${id}" onclick="lcToggleLike('${type}','${id}')">
+                <button class="lc-like-btn" id="lc-like-${type}-${id}" onclick="window.lcToggleLike('${type}','${id}')">
                     ❤️ <span id="lc-likecount-${type}-${id}">0</span>
                 </button>
-                <button class="lc-comment-toggle" onclick="lcToggleComments('${type}','${id}')">
+                <button class="lc-comment-toggle" onclick="window.lcToggleComments('${type}','${id}')">
                     💬 <span id="lc-commentcount-${type}-${id}">0</span> Comments
                 </button>
                 <div class="lc-comments-section" id="lc-comments-${type}-${id}">
@@ -5234,8 +5242,8 @@
                     <div class="lc-comment-input-row">
                         <input class="lc-comment-input" id="lc-input-${type}-${id}"
                             placeholder="Write a comment..." maxlength="200"
-                            onkeydown="if(event.key==='Enter')lcPostComment('${type}','${id}')">
-                        <button class="lc-comment-send" onclick="lcPostComment('${type}','${id}')">➤</button>
+                            onkeydown="if(event.key==='Enter')window.lcPostComment('${type}','${id}')">
+                        <button class="lc-comment-send" onclick="window.lcPostComment('${type}','${id}')">➤</button>
                     </div>
                 </div>
             </div>`;
@@ -5289,7 +5297,7 @@
                 const countEl = document.getElementById('lc-likecount-' + type + '-' + id);
                 const btn = document.getElementById('lc-like-' + type + '-' + id);
                 if (!countEl) return;
-                const count = snap.numChildren();
+                const count = snap.size;
                 countEl.textContent = count;
                 const liked = snap.child(lcUid).exists();
                 btn?.classList.toggle('liked', liked);
@@ -5320,7 +5328,7 @@
                             <div class="lc-comment-text">${cm.text||''}</div>
                             <div style="display:flex;justify-content:space-between;align-items:center;">
                                 <div class="lc-comment-time">${time}</div>
-                                ${canDel ? `<button onclick="lcDeleteComment('${type}','${id}','${cm.key}')" style="background:none;border:none;color:#6a3a3a;cursor:pointer;font-size:0.7rem;">✕</button>` : ''}
+                                ${canDel ? `<button onclick="window.lcDeleteComment('${type}','${id}','${cm.key}')" style="background:none;border:none;color:#6a3a3a;cursor:pointer;font-size:0.7rem;">✕</button>` : ''}
                             </div>
                         </div>
                     </div>`;
@@ -5591,7 +5599,7 @@
             // Bubble
             if (msg.imageUrl) {
                 h += `<div style="padding:5px;border-radius:14px;${isOwn?'border-bottom-right-radius:4px':'border-bottom-left-radius:4px'};background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};max-width:180px;">
-                    <img loading="lazy" src="${gcS(msg.imageUrl)}" onclick="openModal('${gcS(msg.imageUrl)}')" style="max-width:100%;border-radius:10px;cursor:pointer;display:block;">
+                    <img loading="lazy" src="${gcS(msg.imageUrl)}" onclick="window.openModal('${gcS(msg.imageUrl)}')" style="max-width:100%;border-radius:10px;cursor:pointer;display:block;">
                 </div>`;
             } else {
                 h += `<div style="padding:8px 14px;border-radius:18px;${isOwn?'border-bottom-right-radius:4px':'border-bottom-left-radius:4px'};font-size:0.87rem;line-height:1.5;color:#d4cfc8;word-break:break-word;background:${isOwn?'linear-gradient(135deg,#5a4a3a,#4a3a2a)':'#2a2520'};border:${isOwn?'none':'1px solid #3a3028'};">${gcS(msg.text||'')}</div>`;
@@ -5601,9 +5609,9 @@
             const t = msg.text || (msg.imageUrl ? '📷 Image' : '');
             h += `<div style="display:flex;align-items:center;gap:5px;padding:2px 2px;${isOwn?'justify-content:flex-end':''}">
                 <span style="font-size:0.62rem;color:#4a3a3a;">${gcTime(msg.timestamp)}</span>
-                <button data-reply-id="${gcS(id)}" data-reply-sender="${gcS(msg.username)}" data-reply-text="${gcS(t)}" onclick="gcHandleReply(this)" style="background:none;border:none;color:#6a5a50;cursor:pointer;font-size:0.7rem;padding:0 3px;" title="Reply">↩</button>
-                <button onclick="gcShowReactions(this,'${gcS(id)}')" style="background:none;border:none;color:#6a5a50;cursor:pointer;font-size:0.75rem;padding:0 3px;" title="React">😊</button>
-                ${canDel?`<button onclick="gcUnsend('${gcS(id)}')" style="background:none;border:none;color:#6a4040;cursor:pointer;font-size:0.7rem;padding:0 3px;" title="Unsend">✕</button>`:''}
+                <button data-reply-id="${gcS(id)}" data-reply-sender="${gcS(msg.username)}" data-reply-text="${gcS(t)}" onclick="window.gcHandleReply(this)" style="background:none;border:none;color:#6a5a50;cursor:pointer;font-size:0.7rem;padding:0 3px;" title="Reply">↩</button>
+                <button onclick="window.gcShowReactions(this,'${gcS(id)}')" style="background:none;border:none;color:#6a5a50;cursor:pointer;font-size:0.75rem;padding:0 3px;" title="React">😊</button>
+                ${canDel?`<button onclick="window.gcUnsend('${gcS(id)}')" style="background:none;border:none;color:#6a4040;cursor:pointer;font-size:0.7rem;padding:0 3px;" title="Unsend">✕</button>`:''}
             </div>
             <div class="gc-reactions" style="margin-top:2px;${isOwn?'justify-content:flex-end;':''}display:flex;flex-wrap:wrap;gap:4px;"></div>`;
 
@@ -6204,7 +6212,7 @@
             // Total members ever joined
             onValue(ref(database, 'groupchat/members'), snap => {
                 const el = document.getElementById('gcTotalMembers');
-                if (el) el.textContent = '👥 ' + snap.numChildren() + ' members';
+                if (el) el.textContent = '👥 ' + snap.size + ' members';
                 const allList = document.getElementById('gcAllMemberList');
                 if (allList) {
                     allList.innerHTML = '';
@@ -6221,7 +6229,7 @@
             onValue(ref(database, 'groupchat/presence'), snap => {
                 const onlineCountEl = document.getElementById('gcOnlineCount');
                 const listEl = document.getElementById('gcMemberList');
-                const count = snap.numChildren();
+                const count = snap.size;
 
                 if (onlineCountEl) onlineCountEl.textContent = count;
 
@@ -6387,19 +6395,30 @@
             sidebarGo(sectionId);
         };
 
-        // ── Sidebar Navigation ────────────────────────────────────────────────
+        // ── Sidebar Navigation (SPA show/hide) ───────────────────────────────
+        const SPA_SECTIONS = ['about','fanart','achievements','voting','collab','spotify','articles','polls','groupchat'];
+
         window.sidebarGo = (sectionId) => {
-            // Update active state
+            // Hide all sections
+            SPA_SECTIONS.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('section-active');
+            });
+            // Show target section
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.classList.add('section-active');
+                // Trigger fade-in for child elements that haven't animated yet
+                target.querySelectorAll('.fade-in-up:not(.visible)').forEach(el => {
+                    fadeObserver.observe(el);
+                });
+            }
+            // Update active nav link
             document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
             const activeLink = document.getElementById('snav-' + sectionId);
             if (activeLink) activeLink.classList.add('active');
-            // Scroll to section
-            const el = document.getElementById(sectionId);
-            if (el) {
-                const offset = window.innerWidth <= 820 ? 0 : 0;
-                const top = el.getBoundingClientRect().top + window.scrollY - offset;
-                window.scrollTo({ top: top - 20, behavior: 'smooth' });
-            }
+            // Scroll to top of page
+            window.scrollTo({ top: 0, behavior: 'auto' });
             // Close sidebar on mobile
             if (window.innerWidth <= 820) closeSidebar();
         };
@@ -6445,24 +6464,11 @@
         };
         sidebarStatSync();
 
-        // Highlight active nav item on scroll
-        const sidebarScrollSpy = () => {
-            const sections = ['about','fanart','achievements','voting','collab','spotify','articles','polls','groupchat'];
-            const onScroll = () => {
-                let current = sections[0];
-                sections.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el && el.getBoundingClientRect().top <= 120) current = id;
-                });
-                document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
-                const link = document.getElementById('snav-' + current);
-                if (link) link.classList.add('active');
-            };
-            window.addEventListener('scroll', onScroll, { passive: true });
-        };
-        sidebarScrollSpy();
+        // Activate default section on load
+        // sidebarGo('about') is called below after fadeObserver is defined
 
         // ── Scroll Animations ─────────────────────────────────────────────────
+        // Fade-in for elements within visible sections
         const fadeObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -6472,13 +6478,13 @@
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('section').forEach(el => {
-            el.classList.add('fade-in-up');
+        // Only observe non-section fade-in-up elements (sections handled by SPA show/hide)
+        document.querySelectorAll('.fade-in-up:not(section)').forEach(el => {
             fadeObserver.observe(el);
         });
-        document.querySelectorAll('.fade-in-up').forEach(el => {
-            fadeObserver.observe(el);
-        });
+
+        // Activate default section on load (after fadeObserver is ready)
+        sidebarGo('about');
 
         // ── Back to Top Button ────────────────────────────────────────────────
         const backTopBtn = document.getElementById('backToTop');
@@ -6504,7 +6510,7 @@
             let diff = _countdownTarget.date - now;
             if (eventNameEl) {
                 const delBtn = (_countdownTarget.id && isAdmin())
-                    ? ` <button onclick="deleteAhofEvent('${_countdownTarget.id}')" title="Delete this event"
+                    ? ` <button onclick="window.deleteAhofEvent('${_countdownTarget.id}')" title="Delete this event"
                           style="background:none;border:none;color:rgba(200,184,154,0.4);cursor:pointer;font-size:0.7rem;vertical-align:middle;padding:0 2px;" >🗑️</button>`
                     : '';
                 eventNameEl.innerHTML = sanitize(_countdownTarget.name) + delBtn;
@@ -6579,9 +6585,9 @@
                         <div style="display:flex;align-items:center;gap:0.4rem;flex-shrink:0;margin-left:0.5rem;">
                             <span style="font-size:0.65rem;background:#2a231e;color:${isNext ? '#c8b89a' : '#7a706a'};border-radius:6px;padding:0.15rem 0.4rem;white-space:nowrap;">${diffLabel}</span>
                             ${isAdmin() ? `
-                            <button onclick="editAhofEvent('${e.id}','${sanitize(e.name).replace(/'/g,"\\'")}','${e.date}','${e.icon}')"
+                            <button onclick="window.editAhofEvent('${e.id}','${sanitize(e.name).replace(/'/g,"\\'")}','${e.date}','${e.icon}')"
                                 style="background:none;border:none;color:#7a706a;cursor:pointer;font-size:0.75rem;padding:0.15rem 0.3rem;" title="Edit">✏️</button>
-                            <button onclick="deleteAhofEvent('${e.id}')"
+                            <button onclick="window.deleteAhofEvent('${e.id}')"
                                 style="background:none;border:none;color:#7a706a;cursor:pointer;font-size:0.75rem;padding:0.15rem 0.3rem;" title="Delete">🗑️</button>` : ''}
                         </div>
                     </div>`;
@@ -6936,7 +6942,7 @@
                         ${item.link ? `<a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="card-link">🔗 View Collab Link</a>` : ''}
                         ${(item.sessionKey === getSessionKey() || isAdmin()) ? `
                         <div style="margin-top:0.6rem;display:flex;gap:6px;">
-                            <button onclick="deleteCollab('${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
+                            <button onclick="window.deleteCollab('${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
                         </div>` : ''}
                     </div>
                 `).join('');
@@ -7014,7 +7020,7 @@
                     ${item.note ? `<div class="card-note">${sanitize(item.note)}</div>` : ''}
                     <a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="card-link">▶ Stream Now</a>
                     <div style="margin-top:0.6rem;display:flex;gap:6px;">
-                        <button onclick="deleteMusicLink('${sanitize(item._platformKey)}','${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
+                        <button onclick="window.deleteMusicLink('${sanitize(item._platformKey)}','${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
                     </div>
                 </div>
             `).join('');
@@ -7023,11 +7029,11 @@
         function buildMusicFolderTabs(platformsWithData) {
             const nav = document.getElementById('musicFolderNav');
             if (!nav) return;
-            nav.innerHTML = `<button class="folder-tab ${_activeMusicFolder === 'all' ? 'active' : ''}" onclick="showMusicFolder('all', this)">📂 All (${_allMusicLinks.length})</button>`;
+            nav.innerHTML = `<button class="folder-tab ${_activeMusicFolder === 'all' ? 'active' : ''}" onclick="window.showMusicFolder('all', this)">📂 All (${_allMusicLinks.length})</button>`;
             platformsWithData.forEach(({ platform, count }) => {
                 const isActive = _activeMusicFolder === platform ? 'active' : '';
                 const icon = PLATFORM_ICONS[platform] || '🎵';
-                nav.innerHTML += `<button class="folder-tab ${isActive}" onclick="showMusicFolder('${platform.replace(/'/g,"\\'")}', this)">${icon} ${platform} <span style="opacity:0.7;font-size:0.75rem;">(${count})</span></button>`;
+                nav.innerHTML += `<button class="folder-tab ${isActive}" onclick="window.showMusicFolder('${platform.replace(/'/g,"\\'")}', this)">${icon} ${platform} <span style="opacity:0.7;font-size:0.75rem;">(${count})</span></button>`;
             });
         }
 
@@ -7120,7 +7126,7 @@
                         <a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="card-link">📖 Read Article</a>
                         ${(item.sessionKey === getSessionKey() || isAdmin()) ? `
                         <div style="margin-top:0.6rem;display:flex;gap:6px;">
-                            <button onclick="deleteArticle('${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
+                            <button onclick="window.deleteArticle('${sanitize(item.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ Delete</button>
                         </div>` : ''}
                     </div>
                 `).join('');
@@ -7585,7 +7591,7 @@
                 return;
             }
             list.innerHTML = _notifList.map(n => `
-                <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="notifClick('${n.id}','${n.section||''}')">
+                <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="window.notifClick('${n.id}','${n.section||''}')">
                     <span class="notif-emoji">${n.emoji}</span>
                     <div class="notif-body">
                         <div class="notif-title">${sanitize(n.title)}</div>
@@ -7691,7 +7697,7 @@
             return `<div class="reactions-row" id="reactions-row-${type}-${id}">
                 ${REACTIONS.map(emoji => `
                     <button class="reaction-btn" id="react-${type}-${id}-${encodeURIComponent(emoji)}"
-                        onclick="toggleReaction('${type}','${id}','${emoji}')">
+                        onclick="window.toggleReaction('${type}','${id}','${emoji}')">
                         ${emoji} <span class="reaction-count" id="rcount-${type}-${id}-${encodeURIComponent(emoji)}">0</span>
                     </button>
                 `).join('')}
@@ -7713,7 +7719,7 @@
         function listenReactions(type, id) {
             REACTIONS.forEach(emoji => {
                 onValue(ref(database, 'reactions/' + type + '/' + id + '/' + encodeURIComponent(emoji)), snap => {
-                    const count = snap.numChildren();
+                    const count = snap.size;
                     const el = document.getElementById('rcount-' + type + '-' + id + '-' + encodeURIComponent(emoji));
                     const btn = document.getElementById('react-' + type + '-' + id + '-' + encodeURIComponent(emoji));
                     if (el) el.textContent = count;
@@ -7847,7 +7853,7 @@
                         ${totalVotes} vote${totalVotes !== 1 ? 's' : ''}
                         ${hasVoted ? ' · You voted ✓' : ' · Tap an option to vote'}
                     </div>
-                    ${isAdmin() ? `<button onclick="deletePoll('${poll.id}')" style="margin-top:10px;background:none;border:1px solid #4a2020;border-radius:8px;color:#8a4a4a;padding:4px 12px;font-size:0.75rem;cursor:pointer;">🗑️ Delete poll</button>` : ''}
+                    ${isAdmin() ? `<button onclick="window.deletePoll('${poll.id}')" style="margin-top:10px;background:none;border:1px solid #4a2020;border-radius:8px;color:#8a4a4a;padding:4px 12px;font-size:0.75rem;cursor:pointer;">🗑️ Delete poll</button>` : ''}
                 </div>`;
             }).join('');
 
@@ -7910,11 +7916,11 @@
                             <h3>${sanitize(ach.title)}</h3>
                             <div class="date">${new Date(ach.date).toLocaleDateString()} • ${sanitize(ach.author)}</div>
                             <p>${sanitize(ach.description)}</p>
-                            ${ach.imageUrl ? `<img loading="lazy" src="${sanitize(ach.imageUrl)}" alt="Achievement image" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="openModal('${sanitize(ach.imageUrl)}')">` : ''}
+                            ${ach.imageUrl ? `<img loading="lazy" src="${sanitize(ach.imageUrl)}" alt="Achievement image" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="window.openModal('${sanitize(ach.imageUrl)}')">` : ''}
                             ${isAdmin() ? `
                             <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-                                <button onclick="editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
-                                <button onclick="deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.3);color:#fff;border:1px solid rgba(220,50,50,0.5);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
+                                <button onclick="window.editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
+                                <button onclick="window.deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.3);color:#fff;border:1px solid rgba(220,50,50,0.5);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
                             </div>` : ''}
                             ${reactionsBar('ach', sanitize(ach.id))}
                             ${_lcBarOrig('ach', sanitize(ach.id))}
@@ -8227,6 +8233,79 @@
                 </div>
             </details>
 
+            <!-- Terms of Service accordion -->
+            <details style="margin-bottom:0.4rem;">
+                <summary style="cursor:pointer;font-size:0.75rem;color:#6a5a4a;letter-spacing:1px;text-transform:uppercase;list-style:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:0.5rem 0;border-top:1px solid #2a2520;user-select:none;">
+                    <span>📜 Terms of Service</span> <span style="font-size:0.6rem;opacity:0.6;">▼</span>
+                </summary>
+                <div style="padding:1.2rem;background:#1a1610;border:1px solid #2a2520;border-radius:10px;margin-top:0.5rem;font-size:0.82rem;color:#b0a090;line-height:1.8;">
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">1. Acceptance of Terms</p>
+                    <p style="margin-bottom:0.8rem;">By accessing or using the AHOF Fan Hub ("the Site"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Site. These terms apply to all visitors, members, and anyone who accesses or uses the Site in any way.</p>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">2. Nature of the Site</p>
+                    <p style="margin-bottom:0.8rem;">AHOF Fan Hub is an <strong style="color:#c8b89a;">unofficial</strong> fan-run community platform. It is not affiliated with, endorsed by, or officially connected to AHOF, FNF Entertainment, Universe League, or any of their affiliates. All group-related content, trademarks, logos, and intellectual property belong to their respective owners.</p>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">3. Eligibility</p>
+                    <ul style="margin-left:1.2rem;margin-bottom:0.8rem;">
+                        <li>You must be at least 13 years of age to use this Site.</li>
+                        <li>By using the Site, you represent that you meet this age requirement.</li>
+                        <li>If you are under 18, you must have parental or guardian consent to use this Site.</li>
+                    </ul>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">4. User Accounts &amp; Identity</p>
+                    <ul style="margin-left:1.2rem;margin-bottom:0.8rem;">
+                        <li>You are identified by a device-generated UID stored locally on your browser. You are responsible for all activity originating from your device.</li>
+                        <li>Your display name, avatar, and bio are visible to other users. Choose them responsibly.</li>
+                        <li>You may not use a name or avatar that impersonates any person, group, or brand.</li>
+                        <li>GC access is granted via a shared access code. Do not distribute this code outside of authorized FOHA channels.</li>
+                    </ul>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">5. User-Generated Content</p>
+                    <ul style="margin-left:1.2rem;margin-bottom:0.8rem;">
+                        <li>You retain ownership of original content you submit (fan art, messages, etc.).</li>
+                        <li>By submitting content, you grant the Site a non-exclusive, royalty-free license to display and store that content for the purpose of operating the Site.</li>
+                        <li>You are solely responsible for ensuring your submissions do not infringe on third-party copyrights, trademarks, or other intellectual property rights.</li>
+                        <li>You must not submit content that is illegal, harmful, defamatory, obscene, or that violates any applicable law.</li>
+                        <li>Admins reserve the right to remove any content at their discretion without notice.</li>
+                    </ul>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">6. Prohibited Activities</p>
+                    <ul style="margin-left:1.2rem;margin-bottom:0.8rem;">
+                        <li>Using automated bots, scrapers, or scripts to interact with any feature of the Site.</li>
+                        <li>Attempting to access, tamper with, or disrupt the Site's backend, database, or admin features.</li>
+                        <li>Manipulating polls, votes, likes, or reaction counts through any artificial means.</li>
+                        <li>Sharing, distributing, or using other members' personal information without consent.</li>
+                        <li>Using the Site for any commercial purpose, spam, or unauthorized solicitation.</li>
+                        <li>Attempting to reverse-engineer, copy, or replicate the Site's code or design for unauthorized use.</li>
+                    </ul>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">7. Intellectual Property</p>
+                    <ul style="margin-left:1.2rem;margin-bottom:0.8rem;">
+                        <li>The Site's original design, code, and community-created assets are the work of the FOHA admin team.</li>
+                        <li>All AHOF group photos, music, logos, and official content belong to FNF Entertainment and/or AHOF and are used here in a fan context only.</li>
+                        <li>Do not reproduce or redistribute Site content or design without permission from the admins.</li>
+                    </ul>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">8. Limitation of Liability</p>
+                    <p style="margin-bottom:0.8rem;">The Site is provided "as is" without warranties of any kind. The admins are not liable for any damages arising from your use of the Site, including but not limited to loss of data, service interruptions, or content posted by other users. Use of the Site is entirely at your own risk.</p>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">9. Termination of Access</p>
+                    <p style="margin-bottom:0.8rem;">Admins reserve the right to restrict or revoke your access to any or all features of the Site at any time, for any reason, including violation of these Terms, without prior notice or liability.</p>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">10. Changes to Terms</p>
+                    <p style="margin-bottom:0.8rem;">These Terms may be updated at any time. Continued use of the Site after changes are posted constitutes your acceptance of the updated Terms. It is your responsibility to review these Terms periodically.</p>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">11. Governing Law</p>
+                    <p style="margin-bottom:0.8rem;">These Terms shall be governed by and interpreted in accordance with applicable local laws. Any disputes arising from use of the Site will be handled through the admin team in good faith before any formal escalation.</p>
+
+                    <p style="color:#c8b89a;font-weight:700;margin-bottom:0.4rem;">12. Contact</p>
+                    <p style="margin-bottom:0.4rem;">For questions, concerns, or content removal requests regarding these Terms, please reach out through FOHA's official social media channels.</p>
+
+                    <p style="font-size:0.75rem;color:#5a4a3a;margin-top:0.8rem;">Last updated: March 2026 · AHOF Fan Hub — Unofficial Fan Community</p>
+                </div>
+            </details>
+
             <!-- Privacy accordion -->
             <details style="margin-bottom:0.4rem;">
                 <summary style="cursor:pointer;font-size:0.75rem;color:#6a5a4a;letter-spacing:1px;text-transform:uppercase;list-style:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:0.5rem 0;border-top:1px solid #2a2520;user-select:none;">
@@ -8262,7 +8341,7 @@
     </footer>
 
     <!-- GC Notification Badge -->
-    <div id="gcNotifBadge" onclick="gcGoToChat()">
+    <div id="gcNotifBadge" onclick="window.gcGoToChat()">
         <span id="gcNotifText">💬 New message</span>
         <button class="notif-close" onclick="event.stopPropagation(); gcDismissNotif()">✕</button>
     </div>
@@ -8270,12 +8349,12 @@
     <!-- GC Profile View Modal -->
     <div id="gcProfileModal" onclick="if(event.target===this)gcCloseProfile()">
         <div class="gc-profile-card">
-            <button class="close-btn" onclick="gcCloseProfile()">✕</button>
+            <button class="close-btn" onclick="window.gcCloseProfile()">✕</button>
             <div id="gcProfileAvatarLg"></div>
             <div id="gcProfileName" style="color:#c8b89a;font-weight:700;font-size:1.1rem;margin-bottom:4px;"></div>
             <div id="gcProfileBio" style="color:#9a8878;font-size:0.82rem;line-height:1.5;margin-top:6px;"></div>
             <div id="gcProfileEditBtn" style="margin-top:14px;display:none;">
-                <button onclick="gcOpenSetup()" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:10px;padding:8px 20px;color:#1a1410;font-weight:700;font-size:0.85rem;cursor:pointer;">✏️ Edit Profile</button>
+                <button onclick="window.gcOpenSetup()" style="background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:10px;padding:8px 20px;color:#1a1410;font-weight:700;font-size:0.85rem;cursor:pointer;">✏️ Edit Profile</button>
             </div>
         </div>
     </div>
@@ -8313,11 +8392,11 @@
             <p style="color:#7a6a5a;font-size:0.78rem;text-align:center;margin:0 0 16px;">Enter your admin key to unlock admin features.</p>
             <input type="password" id="adminKeyInput" placeholder="Admin key..."
                 style="width:100%;padding:10px 12px;background:#1c1814;border:1px solid #4a3a2a;border-radius:8px;color:#d4cfc8;font-size:0.9rem;box-sizing:border-box;margin-bottom:10px;"
-                onkeydown="if(event.key==='Enter')submitAdminKey();">
+                onkeydown="if(event.key==='Enter')window.submitAdminKey();">
             <p id="adminKeyError" style="color:#e8a898;font-size:0.78rem;text-align:center;margin:0 0 10px;display:none;">❌ Wrong key. Try again.</p>
             <div style="display:flex;gap:8px;">
-                <button onclick="closeAdminModal()" style="flex:1;background:none;border:1px solid #3a3028;border-radius:8px;color:#7a6a5a;padding:9px;font-size:0.85rem;cursor:pointer;">Cancel</button>
-                <button onclick="submitAdminKey()" style="flex:2;background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;color:#1a1410;font-weight:700;padding:9px;font-size:0.85rem;cursor:pointer;">Unlock 🔓</button>
+                <button onclick="window.closeAdminModal()" style="flex:1;background:none;border:1px solid #3a3028;border-radius:8px;color:#7a6a5a;padding:9px;font-size:0.85rem;cursor:pointer;">Cancel</button>
+                <button onclick="window.submitAdminKey()" style="flex:2;background:linear-gradient(135deg,#c8b89a,#a89070);border:none;border-radius:8px;color:#1a1410;font-weight:700;padding:9px;font-size:0.85rem;cursor:pointer;">Unlock 🔓</button>
             </div>
         </div>
     </div>
