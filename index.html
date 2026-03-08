@@ -938,25 +938,464 @@
             font-style: italic;
         }
 
-        .achievement-card {
-            background: linear-gradient(135deg, #2e2820 0%, #3e3228 100%);
-            color: #fff;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        /* ── Achievements Section — Premium Redesign ─────────────────────── */
+
+        /* Section header */
+        .ach-header {
+            margin-bottom: 2rem;
         }
+        .ach-header-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1.6rem;
+        }
+        .ach-eyebrow {
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #c264ff;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            font-family: 'Space Mono', monospace;
+        }
+        .ach-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem) !important;
+            font-weight: 800 !important;
+            background: linear-gradient(135deg, #fff 30%, #c264ff 70%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 0.3rem !important;
+            line-height: 1.1 !important;
+            border: none !important;
+        }
+        .ach-admin-lock {
+            font-size: 0.55rem !important;
+            color: #3a3028 !important;
+            cursor: pointer;
+            font-weight: 400 !important;
+            vertical-align: middle;
+            margin-left: 6px;
+            -webkit-text-fill-color: #3a3028 !important;
+            background: none !important;
+        }
+        .ach-subtitle {
+            font-size: 0.88rem;
+            color: #7a6a8a;
+            margin: 0;
+        }
+        .ach-trophy-icon {
+            font-size: 3.5rem;
+            opacity: 0.15;
+            line-height: 1;
+            flex-shrink: 0;
+            margin-left: 1rem;
+            filter: drop-shadow(0 0 20px #c264ff);
+        }
+
+        /* Stats bar */
+        .ach-stats-bar {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: rgba(194,100,255,0.05);
+            border: 1px solid rgba(194,100,255,0.15);
+            border-radius: 14px;
+            padding: 0.9rem 1.4rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .ach-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 60px;
+        }
+        .ach-stat-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #c264ff;
+            line-height: 1;
+            font-family: 'Space Mono', monospace;
+        }
+        .ach-stat-label {
+            font-size: 0.65rem;
+            color: #5a4a6a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 3px;
+            white-space: nowrap;
+        }
+        .ach-stat-divider {
+            width: 1px;
+            height: 30px;
+            background: rgba(194,100,255,0.2);
+            flex-shrink: 0;
+        }
+
+        /* Controls: filters + search */
+        .ach-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.6rem;
+            flex-wrap: wrap;
+        }
+        .ach-filters {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        .ach-filter-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            color: #7a6a8a;
+            font-size: 0.78rem;
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+        .ach-filter-btn:hover {
+            border-color: rgba(194,100,255,0.4);
+            color: #c264ff;
+            background: rgba(194,100,255,0.08);
+        }
+        .ach-filter-btn.active {
+            background: rgba(194,100,255,0.15);
+            border-color: rgba(194,100,255,0.5);
+            color: #c264ff;
+            font-weight: 600;
+            box-shadow: 0 0 12px rgba(194,100,255,0.2);
+        }
+        .ach-search-wrap {
+            position: relative;
+            flex-shrink: 0;
+            width: 220px;
+        }
+        .ach-search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.85rem;
+            pointer-events: none;
+        }
+        .ach-search-input {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            color: #e8ddd0;
+            font-size: 0.82rem;
+            padding: 0.45rem 1rem 0.45rem 2.2rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+        .ach-search-input:focus {
+            outline: none;
+            border-color: rgba(194,100,255,0.5);
+            box-shadow: 0 0 0 3px rgba(194,100,255,0.1);
+        }
+        .ach-search-input::placeholder { color: #4a3a5a; }
+
+        /* Card grid */
+        .ach-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 900px) { .ach-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .ach-grid { grid-template-columns: 1fr; } }
+
+        /* Achievement card */
+        .achievement-card {
+            background: linear-gradient(160deg, rgba(30,20,45,0.9) 0%, rgba(20,14,35,0.95) 100%);
+            border: 1px solid rgba(194,100,255,0.12);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease, border-color 0.28s ease;
+            position: relative;
+        }
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: radial-gradient(ellipse at top left, rgba(194,100,255,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .achievement-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            border-color: rgba(194,100,255,0.4);
+            box-shadow: 0 12px 40px rgba(194,100,255,0.18), 0 0 0 1px rgba(194,100,255,0.1);
+        }
+
+        .ach-card-img-wrap {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56%;
+            overflow: hidden;
+            background: rgba(194,100,255,0.05);
+            flex-shrink: 0;
+        }
+        .ach-card-img-wrap img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+        .achievement-card:hover .ach-card-img-wrap img {
+            transform: scale(1.04);
+        }
+        .ach-card-img-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            opacity: 0.15;
+        }
+
+        .ach-card-body {
+            padding: 1.1rem 1.1rem 0.8rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .ach-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 0.55rem;
+        }
+        .ach-card-category {
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .ach-cat-award    { background: rgba(255,200,50,0.15);  color: #ffc832; border: 1px solid rgba(255,200,50,0.3);  }
+        .ach-cat-music    { background: rgba(0,212,255,0.12);   color: #00d4ff; border: 1px solid rgba(0,212,255,0.3);   }
+        .ach-cat-chart    { background: rgba(80,255,150,0.12);  color: #50ff96; border: 1px solid rgba(80,255,150,0.3);  }
+        .ach-cat-fan      { background: rgba(255,91,176,0.12);  color: #ff5bb0; border: 1px solid rgba(255,91,176,0.3);  }
+        .ach-cat-default  { background: rgba(194,100,255,0.12); color: #c264ff; border: 1px solid rgba(194,100,255,0.3); }
 
         .achievement-card h3 {
-            font-size: 1.2rem;
+            font-size: 0.97rem !important;
+            font-weight: 700 !important;
+            color: #f0e8ff !important;
+            margin: 0 !important;
+            line-height: 1.3 !important;
+            flex: 1;
+        }
+        .ach-card-date {
+            font-size: 0.72rem;
+            color: #5a4a6a;
             margin-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+        .ach-card-desc {
+            font-size: 0.82rem;
+            color: #9a8aaa;
+            line-height: 1.6;
+            flex: 1;
+            margin-bottom: 0.7rem;
+        }
+        .ach-card-footer {
+            margin-top: auto;
+            padding-top: 0.5rem;
+        }
+        .ach-card-author {
+            font-size: 0.68rem;
+            color: #4a3a5a;
+            border-top: 1px solid rgba(194,100,255,0.08);
+            padding-top: 0.5rem;
         }
 
+        /* Empty state */
+        .ach-empty {
+            text-align: center;
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+        }
+        .ach-empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        .ach-empty-title {
+            color: #6a5a7a;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .ach-empty-sub {
+            color: #4a3a5a;
+            font-size: 0.82rem;
+        }
+
+        /* Add form */
+        .ach-form-wrapper {
+            background: rgba(194,100,255,0.04);
+            border: 1px solid rgba(194,100,255,0.15);
+            border-radius: 18px;
+            padding: 1.8rem;
+            margin-top: 1rem;
+        }
+        .ach-form-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1.4rem;
+        }
+        .ach-form-icon {
+            color: #c264ff;
+            font-size: 1rem;
+        }
+        .ach-form-title {
+            font-size: 1rem !important;
+            font-weight: 700 !important;
+            color: #c264ff !important;
+            margin: 0 !important;
+        }
+        .ach-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 560px) { .ach-form-row { grid-template-columns: 1fr; } }
+        .ach-form-group {
+            margin-bottom: 1rem;
+        }
+        .ach-label {
+            display: block;
+            font-size: 0.78rem;
+            color: #8a7a9a;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .ach-req { color: #c264ff; }
+        .ach-input {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(194,100,255,0.15);
+            border-radius: 10px;
+            color: #e8ddd0;
+            font-size: 0.88rem;
+            padding: 0.65rem 0.9rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+            appearance: none;
+        }
+        .ach-input:focus {
+            outline: none;
+            border-color: rgba(194,100,255,0.6);
+            box-shadow: 0 0 0 3px rgba(194,100,255,0.1);
+        }
+        .ach-textarea { resize: vertical; min-height: 80px; }
+        .ach-file-label {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px dashed rgba(194,100,255,0.25);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 0.82rem;
+            color: #7a6a8a;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .ach-file-label:hover {
+            border-color: rgba(194,100,255,0.5);
+            background: rgba(194,100,255,0.06);
+            color: #c264ff;
+        }
+        .ach-file-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+        .ach-submit-btn {
+            position: relative;
+            width: 100%;
+            background: linear-gradient(135deg, #c264ff, #7b2fff);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 0.9rem;
+            cursor: pointer;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 0.5rem;
+        }
+        .ach-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(194,100,255,0.45);
+        }
+        .ach-submit-btn:active { transform: translateY(0); }
+        .ach-submit-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% -20%, rgba(255,255,255,0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Admin buttons inside card */
+        .ach-admin-btns {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+        }
+        .ach-admin-btns button {
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.2s;
+        }
+        .ach-admin-btns button:hover { opacity: 0.8; }
+
+        .achievement-card {
+            background: linear-gradient(160deg, rgba(30,20,45,0.9) 0%, rgba(20,14,35,0.95) 100%);
+            border: 1px solid rgba(194,100,255,0.12);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease, border-color 0.28s ease;
+            position: relative;
+        }
         .achievement-card .date {
-            opacity: 0.9;
-            font-style: italic;
-            margin-bottom: 0.8rem;
-            font-size: 0.85rem;
+            font-size: 0.72rem;
+            color: #5a4a6a;
+            margin-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+            font-style: normal;
+            opacity: 1;
         }
 
         .verification-card {
@@ -1183,14 +1622,210 @@
         }
         .folder-tab:hover { background: #3a3028; color: #c8b89a; }
         .folder-tab.active { background: #5a4a3a; color: #c8b89a; border-color: #8a7a6a; font-weight: 600; }
-        .voting-proof-card {
-            padding: 1rem;
-            margin: 0.8rem 0;
-            background: #252018;
-            border-left: 4px solid #8a6a4a;
-            border-radius: 8px;
+        /* ── Voting Proof Section — Premium Redesign ─────────────────────── */
+        .vp-header { margin-bottom: 2rem; }
+        .vp-header-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1.6rem;
         }
-    
+        .vp-eyebrow {
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #00d4ff;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            font-family: 'Space Mono', monospace;
+        }
+        .vp-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem) !important;
+            font-weight: 800 !important;
+            background: linear-gradient(135deg, #fff 30%, #00d4ff 70%, #c264ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 0.3rem !important;
+            line-height: 1.1 !important;
+            border: none !important;
+        }
+        .vp-subtitle { font-size: 0.88rem; color: #7a6a8a; margin: 0; }
+        .vp-trophy-icon {
+            font-size: 3.5rem; opacity: 0.15; line-height: 1;
+            flex-shrink: 0; margin-left: 1rem;
+            filter: drop-shadow(0 0 20px #00d4ff);
+        }
+
+        /* Stats bar */
+        .vp-stats-bar {
+            display: flex; align-items: center; gap: 0;
+            background: rgba(0,212,255,0.05);
+            border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 14px; padding: 0.9rem 1.4rem;
+            flex-wrap: wrap; gap: 0.5rem;
+        }
+        .vp-stat { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 60px; }
+        .vp-stat-num {
+            font-size: 1.5rem; font-weight: 800; color: #00d4ff;
+            line-height: 1; font-family: 'Space Mono', monospace;
+        }
+        .vp-stat-label { font-size: 0.65rem; color: #3a5a6a; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; white-space: nowrap; }
+        .vp-stat-divider { width: 1px; height: 30px; background: rgba(0,212,255,0.2); flex-shrink: 0; }
+
+        /* Form */
+        .vp-form-wrapper {
+            background: rgba(0,212,255,0.03);
+            border: 1px solid rgba(0,212,255,0.12);
+            border-radius: 18px; padding: 1.8rem; margin-bottom: 2rem;
+        }
+        .vp-form-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.4rem; }
+        .vp-form-icon { font-size: 1.1rem; }
+        .vp-form-title { font-size: 1rem !important; font-weight: 700 !important; color: #00d4ff !important; margin: 0 !important; }
+        .vp-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 560px) { .vp-form-row { grid-template-columns: 1fr; } }
+        .vp-form-group { margin-bottom: 1rem; }
+        .vp-label { display: block; font-size: 0.78rem; color: #6a8a9a; margin-bottom: 0.4rem; font-weight: 600; letter-spacing: 0.5px; }
+        .vp-req { color: #00d4ff; }
+        .vp-input {
+            width: 100%; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 10px; color: #e8ddd0; font-size: 0.88rem;
+            padding: 0.65rem 0.9rem; font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box; appearance: none;
+        }
+        .vp-input:focus {
+            outline: none; border-color: rgba(0,212,255,0.6);
+            box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+        }
+        .vp-file-label {
+            display: flex; align-items: center; gap: 0.6rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px dashed rgba(0,212,255,0.25);
+            border-radius: 10px; padding: 0.75rem 1rem;
+            cursor: pointer; font-size: 0.82rem; color: #6a8a9a;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .vp-file-label:hover { border-color: rgba(0,212,255,0.5); background: rgba(0,212,255,0.06); color: #00d4ff; }
+        .vp-file-icon { font-size: 1.1rem; flex-shrink: 0; }
+        .vp-submit-btn {
+            position: relative; width: 100%;
+            background: linear-gradient(135deg, #00d4ff, #0077cc);
+            border: none; border-radius: 12px; color: #fff;
+            font-size: 0.95rem; font-weight: 700; padding: 0.9rem;
+            cursor: pointer; font-family: inherit; letter-spacing: 0.5px;
+            overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 0.5rem;
+        }
+        .vp-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,255,0.4); }
+        .vp-submit-btn:active { transform: translateY(0); }
+        .vp-submit-glow {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% -20%, rgba(255,255,255,0.25) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Gallery header */
+        .vp-gallery-header { margin-bottom: 1.2rem; }
+        .vp-gallery-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; gap: 1rem; flex-wrap: wrap; }
+        .vp-gallery-title { font-size: 1rem !important; font-weight: 700 !important; color: #c8d8e8 !important; margin: 0 !important; }
+        .vp-sort-select {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 8px; color: #8a9aaa; font-size: 0.78rem;
+            padding: 0.35rem 0.7rem; font-family: inherit; cursor: pointer; appearance: none;
+        }
+        .vp-sort-select:focus { outline: none; border-color: rgba(0,212,255,0.4); }
+        .vp-controls { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+        .vp-app-filters { display: flex; gap: 0.35rem; flex-wrap: wrap; flex: 1; }
+        .vp-filter-btn {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; color: #6a7a8a; font-size: 0.75rem;
+            padding: 0.35rem 0.8rem; cursor: pointer; transition: all 0.2s;
+            white-space: nowrap; font-family: inherit;
+        }
+        .vp-filter-btn:hover { border-color: rgba(0,212,255,0.4); color: #00d4ff; background: rgba(0,212,255,0.08); }
+        .vp-filter-btn.active {
+            background: rgba(0,212,255,0.12); border-color: rgba(0,212,255,0.5);
+            color: #00d4ff; font-weight: 600; box-shadow: 0 0 10px rgba(0,212,255,0.18);
+        }
+        .vp-search-wrap { position: relative; flex-shrink: 0; width: 200px; }
+        .vp-search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; pointer-events: none; }
+        .vp-search-input {
+            width: 100%; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; color: #e8ddd0; font-size: 0.8rem;
+            padding: 0.4rem 0.9rem 0.4rem 2rem; font-family: inherit;
+            transition: border-color 0.2s; box-sizing: border-box;
+        }
+        .vp-search-input:focus { outline: none; border-color: rgba(0,212,255,0.4); }
+        .vp-search-input::placeholder { color: #3a4a5a; }
+
+        /* Card grid */
+        .vp-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem; margin-bottom: 2rem;
+        }
+        @media (max-width: 900px) { .vp-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .vp-grid { grid-template-columns: 1fr; } }
+
+        /* Voting proof card */
+        .voting-proof-card {
+            background: linear-gradient(160deg, rgba(10,25,40,0.92) 0%, rgba(8,18,32,0.96) 100%);
+            border: 1px solid rgba(0,212,255,0.1);
+            border-radius: 16px; overflow: hidden;
+            display: flex; flex-direction: column;
+            transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease, border-color 0.28s ease;
+            position: relative;
+        }
+        .voting-proof-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: 16px;
+            background: radial-gradient(ellipse at top right, rgba(0,212,255,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .voting-proof-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            border-color: rgba(0,212,255,0.4);
+            box-shadow: 0 12px 40px rgba(0,212,255,0.15), 0 0 0 1px rgba(0,212,255,0.08);
+        }
+        .vp-card-img-wrap {
+            position: relative; width: 100%; padding-bottom: 65%; overflow: hidden;
+            background: rgba(0,212,255,0.04); flex-shrink: 0; cursor: pointer;
+        }
+        .vp-card-img-wrap img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; transition: transform 0.4s ease;
+        }
+        .voting-proof-card:hover .vp-card-img-wrap img { transform: scale(1.04); }
+        .vp-card-img-expand {
+            position: absolute; bottom: 8px; right: 8px;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 6px;
+            color: #fff; font-size: 0.65rem; padding: 3px 8px; opacity: 0;
+            transition: opacity 0.2s; pointer-events: none;
+        }
+        .voting-proof-card:hover .vp-card-img-expand { opacity: 1; }
+        .vp-card-body { padding: 1rem 1rem 0.8rem; flex: 1; display: flex; flex-direction: column; }
+        .vp-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .vp-card-app-badge {
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px;
+            font-weight: 700; padding: 2px 9px; border-radius: 10px;
+            background: rgba(0,212,255,0.12); color: #00d4ff;
+            border: 1px solid rgba(0,212,255,0.3); white-space: nowrap; flex-shrink: 0;
+        }
+        .vp-card-date { font-size: 0.68rem; color: #2a5a7a; font-family: 'Space Mono', monospace; }
+        .vp-card-note { font-size: 0.82rem; color: #7a9aaa; line-height: 1.5; margin: 0.4rem 0 0.6rem; flex: 1; }
+        .vp-card-author { font-size: 0.68rem; color: #2a4a5a; border-top: 1px solid rgba(0,212,255,0.07); padding-top: 0.5rem; margin-top: auto; }
+        .vp-admin-btns { display: flex; gap: 0.4rem; margin-top: 0.5rem; }
+        .vp-admin-btns button { font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-family: inherit; transition: opacity 0.2s; }
+        .vp-admin-btns button:hover { opacity: 0.8; }
+
+        /* Empty state */
+        .vp-empty { text-align: center; padding: 4rem 2rem; grid-column: 1 / -1; }
+        .vp-empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.25; }
+        .vp-empty-title { color: #4a6a7a; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .vp-empty-sub { color: #2a4a5a; font-size: 0.82rem; }
+
         .social-links {
             display: flex;
             justify-content: center;
@@ -2275,13 +2910,7 @@
         /* ══════════════════════════════════════════════
            IMPROVEMENT 2 — GLASSMORPHISM CARDS
         ══════════════════════════════════════════════ */
-        .achievement-card {
-            background: rgba(46, 40, 32, 0.55) !important;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(200,184,154,0.18) !important;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
-        }
+        /* achievement-card glassmorphism override removed — handled by new premium styles */
         .post {
             background: rgba(37,32,24, 0.55) !important;
             backdrop-filter: blur(12px);
@@ -2290,13 +2919,7 @@
             border-left: 4px solid #6a5a4a !important;
             box-shadow: 0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
         }
-        .voting-proof-card {
-            background: rgba(37,32,24, 0.55) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(200,184,154,0.1) !important;
-            border-left: 4px solid #8a6a4a !important;
-        }
+        /* voting-proof-card override removed — handled by new premium styles */
         .collab-card, .spotify-card, .article-card {
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -2618,14 +3241,15 @@
         }
 
         /* ── Post/card neon left border ── */
-        .post, .achievement-card, .voting-proof-card, .collab-card, .spotify-card, .article-card {
+        .post, .voting-proof-card, .collab-card, .spotify-card, .article-card {
             border-left: 3px solid transparent;
             border-image: linear-gradient(180deg, var(--neon-purple), var(--neon-pink)) 1;
             transition: box-shadow 0.25s;
         }
-        .post:hover, .achievement-card:hover, .collab-card:hover, .spotify-card:hover, .article-card:hover {
+        .post:hover, .collab-card:hover, .spotify-card:hover, .article-card:hover {
             box-shadow: -4px 0 20px rgba(185,79,255,0.2), 0 4px 24px rgba(0,0,0,0.4);
         }
+        /* achievement-card hover handled by new premium styles */
 
         /* ── Upload area neon ── */
         .upload-area {
@@ -2853,22 +3477,12 @@
         }
 
         /* ── ACHIEVEMENT CARDS ──────────────────────────────── */
-        .achievement-card {
-            background: linear-gradient(135deg,
-                rgba(20,14,38,0.7) 0%,
-                rgba(14,10,28,0.7) 100%) !important;
-            border: 1px solid rgba(212,170,120,0.18) !important;
-            border-radius: var(--radius-md) !important;
-            box-shadow:
-                0 6px 32px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.04) !important;
-        }
+        /* achievement-card old override removed — handled by new premium styles */
 
         .achievement-card h3 {
-            font-family: var(--font-heading) !important;
-            font-size: 1.05rem !important;
+            font-size: 0.97rem !important;
             font-weight: 700 !important;
-            color: var(--gold-light) !important;
+            color: #f0e8ff !important;
         }
 
         /* ── POSTS ──────────────────────────────────────────── */
@@ -3069,12 +3683,7 @@
         }
 
         /* ── VOTING PROOF CARDS ─────────────────────────────── */
-        .voting-proof-card {
-            background: rgba(10,8,22,0.6) !important;
-            border: 1px solid rgba(194,100,255,0.08) !important;
-            border-left: 3px solid rgba(212,170,120,0.6) !important;
-            border-radius: var(--radius-md) !important;
-        }
+        /* voting-proof-card override removed — handled by new premium styles */
 
         /* ── MEMBER GALLERY SECTION ─────────────────────────── */
         .member-gallery-section {
@@ -4252,107 +4861,260 @@
             </section>
 
             <section id="achievements">
-                <h2>Achievements <span id="adminUnlockBtn" onclick="window.promptAdminUnlock()" style="font-size:0.6rem;color:#3a3028;cursor:pointer;font-weight:400;vertical-align:middle;margin-left:6px;" title="Admin">🔒</span></h2>
-                <form id="achievementForm">
-                    <div class="form-group">
-                        <label for="achievementTitle">Achievement Title</label>
-                        <input type="text" id="achievementTitle" required>
+
+                <!-- ── Section Header ── -->
+                <div class="ach-header">
+                    <div class="ach-header-top">
+                        <div>
+                            <div class="ach-eyebrow">FOHA × AHOF</div>
+                            <h2 class="ach-title">Achievements <span id="adminUnlockBtn" onclick="window.promptAdminUnlock()" class="ach-admin-lock" title="Admin">🔒</span></h2>
+                            <p class="ach-subtitle">Celebrating milestones, awards &amp; fan accomplishments</p>
+                        </div>
+                        <div class="ach-trophy-icon">🏆</div>
                     </div>
-                    <div class="form-group">
-                        <label for="achievementDescription">Description</label>
-                        <textarea id="achievementDescription" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="achievementDate">Date</label>
-                        <input type="date" id="achievementDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="achImage">Attach Image <span style="color:#7a706a;font-weight:normal;">(optional)</span></label>
-                        <input type="file" id="achImage" accept="image/*" style="color:#c8b89a;">
-                        <div id="achImagePreview" style="margin-top:0.6rem;display:none;">
-                            <img id="achImageThumb" src="" alt="Preview" style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid #3a3028;">
-                            <button type="button" onclick="window.clearAchImage()" style="display:block;margin-top:0.4rem;background:transparent;color:#e8a898;border:none;cursor:pointer;font-size:0.85rem;">✕ Remove image</button>
+
+                    <!-- Stats Bar -->
+                    <div class="ach-stats-bar">
+                        <div class="ach-stat">
+                            <span class="ach-stat-num" id="achStatTotal">0</span>
+                            <span class="ach-stat-label">Total</span>
+                        </div>
+                        <div class="ach-stat-divider"></div>
+                        <div class="ach-stat">
+                            <span class="ach-stat-num" id="achStatAward">0</span>
+                            <span class="ach-stat-label">Awards</span>
+                        </div>
+                        <div class="ach-stat-divider"></div>
+                        <div class="ach-stat">
+                            <span class="ach-stat-num" id="achStatMusic">0</span>
+                            <span class="ach-stat-label">Music</span>
+                        </div>
+                        <div class="ach-stat-divider"></div>
+                        <div class="ach-stat">
+                            <span class="ach-stat-num" id="achStatChart">0</span>
+                            <span class="ach-stat-label">Chart Records</span>
+                        </div>
+                        <div class="ach-stat-divider"></div>
+                        <div class="ach-stat">
+                            <span class="ach-stat-num" id="achStatFan">0</span>
+                            <span class="ach-stat-label">Fan Projects</span>
                         </div>
                     </div>
-                    <button type="submit">Add Achievement</button>
-                </form>
-                <!-- Search bar for achievements -->
-                <div class="search-bar">
-                    <input class="search-input" id="achSearchInput" placeholder="🔍 Search achievements..." oninput="filterAchievements(this.value)">
                 </div>
-                <div id="achNoResults" class="no-results" style="display:none;">No achievements found.</div>
-                <div id="achievementsContainer">
+
+                <!-- ── Filters + Search ── -->
+                <div class="ach-controls">
+                    <div class="ach-filters" id="achFilters">
+                        <button class="ach-filter-btn active" data-filter="all" onclick="window.filterAchByCategory('all',this)">✦ All</button>
+                        <button class="ach-filter-btn" data-filter="Award" onclick="window.filterAchByCategory('Award',this)">🏆 Awards</button>
+                        <button class="ach-filter-btn" data-filter="Music" onclick="window.filterAchByCategory('Music',this)">🎵 Music</button>
+                        <button class="ach-filter-btn" data-filter="Chart Record" onclick="window.filterAchByCategory('Chart Record',this)">📈 Chart Records</button>
+                        <button class="ach-filter-btn" data-filter="Fan Project" onclick="window.filterAchByCategory('Fan Project',this)">💜 Fan Projects</button>
+                    </div>
+                    <div class="ach-search-wrap">
+                        <span class="ach-search-icon">🔍</span>
+                        <input class="ach-search-input" id="achSearchInput" placeholder="Search achievements..." oninput="window.filterAchievements(this.value)">
+                    </div>
+                </div>
+
+                <!-- ── Gallery ── -->
+                <div id="achNoResults" class="ach-empty" style="display:none;">
+                    <div class="ach-empty-icon">🌌</div>
+                    <p class="ach-empty-title">No achievements found</p>
+                    <p class="ach-empty-sub">Try a different search or category.</p>
+                </div>
+
+                <div id="achievementsContainer" class="ach-grid">
                     <div class="skeleton-grid" id="achieveSkeleton">
                         <div class="sk-card"><div class="sk-img" style="padding-bottom:60%;"></div><div class="sk-line full"></div><div class="sk-line medium"></div><div class="sk-line short"></div></div>
                         <div class="sk-card"><div class="sk-img" style="padding-bottom:60%;"></div><div class="sk-line full"></div><div class="sk-line medium"></div><div class="sk-line short"></div></div>
                         <div class="sk-card"><div class="sk-img" style="padding-bottom:60%;"></div><div class="sk-line full"></div><div class="sk-line medium"></div><div class="sk-line short"></div></div>
-                        <div class="sk-card"><div class="sk-img" style="padding-bottom:60%;"></div><div class="sk-line full"></div><div class="sk-line medium"></div><div class="sk-line short"></div></div>
                     </div>
                 </div>
+
+                <!-- ── Add Achievement Form (admin only) ── -->
+                <div class="ach-form-wrapper" id="achFormWrapper" style="display:none;">
+                    <div class="ach-form-header">
+                        <span class="ach-form-icon">✦</span>
+                        <h3 class="ach-form-title">Add New Achievement</h3>
+                    </div>
+                    <form id="achievementForm" class="ach-form">
+                        <div class="ach-form-row">
+                            <div class="ach-form-group">
+                                <label class="ach-label" for="achievementTitle">Achievement Title <span class="ach-req">*</span></label>
+                                <input class="ach-input" type="text" id="achievementTitle" placeholder="e.g. 1st Win on Inkigayo" required>
+                            </div>
+                            <div class="ach-form-group">
+                                <label class="ach-label" for="achievementDate">Date <span class="ach-req">*</span></label>
+                                <input class="ach-input" type="date" id="achievementDate" required>
+                            </div>
+                        </div>
+                        <div class="ach-form-group">
+                            <label class="ach-label" for="achievementCategory">Category <span class="ach-req">*</span></label>
+                            <select class="ach-input" id="achievementCategory" required>
+                                <option value="">— Select Category —</option>
+                                <option value="Award">🏆 Award</option>
+                                <option value="Music">🎵 Music</option>
+                                <option value="Chart Record">📈 Chart Record</option>
+                                <option value="Fan Project">💜 Fan Project</option>
+                            </select>
+                        </div>
+                        <div class="ach-form-group">
+                            <label class="ach-label" for="achievementDescription">Description <span class="ach-req">*</span></label>
+                            <textarea class="ach-input ach-textarea" id="achievementDescription" rows="3" placeholder="Describe this milestone..." required></textarea>
+                        </div>
+                        <div class="ach-form-group">
+                            <label class="ach-label" for="achImage">Image <span style="color:#5a4a6a;font-weight:400;">(optional)</span></label>
+                            <label class="ach-file-label" for="achImage">
+                                <span class="ach-file-icon">📷</span>
+                                <span id="achFileName">Click to upload image</span>
+                                <input type="file" id="achImage" accept="image/*" style="display:none;" onchange="window._achFileChosen(this)">
+                            </label>
+                            <div id="achImagePreview" style="margin-top:0.6rem;display:none;">
+                                <img id="achImageThumb" src="" alt="Preview" style="max-width:100%;max-height:180px;border-radius:10px;border:1px solid rgba(194,100,255,0.3);">
+                                <button type="button" onclick="window.clearAchImage()" style="display:block;margin-top:0.4rem;background:transparent;color:#c264ff;border:none;cursor:pointer;font-size:0.82rem;">✕ Remove image</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="ach-submit-btn">
+                            <span class="ach-submit-glow"></span>
+                            ✦ Add Achievement
+                        </button>
+                    </form>
+                </div>
+
             </section>
 
             <section id="voting">
-                <h2>🗳️ Voting Proof</h2>
-                <p style="color:#7a706a; margin-bottom:1.5rem; font-size:0.95rem;">Upload your voting screenshots to support AHOF! Each app has its own folder — your proof is automatically saved to the right place.</p>
 
-                <form id="votingForm" style="margin-bottom:2rem;">
-                    <div class="form-group">
-                        <label for="votingApp">Voting App</label>
-                        <select id="votingApp" required style="width:100%;padding:0.65rem 0.9rem;background:#2a231e;border:1px solid #4a3a2a;border-radius:8px;color:#e8ddd0;font-size:0.95rem;">
-                            <option value="">-- Select Voting App --</option>
-                            <option value="Mubeat">📱 Mubeat (뮤빗)</option>
-                            <option value="Universe">🌌 Universe (유니버스)</option>
-                            <option value="Whosfan">💜 Whosfan (후즈팬)</option>
-                            <option value="Idol Champ">🏆 Idol Champ (아이돌챔프)</option>
-                            <option value="Star Planet">⭐ Star Planet (스타플래닛)</option>
-                            <option value="Choeaedol">💗 Choeaedol (최애돌)</option>
-                            <option value="U+Pick">🎯 U+Pick (유플러스픽)</option>
-                            <option value="Mnet Plus">🎵 Mnet Plus (엠넷플러스)</option>
-                            <option value="Weverse">🌿 Weverse (위버스)</option>
-                            <option value="UNITE">🤝 UNITE (유나이트)</option>
-                            <option value="KakaoTV">🟡 KakaoTV (카카오TV)</option>
-                            <option value="Naver Now">🟢 Naver Now (네이버나우)</option>
-                            <option value="Melon">🍈 Melon (멜론)</option>
-                            <option value="Genie">🎸 Genie (지니)</option>
-                            <option value="FLO">🎧 FLO (플로)</option>
-                            <option value="Bugs">🐛 Bugs (벅스)</option>
-                            <option value="iChart">📊 iChart (아이차트)</option>
-                            <option value="SBS Inkigayo Vote">📡 SBS Inkigayo Vote</option>
-                            <option value="KBS Music Bank Vote">📡 KBS Music Bank Vote</option>
-                            <option value="MBC every1 Vote">📡 MBC every1 Vote</option>
-                            <option value="The Show Vote">📡 The Show Vote</option>
-                            <option value="Show Champion Vote">📡 Show Champion Vote</option>
-                            <option value="Inkigayo Global Fan Vote">🌍 Inkigayo Global Fan Vote</option>
-                        </select>
+                <!-- ── Section Header ── -->
+                <div class="vp-header">
+                    <div class="vp-header-top">
+                        <div>
+                            <div class="vp-eyebrow">FOHA × AHOF</div>
+                            <h2 class="vp-title">Voting Proof</h2>
+                            <p class="vp-subtitle">Upload screenshots to support AHOF — every vote counts 💜</p>
+                        </div>
+                        <div class="vp-trophy-icon">🗳️</div>
                     </div>
-                    <div class="form-group">
-                        <label for="votingNote">Notes <span style="color:#7a706a;font-weight:normal;">(optional — e.g. number of votes, category)</span></label>
-                        <textarea id="votingNote" rows="2" placeholder="e.g. 500 hearts for Music Bank Week 3" style="resize:vertical;"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="votingImage">Upload Screenshot / Proof <span style="color:#c8b89a;font-weight:normal;">(required)</span></label>
-                        <input type="file" id="votingImage" accept="image/*" required style="color:#c8b89a;">
-                        <div id="votingImagePreview" style="margin-top:0.6rem;display:none;">
-                            <img id="votingImageThumb" src="" alt="Preview" style="max-width:100%;max-height:200px;border-radius:8px;border:1px solid #3a3028;">
-                            <button type="button" onclick="window.clearVotingImage()" style="display:block;margin-top:0.4rem;background:transparent;color:#e8a898;border:none;cursor:pointer;font-size:0.85rem;">✕ Remove</button>
+
+                    <!-- Stats Bar -->
+                    <div class="vp-stats-bar">
+                        <div class="vp-stat">
+                            <span class="vp-stat-num" id="vpStatTotal">0</span>
+                            <span class="vp-stat-label">Total Proofs</span>
+                        </div>
+                        <div class="vp-stat-divider"></div>
+                        <div class="vp-stat">
+                            <span class="vp-stat-num" id="vpStatContributors">0</span>
+                            <span class="vp-stat-label">Contributors</span>
+                        </div>
+                        <div class="vp-stat-divider"></div>
+                        <div class="vp-stat">
+                            <span class="vp-stat-num" id="vpStatApps">0</span>
+                            <span class="vp-stat-label">Voting Apps</span>
+                        </div>
+                        <div class="vp-stat-divider"></div>
+                        <div class="vp-stat">
+                            <span class="vp-stat-num" id="vpStatRecent">0</span>
+                            <span class="vp-stat-label">This Week</span>
                         </div>
                     </div>
-                    <button type="submit">📤 Submit Voting Proof</button>
-                </form>
-
-                <!-- Folder Tabs -->
-                <div id="votingFolderNav" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem;">
-                    <button class="folder-tab active" onclick="window.showVotingFolder('all', this)">📂 All</button>
                 </div>
 
-                <div id="votingContainer">
+                <!-- ── Submit Form ── -->
+                <div class="vp-form-wrapper">
+                    <div class="vp-form-header">
+                        <span class="vp-form-icon">📤</span>
+                        <h3 class="vp-form-title">Submit Voting Proof</h3>
+                    </div>
+                    <form id="votingForm" class="vp-form">
+                        <div class="vp-form-row">
+                            <div class="vp-form-group">
+                                <label class="vp-label" for="votingApp">Voting App <span class="vp-req">*</span></label>
+                                <select class="vp-input" id="votingApp" required>
+                                    <option value="">— Select Voting App —</option>
+                                    <option value="Mubeat">📱 Mubeat (뮤빗)</option>
+                                    <option value="Universe">🌌 Universe (유니버스)</option>
+                                    <option value="Whosfan">💜 Whosfan (후즈팬)</option>
+                                    <option value="Idol Champ">🏆 Idol Champ (아이돌챔프)</option>
+                                    <option value="Star Planet">⭐ Star Planet (스타플래닛)</option>
+                                    <option value="Choeaedol">💗 Choeaedol (최애돌)</option>
+                                    <option value="U+Pick">🎯 U+Pick (유플러스픽)</option>
+                                    <option value="Mnet Plus">🎵 Mnet Plus (엠넷플러스)</option>
+                                    <option value="Weverse">🌿 Weverse (위버스)</option>
+                                    <option value="UNITE">🤝 UNITE (유나이트)</option>
+                                    <option value="KakaoTV">🟡 KakaoTV (카카오TV)</option>
+                                    <option value="Naver Now">🟢 Naver Now (네이버나우)</option>
+                                    <option value="Melon">🍈 Melon (멜론)</option>
+                                    <option value="Genie">🎸 Genie (지니)</option>
+                                    <option value="FLO">🎧 FLO (플로)</option>
+                                    <option value="Bugs">🐛 Bugs (벅스)</option>
+                                    <option value="iChart">📊 iChart (아이차트)</option>
+                                    <option value="SBS Inkigayo Vote">📡 SBS Inkigayo Vote</option>
+                                    <option value="KBS Music Bank Vote">📡 KBS Music Bank Vote</option>
+                                    <option value="MBC every1 Vote">📡 MBC every1 Vote</option>
+                                    <option value="The Show Vote">📡 The Show Vote</option>
+                                    <option value="Show Champion Vote">📡 Show Champion Vote</option>
+                                    <option value="Inkigayo Global Fan Vote">🌍 Inkigayo Global Fan Vote</option>
+                                </select>
+                            </div>
+                            <div class="vp-form-group">
+                                <label class="vp-label" for="votingNote">Notes <span style="color:#4a3a5a;font-weight:400;">(optional)</span></label>
+                                <input class="vp-input" type="text" id="votingNote" placeholder="e.g. 500 hearts for Music Bank Week 3">
+                            </div>
+                        </div>
+                        <div class="vp-form-group">
+                            <label class="vp-label" for="votingImage">Screenshot / Proof <span class="vp-req">*</span></label>
+                            <label class="vp-file-label" for="votingImage">
+                                <span class="vp-file-icon">📷</span>
+                                <span id="vpFileName">Click to upload screenshot</span>
+                                <input type="file" id="votingImage" accept="image/*" style="display:none;" onchange="window._vpFileChosen(this)" required>
+                            </label>
+                            <div id="votingImagePreview" style="margin-top:0.7rem;display:none;">
+                                <img id="votingImageThumb" src="" alt="Preview" style="max-width:100%;max-height:220px;border-radius:10px;border:1px solid rgba(0,212,255,0.3);display:block;">
+                                <button type="button" onclick="window.clearVotingImage()" style="margin-top:0.4rem;background:transparent;color:#00d4ff;border:none;cursor:pointer;font-size:0.82rem;">✕ Remove</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="vp-submit-btn">
+                            <span class="vp-submit-glow"></span>
+                            📤 Submit Voting Proof
+                        </button>
+                    </form>
+                </div>
+
+                <!-- ── Gallery Controls ── -->
+                <div class="vp-gallery-header">
+                    <div class="vp-gallery-title-row">
+                        <h3 class="vp-gallery-title">📂 Proof Archive</h3>
+                        <div class="vp-sort-wrap">
+                            <select class="vp-sort-select" id="vpSortSelect" onchange="window.vpApplyFilters()">
+                                <option value="newest">↓ Newest First</option>
+                                <option value="oldest">↑ Oldest First</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="vp-controls">
+                        <!-- App filter tabs -->
+                        <div class="vp-app-filters" id="votingFolderNav">
+                            <button class="vp-filter-btn active" onclick="window.showVotingFolder('all', this)">✦ All</button>
+                        </div>
+                        <!-- Search -->
+                        <div class="vp-search-wrap">
+                            <span class="vp-search-icon">🔍</span>
+                            <input class="vp-search-input" id="vpSearchInput" placeholder="Search notes or uploader..." oninput="window.vpApplyFilters()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery -->
+                <div id="votingContainer" class="vp-grid">
                     <div class="skeleton-grid" id="votingSkeleton">
                         <div class="sk-card"><div class="sk-img" style="padding-bottom:70%;"></div><div class="sk-line full"></div><div class="sk-line medium"></div><div class="sk-line short"></div></div>
                         <div class="sk-card"><div class="sk-img" style="padding-bottom:70%;"></div><div class="sk-line full"></div><div class="sk-line medium"></div><div class="sk-line short"></div></div>
                         <div class="sk-card"><div class="sk-img" style="padding-bottom:70%;"></div><div class="sk-line full"></div><div class="sk-line medium"></div><div class="sk-line short"></div></div>
-                        <div class="sk-card"><div class="sk-img" style="padding-bottom:70%;"></div><div class="sk-line full"></div><div class="sk-line medium"></div><div class="sk-line short"></div></div>
                     </div>
                 </div>
+
             </section>
 
             <!-- ══════════════════════════════════════════════ -->
@@ -4938,37 +5700,55 @@
             const title = document.getElementById('achievementTitle').value.trim();
             const description = document.getElementById('achievementDescription').value.trim();
             const date = document.getElementById('achievementDate').value;
-            if (!title || !description || !date) return alert('All fields are required.');
+            const category = document.getElementById('achievementCategory').value;
+            if (!title || !description || !date || !category) return alert('All fields are required.');
             if (title.length > 200) return alert('Title must be 200 characters or fewer.');
             if (description.length > 2000) return alert('Description must be 2000 characters or fewer.');
             const btn = e.target.querySelector('button[type="submit"]');
             btn.disabled = true;
-            btn.textContent = 'Adding...';
+            btn.innerHTML = '<span class="ach-submit-glow"></span>Adding...';
             try {
                 let imageUrl = null;
                 const imageFile = document.getElementById('achImage').files[0];
                 if (imageFile) {
-                    btn.textContent = 'Uploading image...';
+                    btn.innerHTML = '<span class="ach-submit-glow"></span>Uploading image...';
                     imageUrl = await uploadToCloudinary(imageFile);
                 }
                 await push(ref(database, 'achievements'), {
                     title,
                     description,
                     date,
+                    category,
                     imageUrl,
                     author: getUserName(),
                     sessionKey: getSessionKey(),
                     timestamp: Date.now()
                 });
                 document.getElementById('achievementForm').reset();
+                document.getElementById('achFileName').textContent = 'Click to upload image';
                 clearAchImage();
             } catch (error) {
                 alert('Error: ' + error.message);
             } finally {
                 btn.disabled = false;
-                btn.textContent = 'Add Achievement';
+                btn.innerHTML = '<span class="ach-submit-glow"></span>✦ Add Achievement';
             }
         });
+
+        // File name display helper
+        window._achFileChosen = (input) => {
+            const name = input.files[0]?.name || 'Click to upload image';
+            document.getElementById('achFileName').textContent = name;
+            // trigger existing image preview logic
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    document.getElementById('achImageThumb').src = ev.target.result;
+                    document.getElementById('achImagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
 
 
         window.promptAdminUnlock = () => {
@@ -5019,6 +5799,70 @@
         });
 
 
+        // ── Achievement helpers ─────────────────────────────────────────────
+        function achCatClass(cat) {
+            if (!cat) return 'ach-cat-default';
+            const c = cat.toLowerCase();
+            if (c === 'award') return 'ach-cat-award';
+            if (c === 'music') return 'ach-cat-music';
+            if (c === 'chart record') return 'ach-cat-chart';
+            if (c === 'fan project') return 'ach-cat-fan';
+            return 'ach-cat-default';
+        }
+        function achCatEmoji(cat) {
+            if (!cat) return '✦';
+            const c = cat.toLowerCase();
+            if (c === 'award') return '🏆';
+            if (c === 'music') return '🎵';
+            if (c === 'chart record') return '📈';
+            if (c === 'fan project') return '💜';
+            return '✦';
+        }
+        function achUpdateStats(achievements) {
+            const total = achievements.length;
+            const award = achievements.filter(a => a.category === 'Award').length;
+            const music = achievements.filter(a => a.category === 'Music').length;
+            const chart = achievements.filter(a => a.category === 'Chart Record').length;
+            const fan   = achievements.filter(a => a.category === 'Fan Project').length;
+            const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            set('achStatTotal', total);
+            set('achStatAward', award);
+            set('achStatMusic', music);
+            set('achStatChart', chart);
+            set('achStatFan',   fan);
+            // Also update sidebar stat
+            const sidebarStat = document.getElementById('statAchievements');
+            if (sidebarStat) sidebarStat.textContent = total;
+        }
+        function achCardHTML(ach, extraBars) {
+            const catClass = achCatClass(ach.category);
+            const catEmoji = achCatEmoji(ach.category);
+            const dateStr  = ach.date ? new Date(ach.date + 'T00:00:00').toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }) : '';
+            return `
+                <div class="achievement-card" id="ach-${sanitize(ach.id)}" data-category="${sanitize(ach.category||'')}">
+                    ${ach.imageUrl
+                        ? `<div class="ach-card-img-wrap"><img loading="lazy" src="${sanitize(ach.imageUrl)}" alt="${sanitize(ach.title)}" onclick="window.openModal('${sanitize(ach.imageUrl)}')"></div>`
+                        : `<div class="ach-card-img-wrap"><div class="ach-card-img-placeholder">${catEmoji}</div></div>`
+                    }
+                    <div class="ach-card-body">
+                        <div class="ach-card-top">
+                            <h3>${sanitize(ach.title)}</h3>
+                            ${ach.category ? `<span class="ach-card-category ${catClass}">${catEmoji} ${sanitize(ach.category)}</span>` : ''}
+                        </div>
+                        <div class="ach-card-date">📅 ${dateStr}</div>
+                        <p class="ach-card-desc">${sanitize(ach.description)}</p>
+                        ${isAdmin() ? `
+                        <div class="ach-admin-btns">
+                            <button onclick="window.editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.1);color:#d0c0e0;border:1px solid rgba(255,255,255,0.2);">✏️ Edit</button>
+                            <button onclick="window.deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.2);color:#e8a898;border:1px solid rgba(220,50,50,0.4);">🗑️ Delete</button>
+                        </div>` : ''}
+                        <div class="ach-card-footer">
+                            ${extraBars}
+                        </div>
+                    </div>
+                </div>`;
+        }
+
         function loadAchievements() {
             onValue(ref(database, 'achievements'), (snapshot) => {
                 const container = document.getElementById('achievementsContainer');
@@ -5027,27 +5871,20 @@
                     achievements.push({ id: child.key, ...child.val() });
                 });
                 achievements.sort((a, b) => b.timestamp - a.timestamp);
-                container.innerHTML = achievements.length === 0
-                    ? '<p style="text-align: center; color: #7a706a;">No achievements yet</p>'
-                    : achievements.map(ach => `
-                        <div class="achievement-card" id="ach-${sanitize(ach.id)}">
-                            <h3>${sanitize(ach.title)}</h3>
-                            <div class="date">${new Date(ach.date).toLocaleDateString()} • ${sanitize(ach.author)}</div>
-                            <p>${sanitize(ach.description)}</p>
-                            ${ach.imageUrl ? `<img loading="lazy" src="${sanitize(ach.imageUrl)}" alt="Achievement image" loading="lazy" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="window.openModal('${sanitize(ach.imageUrl)}')">` : ''}
-                            ${isAdmin() ? `
-                            <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-                                <button onclick="window.editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
-                                <button onclick="window.deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.3);color:#fff;border:1px solid rgba(220,50,50,0.5);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
-                            </div>` : ''}
-                            ${lcBar('ach', sanitize(ach.id))}
-                        </div>
-                    `).join('');
-                // Start listeners after render
-                achievements.forEach(ach => {
-                    lcListenLikes('ach', ach.id);
-                    lcListenComments('ach', ach.id);
-                });
+                achUpdateStats(achievements);
+                if (achievements.length === 0) {
+                    container.innerHTML = `<div class="ach-empty" style="grid-column:1/-1;display:block;">
+                        <div class="ach-empty-icon">🌌</div>
+                        <p class="ach-empty-title">No achievements recorded yet</p>
+                        <p class="ach-empty-sub">Start documenting milestones.</p>
+                    </div>`;
+                } else {
+                    container.innerHTML = achievements.map(ach => achCardHTML(ach, lcBar('ach', sanitize(ach.id)))).join('');
+                    achievements.forEach(ach => {
+                        lcListenLikes('ach', ach.id);
+                        lcListenComments('ach', ach.id);
+                    });
+                }
             });
         }
 
@@ -5076,26 +5913,33 @@
         console.log('🔥 AHOF Hall of Fame - Firebase Connected!');
 
         // ── Voting Image Preview ───────────────────────────────────────────────
-        document.getElementById('votingImage').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = ev => {
-                document.getElementById('votingImageThumb').src = ev.target.result;
-                document.getElementById('votingImagePreview').style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        });
-
         window.clearVotingImage = () => {
             document.getElementById('votingImage').value = '';
             document.getElementById('votingImagePreview').style.display = 'none';
             document.getElementById('votingImageThumb').src = '';
+            const lbl = document.getElementById('vpFileName');
+            if (lbl) lbl.textContent = 'Click to upload screenshot';
         };
 
         // ── Voting Proof ───────────────────────────────────────────────────────
         let _allVotingProofs = [];
         let _activeVotingFolder = 'all';
+        let _vpSearchQuery = '';
+        let _vpSortOrder = 'newest';
+
+        // File chosen helper
+        window._vpFileChosen = (input) => {
+            const name = input.files[0]?.name || 'Click to upload screenshot';
+            document.getElementById('vpFileName').textContent = name;
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    document.getElementById('votingImageThumb').src = ev.target.result;
+                    document.getElementById('votingImagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
 
         document.getElementById('votingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -5106,7 +5950,7 @@
             if (!imageFile) return alert('Please upload a screenshot as proof.');
             const btn = e.target.querySelector('button[type="submit"]');
             btn.disabled = true;
-            btn.textContent = '📤 Uploading...';
+            btn.innerHTML = '<span class="vp-submit-glow"></span>📤 Uploading...';
             try {
                 const imageUrl = await uploadToCloudinary(imageFile);
                 const appKey = app.replace(/[^a-zA-Z0-9]/g, '_');
@@ -5117,55 +5961,104 @@
                     timestamp: Date.now()
                 });
                 document.getElementById('votingForm').reset();
+                document.getElementById('vpFileName').textContent = 'Click to upload screenshot';
                 clearVotingImage();
-                alert('✅ Voting proof saved to 📂 ' + app + ' folder!');
+                showToast('✅ Voting proof saved to 📂 ' + app + '!', 'success');
             } catch (error) {
                 alert('Error: ' + error.message);
             } finally {
                 btn.disabled = false;
-                btn.textContent = '📤 Submit Voting Proof';
+                btn.innerHTML = '<span class="vp-submit-glow"></span>📤 Submit Voting Proof';
             }
         });
 
         window.showVotingFolder = (app, el) => {
             _activeVotingFolder = app;
-            document.querySelectorAll('.folder-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.vp-filter-btn').forEach(t => t.classList.remove('active'));
             if (el) el.classList.add('active');
             renderVotingProofs();
         };
 
+        window.vpApplyFilters = () => {
+            _vpSearchQuery = (document.getElementById('vpSearchInput')?.value || '').toLowerCase().trim();
+            _vpSortOrder = document.getElementById('vpSortSelect')?.value || 'newest';
+            renderVotingProofs();
+        };
+
+        function vpUpdateStats(proofs) {
+            const total = proofs.length;
+            const contributors = new Set(proofs.map(p => p.author || p.sessionKey)).size;
+            const apps = new Set(proofs.map(p => p.app)).size;
+            const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+            const recent = proofs.filter(p => p.timestamp > oneWeekAgo).length;
+            const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+            s('vpStatTotal', total);
+            s('vpStatContributors', contributors);
+            s('vpStatApps', apps);
+            s('vpStatRecent', recent);
+        }
+
         function renderVotingProofs() {
             const container = document.getElementById('votingContainer');
-            const filtered = _activeVotingFolder === 'all'
-                ? _allVotingProofs
+            let filtered = _activeVotingFolder === 'all'
+                ? [..._allVotingProofs]
                 : _allVotingProofs.filter(p => p.app === _activeVotingFolder);
+
+            if (_vpSearchQuery) {
+                filtered = filtered.filter(p =>
+                    (p.note || '').toLowerCase().includes(_vpSearchQuery) ||
+                    (p.author || '').toLowerCase().includes(_vpSearchQuery) ||
+                    (p.app || '').toLowerCase().includes(_vpSearchQuery)
+                );
+            }
+
+            if (_vpSortOrder === 'oldest') {
+                filtered.sort((a, b) => a.timestamp - b.timestamp);
+            } else {
+                filtered.sort((a, b) => b.timestamp - a.timestamp);
+            }
+
             if (filtered.length === 0) {
-                container.innerHTML = '<p style="text-align:center;color:#7a706a;padding:1rem 0;">No voting proofs in this folder yet.</p>';
+                container.innerHTML = `<div class="vp-empty">
+                    <div class="vp-empty-icon">🗳️</div>
+                    <p class="vp-empty-title">No voting proofs uploaded yet</p>
+                    <p class="vp-empty-sub">Be the first to submit a proof and support AHOF!</p>
+                </div>`;
                 return;
             }
-            container.innerHTML = filtered.map(p => `
+
+            container.innerHTML = filtered.map(p => {
+                const dateStr = new Date(p.timestamp).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+                return `
                 <div class="voting-proof-card" id="vp-${sanitize(p.id)}">
-                    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.5rem;">
-                        <span style="background:#4a3a28;color:#c8b89a;padding:3px 12px;border-radius:20px;font-size:0.82rem;font-weight:600;">📂 ${sanitize(p.app)}</span>
-                        <span class="post-date">By ${sanitize(p.author)} • ${new Date(p.timestamp).toLocaleDateString()}</span>
+                    <div class="vp-card-img-wrap" onclick="window.openModal('${sanitize(p.imageUrl)}')">
+                        <img loading="lazy" src="${sanitize(p.imageUrl)}" alt="Voting proof for ${sanitize(p.app)}">
+                        <span class="vp-card-img-expand">🔍 View</span>
                     </div>
-                    ${p.note ? `<p style="margin:0.3rem 0 0.5rem;font-size:0.9rem;color:#b0a090;">${sanitize(p.note)}</p>` : ''}
-                    <img loading="lazy" src="${sanitize(p.imageUrl)}" alt="Voting proof" style="max-width:100%;max-height:340px;object-fit:contain;border-radius:10px;cursor:pointer;border:1px solid #3a3028;display:block;" onclick="window.openModal('${sanitize(p.imageUrl)}')">
-                    ${(p.sessionKey === getSessionKey() || isAdmin()) ? `
-                    <div style="margin-top:0.6rem;display:flex;gap:6px;flex-wrap:wrap;">
-                        ${p.sessionKey === getSessionKey() ? `<button onclick="window.editVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}','${sanitize(p.caption||'')}')" style="background:#2a3020;color:#a8c898;border:1px solid #4a6a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>` : ''}
-                        <button onclick="window.deleteVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}')" style="background:#3a2020;color:#e8a898;border:1px solid #6a3a3a;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
-                    </div>` : ''}
-                </div>
-            `).join('');
+                    <div class="vp-card-body">
+                        <div class="vp-card-top">
+                            <span class="vp-card-app-badge">${sanitize(p.app)}</span>
+                            <span class="vp-card-date">${dateStr}</span>
+                        </div>
+                        ${p.note ? `<p class="vp-card-note">${sanitize(p.note)}</p>` : ''}
+                        <div class="vp-card-author">👤 ${sanitize(p.author || 'Anonymous')}</div>
+                        ${(p.sessionKey === getSessionKey() || isAdmin()) ? `
+                        <div class="vp-admin-btns">
+                            ${p.sessionKey === getSessionKey() ? `<button onclick="window.editVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}','${sanitize(p.note||'')}')" style="background:rgba(0,212,255,0.1);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">✏️ Edit</button>` : ''}
+                            <button onclick="window.deleteVotingProof('${sanitize(p._appKey)}','${sanitize(p.id)}')" style="background:rgba(220,50,50,0.15);color:#e8a898;border:1px solid rgba(220,50,50,0.35);">🗑️ Delete</button>
+                        </div>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
         }
 
         function buildFolderTabs(appsWithData) {
             const nav = document.getElementById('votingFolderNav');
-            nav.innerHTML = `<button class="folder-tab ${_activeVotingFolder === 'all' ? 'active' : ''}" onclick="window.showVotingFolder('all', this)">📂 All (${_allVotingProofs.length})</button>`;
+            const activeAll = _activeVotingFolder === 'all' ? 'active' : '';
+            nav.innerHTML = `<button class="vp-filter-btn ${activeAll}" onclick="window.showVotingFolder('all', this)">✦ All (${_allVotingProofs.length})</button>`;
             appsWithData.forEach(({ app, count }) => {
                 const isActive = _activeVotingFolder === app ? 'active' : '';
-                nav.innerHTML += `<button class="folder-tab ${isActive}" data-app="${app}" onclick="window.showVotingFolder('${app.replace(/'/g,"\\'")}', this)">📁 ${app} <span style="opacity:0.7;font-size:0.75rem;">(${count})</span></button>`;
+                nav.innerHTML += `<button class="vp-filter-btn ${isActive}" data-app="${sanitize(app)}" onclick="window.showVotingFolder('${app.replace(/'/g,"\\'")}', this)">${sanitize(app)} <span style="opacity:0.6;font-size:0.7em;">(${count})</span></button>`;
             });
         }
 
@@ -5182,17 +6075,18 @@
                     });
                 });
                 _allVotingProofs.sort((a, b) => b.timestamp - a.timestamp);
+                vpUpdateStats(_allVotingProofs);
                 const appsWithData = Object.entries(appCounts).map(([app, count]) => ({ app, count })).sort((a,b) => b.count - a.count);
                 buildFolderTabs(appsWithData);
                 renderVotingProofs();
             });
         }
 
-        window.editVotingProof = async (appKey, id, currentCaption) => {
-            const newCaption = prompt('Edit caption:', currentCaption);
-            if (newCaption === null) return;
+        window.editVotingProof = async (appKey, id, currentNote) => {
+            const newNote = prompt('Edit note:', currentNote);
+            if (newNote === null) return;
             try {
-                await update(ref(database, 'votingProofs/' + appKey + '/' + id), { caption: newCaption });
+                await update(ref(database, 'votingProofs/' + appKey + '/' + id), { note: newNote });
             } catch(e) { alert('Error: ' + e.message); }
         };
 
@@ -5210,15 +6104,31 @@
         // ══════════════════════════════════════════════════════════════════════
         //  SEARCH / FILTER
         // ══════════════════════════════════════════════════════════════════════
+        let _achActiveCategoryFilter = 'all';
+
         window.filterAchievements = (query) => {
             const q = query.toLowerCase().trim();
-            document.querySelectorAll('#achievementsContainer .achievement-card').forEach(card => {
+            const cards = document.querySelectorAll('#achievementsContainer .achievement-card');
+            let visible = 0;
+            cards.forEach(card => {
                 const text = card.textContent.toLowerCase();
-                card.style.display = (!q || text.includes(q)) ? '' : 'none';
+                const cat  = (card.dataset.category || '').toLowerCase();
+                const matchQ   = !q || text.includes(q);
+                const matchCat = _achActiveCategoryFilter === 'all' || cat === _achActiveCategoryFilter.toLowerCase();
+                const show = matchQ && matchCat;
+                card.style.display = show ? '' : 'none';
+                if (show) visible++;
             });
-            const visible = [...document.querySelectorAll('#achievementsContainer .achievement-card')].filter(c => c.style.display !== 'none');
             const noRes = document.getElementById('achNoResults');
-            if (noRes) noRes.style.display = visible.length === 0 ? 'block' : 'none';
+            if (noRes) noRes.style.display = visible === 0 ? 'block' : 'none';
+        };
+
+        window.filterAchByCategory = (cat, btn) => {
+            _achActiveCategoryFilter = cat;
+            document.querySelectorAll('.ach-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            const searchVal = document.getElementById('achSearchInput')?.value || '';
+            window.filterAchievements(searchVal);
         };
 
 
@@ -7544,9 +8454,11 @@
             const bannerSection   = document.getElementById('bannerEditorSection');
             const pollAdminToggle = document.getElementById('pollAdminToggle');
             const adminEventForm  = document.getElementById('adminEventForm');
+            const achFormWrapper  = document.getElementById('achFormWrapper');
             if (bannerSection)   bannerSection.style.display   = isAdmin() ? 'block' : 'none';
             if (pollAdminToggle) pollAdminToggle.style.display  = isAdmin() ? 'block' : 'none';
             if (adminEventForm)  adminEventForm.style.display   = isAdmin() ? 'block' : 'none';
+            if (achFormWrapper)  achFormWrapper.style.display   = isAdmin() ? 'block' : 'none';
         }
 
         // Call on load and after admin state changes
@@ -7909,31 +8821,25 @@
                     achievements.push({ id: child.key, ...child.val() });
                 });
                 achievements.sort((a, b) => b.timestamp - a.timestamp);
-                container.innerHTML = achievements.length === 0
-                    ? '<p style="text-align: center; color: #7a706a;">No achievements yet</p>'
-                    : achievements.map(ach => `
-                        <div class="achievement-card" id="ach-${sanitize(ach.id)}">
-                            <h3>${sanitize(ach.title)}</h3>
-                            <div class="date">${new Date(ach.date).toLocaleDateString()} • ${sanitize(ach.author)}</div>
-                            <p>${sanitize(ach.description)}</p>
-                            ${ach.imageUrl ? `<img loading="lazy" src="${sanitize(ach.imageUrl)}" alt="Achievement image" style="margin-top:0.8rem;max-width:100%;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);" onclick="window.openModal('${sanitize(ach.imageUrl)}')">` : ''}
-                            ${isAdmin() ? `
-                            <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-                                <button onclick="window.editAchievement('${sanitize(ach.id)}', this)" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">✏️ Edit</button>
-                                <button onclick="window.deleteAchievement('${sanitize(ach.id)}')" style="background:rgba(220,50,50,0.3);color:#fff;border:1px solid rgba(220,50,50,0.5);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;">🗑️ Delete</button>
-                            </div>` : ''}
-                            ${reactionsBar('ach', sanitize(ach.id))}
-                            ${_lcBarOrig('ach', sanitize(ach.id))}
-                        </div>
-                    `).join('');
-                achievements.forEach(ach => {
-                    lcListenLikes('ach', ach.id);
-                    lcListenComments('ach', ach.id);
-                    listenReactions('ach', ach.id);
-                });
+                achUpdateStats(achievements);
+                if (achievements.length === 0) {
+                    container.innerHTML = `<div class="ach-empty" style="grid-column:1/-1;display:block;">
+                        <div class="ach-empty-icon">🌌</div>
+                        <p class="ach-empty-title">No achievements recorded yet</p>
+                        <p class="ach-empty-sub">Start documenting milestones.</p>
+                    </div>`;
+                } else {
+                    container.innerHTML = achievements.map(ach =>
+                        achCardHTML(ach, reactionsBar('ach', sanitize(ach.id)) + _lcBarOrig('ach', sanitize(ach.id)))
+                    ).join('');
+                    achievements.forEach(ach => {
+                        lcListenLikes('ach', ach.id);
+                        lcListenComments('ach', ach.id);
+                        listenReactions('ach', ach.id);
+                    });
+                }
             });
         }
-
         // Replace the initial load calls with our enhanced versions
         loadAchievementsWithReactions();
 
