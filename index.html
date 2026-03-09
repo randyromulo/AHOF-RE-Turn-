@@ -2,6 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- ── Google Analytics GA4 ── -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-34JZKLC20K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-34JZKLC20K', {
+            page_title: 'AHOF Fan Official Hub',
+            send_page_view: true
+        });
+        // Helper: fire a GA4 custom event safely
+        window.ahofTrack = function(eventName, params) {
+            if (typeof gtag === 'function') {
+                gtag('event', eventName, params || {});
+            }
+        };
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -5280,7 +5297,289 @@
         @media (min-width: 821px) {
             #pwaInstallBanner { bottom: 20px; }
         }
-</style>
+
+        /* ═══════════════════════════════════════════════════════════
+           ANALYTICS DASHBOARD
+        ═══════════════════════════════════════════════════════════ */
+        #analytics { padding-bottom: 2rem; }
+
+        .an-header {
+            margin-bottom: 1.6rem;
+        }
+        .an-header-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .an-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            color: #7c5fc0;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        .an-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #c084fc, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 0.2rem;
+            font-family: 'Outfit', sans-serif;
+        }
+        .an-subtitle {
+            font-size: 0.83rem;
+            color: #7a6a9a;
+            margin: 0;
+        }
+        .an-updated {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            color: #5a4878;
+            margin-top: 4px;
+        }
+        .an-live-dot {
+            width: 7px; height: 7px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(34,197,94,0.8);
+            animation: an-pulse 1.8s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes an-pulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50% { opacity:0.5; transform:scale(0.75); }
+        }
+
+        /* Grid layouts */
+        .an-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 600px) { .an-grid-2 { grid-template-columns: 1fr; } }
+
+        /* Stat cards */
+        .an-card {
+            background: linear-gradient(135deg, rgba(10,6,22,0.95), rgba(18,10,36,0.95));
+            border: 1px solid rgba(138,99,210,0.25);
+            border-radius: 16px;
+            padding: 1.1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .an-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 10% 0%, rgba(138,99,210,0.1), transparent);
+            pointer-events: none;
+        }
+        .an-card-accent { border-color: rgba(138,99,210,0.4); }
+        .an-card-green  { border-color: rgba(34,197,94,0.3); }
+        .an-card-green::before { background: radial-gradient(ellipse 80% 60% at 10% 0%, rgba(34,197,94,0.08), transparent); }
+        .an-card-icon { font-size: 2rem; line-height: 1; flex-shrink: 0; }
+        .an-card-num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #c084fc;
+            font-family: 'DM Mono', monospace;
+            line-height: 1;
+        }
+        .an-card-green .an-card-num { color: #4ade80; }
+        .an-card-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #c8b8e8;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .an-card-sub {
+            font-size: 0.68rem;
+            color: #5a4878;
+            margin-top: 1px;
+        }
+
+        /* Blocks */
+        .an-block {
+            background: linear-gradient(135deg, rgba(10,6,22,0.95), rgba(18,10,36,0.95));
+            border: 1px solid rgba(138,99,210,0.2);
+            border-radius: 16px;
+            padding: 1.1rem 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .an-block-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #a080d0;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.85rem;
+        }
+        .an-chart-sub {
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+            color: #5a4878;
+            font-size: 0.72rem;
+        }
+
+        /* Section bars */
+        .an-bars { display: flex; flex-direction: column; gap: 0.55rem; }
+        .an-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .an-bar-name {
+            font-size: 0.75rem;
+            color: #c8b8e8;
+            width: 90px;
+            flex-shrink: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: capitalize;
+        }
+        .an-bar-track {
+            flex: 1;
+            height: 8px;
+            background: rgba(138,99,210,0.1);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .an-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            background: linear-gradient(90deg, #7c3aed, #c084fc);
+            transition: width 1s cubic-bezier(0.25,1,0.5,1);
+        }
+        .an-bar-count {
+            font-size: 0.7rem;
+            font-family: 'DM Mono', monospace;
+            color: #7a6a9a;
+            width: 38px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .an-bar-skeleton {
+            height: 18px;
+            background: rgba(138,99,210,0.08);
+            border-radius: 8px;
+            animation: an-shimmer 1.4s ease-in-out infinite;
+        }
+        @keyframes an-shimmer {
+            0%,100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Lists (top fan art + music) */
+        .an-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .an-list-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.45rem 0.5rem;
+            border-radius: 10px;
+            background: rgba(138,99,210,0.05);
+            border: 1px solid rgba(138,99,210,0.1);
+            transition: background 0.2s;
+        }
+        .an-list-item:hover { background: rgba(138,99,210,0.1); }
+        .an-list-rank {
+            font-size: 0.72rem;
+            font-weight: 700;
+            font-family: 'DM Mono', monospace;
+            color: #7c3aed;
+            width: 18px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+        .an-list-rank.gold   { color: #f59e0b; }
+        .an-list-rank.silver { color: #94a3b8; }
+        .an-list-rank.bronze { color: #b45309; }
+        .an-list-thumb {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: rgba(138,99,210,0.1);
+        }
+        .an-list-icon {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            background: rgba(138,99,210,0.12);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .an-list-info { flex: 1; min-width: 0; }
+        .an-list-name {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #d4c4f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .an-list-meta {
+            font-size: 0.68rem;
+            color: #7a6a9a;
+            margin-top: 1px;
+        }
+        .an-list-val {
+            font-size: 0.78rem;
+            font-weight: 700;
+            font-family: 'DM Mono', monospace;
+            color: #c084fc;
+            flex-shrink: 0;
+        }
+        .an-list-skeleton {
+            height: 48px;
+            background: rgba(138,99,210,0.06);
+            border-radius: 10px;
+            animation: an-shimmer 1.4s ease-in-out infinite;
+        }
+
+        /* GC chart */
+        .an-chart-wrap {
+            position: relative;
+            width: 100%;
+            padding: 0.3rem 0;
+        }
+        .an-gc-totals {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.7rem;
+            flex-wrap: wrap;
+        }
+        .an-gc-stat {
+            font-size: 0.75rem;
+            color: #7a6a9a;
+        }
+        .an-gc-stat span {
+            font-weight: 700;
+            color: #c084fc;
+            font-family: 'DM Mono', monospace;
+        }
+        .an-empty {
+            text-align: center;
+            color: rgba(138,99,210,0.4);
+            font-size: 0.8rem;
+            padding: 1rem 0;
+        }
+
+        </style>
     <!-- Fonts already loaded above -->
 </head>
 <body class="has-sidebar">
@@ -5370,6 +5669,12 @@
                     <span class="nav-icon">💬</span>
                     Group Chat
                     <span class="nav-badge" id="gcNavBadge" style="display:none">●</span>
+                </a>
+            </li>
+            <li>
+                <a onclick="window.sidebarGo('analytics')" id="snav-analytics">
+                    <span class="nav-icon">📈</span>
+                    Analytics
                 </a>
             </li>
         </ul>
@@ -6371,7 +6676,88 @@
                 </div>
             </section>
 
-            
+
+            <!-- ══════════════════════════════════════════════ -->
+            <!-- ANALYTICS DASHBOARD                           -->
+            <!-- ══════════════════════════════════════════════ -->
+            <section id="analytics" class="fade-in-up">
+
+                <!-- Header -->
+                <div class="an-header">
+                    <div class="an-header-top">
+                        <div>
+                            <div class="an-eyebrow">COMMUNITY INSIGHTS</div>
+                            <h2 class="an-title">📈 Analytics</h2>
+                            <p class="an-subtitle">Live stats powered by the AHOF community</p>
+                        </div>
+                        <div class="an-updated">Updated live <span class="an-live-dot"></span></div>
+                    </div>
+                </div>
+
+                <!-- ── Row 1: Visitor Stats ── -->
+                <div class="an-grid-2">
+                    <div class="an-card an-card-accent">
+                        <div class="an-card-icon">👥</div>
+                        <div class="an-card-body">
+                            <div class="an-card-num" id="anTotalVisitors">—</div>
+                            <div class="an-card-label">Total Visitors</div>
+                            <div class="an-card-sub">all time unique sessions</div>
+                        </div>
+                    </div>
+                    <div class="an-card an-card-green">
+                        <div class="an-card-icon">🟢</div>
+                        <div class="an-card-body">
+                            <div class="an-card-num" id="anActiveNow">—</div>
+                            <div class="an-card-label">Active Now</div>
+                            <div class="an-card-sub">online in the last 5 min</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Row 2: Most Viewed Sections ── -->
+                <div class="an-block">
+                    <div class="an-block-title">🔥 Most Visited Sections</div>
+                    <div id="anSectionBars" class="an-bars">
+                        <div class="an-bar-skeleton"></div>
+                        <div class="an-bar-skeleton"></div>
+                        <div class="an-bar-skeleton"></div>
+                    </div>
+                </div>
+
+                <!-- ── Row 3: Top Fan Art + Top Music Links ── -->
+                <div class="an-grid-2">
+                    <div class="an-block">
+                        <div class="an-block-title">❤️ Top Fan Art</div>
+                        <div id="anTopFanart" class="an-list">
+                            <div class="an-list-skeleton"></div>
+                            <div class="an-list-skeleton"></div>
+                            <div class="an-list-skeleton"></div>
+                        </div>
+                    </div>
+                    <div class="an-block">
+                        <div class="an-block-title">▶ Most Streamed Links</div>
+                        <div id="anTopMusic" class="an-list">
+                            <div class="an-list-skeleton"></div>
+                            <div class="an-list-skeleton"></div>
+                            <div class="an-list-skeleton"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Row 4: GC Activity Chart ── -->
+                <div class="an-block">
+                    <div class="an-block-title">💬 Group Chat Activity <span class="an-chart-sub">(last 7 days)</span></div>
+                    <div id="anGcChart" class="an-chart-wrap">
+                        <canvas id="anGcCanvas" height="90"></canvas>
+                    </div>
+                    <div class="an-gc-totals">
+                        <div class="an-gc-stat"><span id="anGcTotal">—</span> messages total</div>
+                        <div class="an-gc-stat"><span id="anGcMembers">—</span> members joined</div>
+                    </div>
+                </div>
+
+            </section>
+
         </div>
     </div>
 
@@ -6954,6 +7340,7 @@
                 document.getElementById('vpFileName').textContent = 'Click to upload screenshot';
                 clearVotingImage();
                 showToast('✅ Voting proof saved to 📂 ' + app + '!', 'success');
+                window.ahofTrack('voting_proof_submit', { event_category: 'voting', event_label: app });
             } catch (error) {
                 alert('Error: ' + error.message);
             } finally {
@@ -8192,6 +8579,7 @@
             }
             try {
                 await push(ref(database, 'groupchat/messages'), msg);
+                window.ahofTrack('gc_message_sent', { event_category: 'group_chat', event_label: msg.type || 'text' });
                 // onChildAdded handles rendering — do NOT manually append here
             } catch(e) {
                 showToast('Send failed: ' + (e.code||e.message), 'error');
@@ -8275,6 +8663,7 @@
             gcShowScreen('chat');
             gcRequestNotifPermission();
             showToast('Welcome to FOHA GC, ' + gcUsername + '! 🎉', 'success', 3500);
+            window.ahofTrack('gc_join', { event_category: 'group_chat', event_label: 'join' });
             if (gcAdmin && typeof loadAchievements === 'function') loadAchievements();
             // Show profile setup on first join
             setTimeout(() => {
@@ -8304,7 +8693,7 @@
         };
 
         // ── Sidebar Navigation (SPA show/hide) ───────────────────────────────
-        const SPA_SECTIONS = ['about','fanart','achievements','voting','collab','spotify','articles','polls','groupchat'];
+        const SPA_SECTIONS = ['about','fanart','achievements','voting','collab','spotify','articles','polls','groupchat','analytics'];
 
         window.sidebarGo = (sectionId) => {
             // Hide all sections
@@ -8329,6 +8718,9 @@
             document.querySelectorAll('.mbn-tab').forEach(t => t.classList.remove('active'));
             const mbnTab = document.querySelector('.mbn-tab[data-section="' + sectionId + '"]');
             if (mbnTab) { mbnTab.classList.add('active'); mbnTab.scrollIntoView({inline:'center',block:'nearest'}); }
+            // GA4 — track section view as virtual page view
+            window.ahofTrack('section_view', { section_name: sectionId });
+            gtag('config', 'G-34JZKLC20K', { page_path: '/#' + sectionId, page_title: 'AHOF Hub — ' + sectionId });
             // Scroll to top of page
             window.scrollTo({ top: 0, behavior: 'auto' });
             // Close sidebar on mobile
@@ -8719,6 +9111,7 @@
                 await set(ref(database, 'fanartLikes/' + id), cur + 1);
                 btn.classList.add('liked');
                 btn.querySelector('.like-heart').textContent = '❤️';
+                window.ahofTrack('fanart_like', { event_category: 'fan_art', event_label: 'like' });
             }
             localStorage.setItem(storageKey, JSON.stringify(liked));
         };
@@ -8823,6 +9216,7 @@
                     timestamp: Date.now()
                 });
                 showToast('Fan art submitted! 🎨', 'success');
+                window.ahofTrack('fanart_upload', { event_category: 'fan_art', event_label: 'upload' });
             } catch(e) {
                 showToast('Upload failed: ' + e.message, 'error');
                 alert('Fan Art Upload Error:\n' + e.message);
@@ -8838,6 +9232,7 @@
                 await remove(ref(database, 'fanart/' + id));
                 _fa.index = 0;
                 showToast('Fan art deleted.', 'success');
+                window.ahofTrack('fanart_delete', { event_category: 'fan_art', event_label: 'delete' });
             } catch(e) {
                 alert('Error deleting fan art:\n' + e.message);
             }
@@ -8943,6 +9338,7 @@
                 if (!result.key) throw new Error('No key returned from Firebase.');
                 e.target.reset();
                 showToast('Collaboration added! 🤝', 'success');
+                window.ahofTrack('collab_submit', { event_category: 'collab', event_label: 'submit' });
             } catch(err) {
                 alert('Error saving collab:\n' + err.message);
             } finally {
@@ -9073,7 +9469,7 @@
                         ${item.note ? `<p class="ml-card-note">${sanitize(item.note)}</p>` : ''}
                         <div class="ml-card-footer">
                             <div class="ml-card-meta">👤 ${sanitize(item.author || 'Anonymous')} · ${dateStr}</div>
-                            <a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="ml-stream-btn ${btnCss}">
+                            <a href="${sanitize(item.link)}" target="_blank" rel="noopener noreferrer" class="ml-stream-btn ${btnCss}" onclick="window.ahofTrack('music_stream_click',{event_category:'music',event_label:'${sanitize(item.platform)}',value:1})">
                                 ▶ Stream Now
                             </a>
                             ${isAdmin() ? `
@@ -9143,6 +9539,7 @@
                 document.getElementById('spotifyLink').value = '';
                 document.getElementById('spotifyNote').value = '';
                 showToast('Music link added! 🎵', 'success');
+                window.ahofTrack('music_link_add', { event_category: 'music', event_label: platform });
             } catch (err) {
                 alert('Error saving music link:\n' + err.message);
             } finally {
@@ -9215,6 +9612,7 @@
                 if (!result.key) throw new Error('No key returned from Firebase.');
                 e.target.reset();
                 showToast('Article submitted! 📰', 'success');
+                window.ahofTrack('article_submit', { event_category: 'articles', event_label: 'submit' });
             } catch(err) {
                 alert('Error saving article:\n' + err.message);
             } finally {
@@ -9838,6 +10236,7 @@
                 document.querySelectorAll('.poll-opt-inp').forEach((i,idx) => { i.value = ''; if(idx>1) i.parentElement?.remove(); });
                 document.getElementById('pollCreateForm')?.classList.remove('open');
                 showToast('✅ Poll created!', 'success');
+                window.ahofTrack('poll_create', { event_category: 'polls', event_label: 'create' });
             } catch(e) { showToast('Error: ' + e.message, 'error'); }
         };
 
@@ -10366,6 +10765,285 @@
             }
         })();
 
+        /* ══════════════════════════════════════════════════════════
+           ANALYTICS DASHBOARD JS
+        ══════════════════════════════════════════════════════════ */
+        (function() {
+
+            // ── Helpers ─────────────────────────────────────────────────────
+            function fmtNum(n) {
+                if (!n || isNaN(n)) return '0';
+                if (n >= 1e6) return (n/1e6).toFixed(1) + 'M';
+                if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+                return String(n);
+            }
+            function dateKey(d) {
+                return d.toISOString().slice(0,10); // YYYY-MM-DD
+            }
+            function rankClass(i) {
+                return i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+            }
+            const SECTION_LABELS = {
+                about:'🏠 About', fanart:'🖼️ Fan Art', achievements:'🏆 Achievements',
+                voting:'🗳️ Voting', collab:'🤝 Collab', spotify:'🎵 Music',
+                articles:'📰 Articles', polls:'📊 Polls', groupchat:'💬 GC'
+            };
+
+            // ── 1. Visitor tracking ─────────────────────────────────────────
+            // Use sessionKey as unique visitor ID; record visit in Firebase
+            const visitKey = typeof getSessionKey !== 'undefined' ? getSessionKey() : ('v_' + Math.random().toString(36).slice(2,11));
+            const today = dateKey(new Date());
+
+            // Record this visitor
+            set(ref(database, 'analytics/visitors/' + visitKey), { last: Date.now(), date: today });
+
+            // Active-now: set presence with 5-min TTL via onDisconnect
+            const activePres = ref(database, 'analytics/active/' + visitKey);
+            set(activePres, { t: Date.now() });
+            onDisconnect(activePres).remove();
+
+            // Prune stale active entries (> 5 min old) — client-side best-effort
+            get(ref(database, 'analytics/active')).then(snap => {
+                const cutoff = Date.now() - 5 * 60 * 1000;
+                snap.forEach(child => {
+                    if ((child.val().t || 0) < cutoff) remove(ref(database, 'analytics/active/' + child.key));
+                });
+            }).catch(() => {});
+
+            // Listen: total visitors
+            onValue(ref(database, 'analytics/visitors'), snap => {
+                const el = document.getElementById('anTotalVisitors');
+                if (el) el.textContent = fmtNum(snap.size);
+            });
+
+            // Listen: active now
+            onValue(ref(database, 'analytics/active'), snap => {
+                const el = document.getElementById('anActiveNow');
+                if (el) el.textContent = fmtNum(snap.size || 0);
+            });
+
+            // ── 2. Section view tracking ─────────────────────────────────────
+            // Patch sidebarGo to write to Firebase
+            const _origSidebarGo = window.sidebarGo;
+            window.sidebarGo = (sectionId) => {
+                _origSidebarGo(sectionId);
+                // Increment section view count
+                get(ref(database, 'analytics/sectionViews/' + sectionId)).then(snap => {
+                    const cur = (snap.exists() ? snap.val() : 0);
+                    set(ref(database, 'analytics/sectionViews/' + sectionId), cur + 1);
+                }).catch(() => {});
+            };
+
+            // Listen: section views → render bar chart
+            onValue(ref(database, 'analytics/sectionViews'), snap => {
+                const container = document.getElementById('anSectionBars');
+                if (!container) return;
+                const entries = [];
+                snap.forEach(child => entries.push({ id: child.key, views: child.val() }));
+                entries.sort((a,b) => b.views - a.views);
+                if (!entries.length) {
+                    container.innerHTML = '<div class="an-empty">No section views tracked yet.</div>';
+                    return;
+                }
+                const max = entries[0].views || 1;
+                container.innerHTML = entries.map(e => `
+                    <div class="an-bar-row">
+                        <div class="an-bar-name">${SECTION_LABELS[e.id] || e.id}</div>
+                        <div class="an-bar-track">
+                            <div class="an-bar-fill" style="width:${Math.round((e.views/max)*100)}%"></div>
+                        </div>
+                        <div class="an-bar-count">${fmtNum(e.views)}</div>
+                    </div>
+                `).join('');
+            });
+
+            // ── 3. Music link click tracking ──────────────────────────────────
+            // Patch ahofTrack to also write stream clicks to Firebase
+            const _origTrack = window.ahofTrack;
+            window.ahofTrack = function(eventName, params) {
+                if (typeof _origTrack === 'function') _origTrack(eventName, params);
+                if (eventName === 'music_stream_click' && params?.event_label) {
+                    const platform = params.event_label;
+                    get(ref(database, 'analytics/musicClicks/' + platform.replace(/[^a-zA-Z0-9]/g,'_'))).then(snap => {
+                        const cur = snap.exists() ? snap.val() : 0;
+                        set(ref(database, 'analytics/musicClicks/' + platform.replace(/[^a-zA-Z0-9]/g,'_')), cur + 1);
+                    }).catch(() => {});
+                }
+            };
+
+            // ── 4. Top Fan Art (by likes) ─────────────────────────────────────
+            function renderTopFanart(fanartItems, likeCounts) {
+                const container = document.getElementById('anTopFanart');
+                if (!container) return;
+                if (!fanartItems.length) {
+                    container.innerHTML = '<div class="an-empty">No fan art yet.</div>';
+                    return;
+                }
+                const sorted = [...fanartItems]
+                    .map(item => ({ ...item, likes: likeCounts[item.id] || 0 }))
+                    .sort((a,b) => b.likes - a.likes)
+                    .slice(0, 5);
+                container.innerHTML = sorted.map((item, i) => `
+                    <div class="an-list-item">
+                        <div class="an-list-rank ${rankClass(i)}">#${i+1}</div>
+                        <img class="an-list-thumb" src="${item.imageUrl || ''}" alt="" loading="lazy" onerror="this.style.display='none'">
+                        <div class="an-list-info">
+                            <div class="an-list-name">by ${item.author || 'Unknown'}</div>
+                            <div class="an-list-meta">${item.folder && item.folder !== 'All' ? item.folder + ' · ' : ''}${new Date(item.timestamp).toLocaleDateString()}</div>
+                        </div>
+                        <div class="an-list-val">❤️ ${fmtNum(item.likes)}</div>
+                    </div>
+                `).join('');
+            }
+
+            let _anFanartItems = [];
+            let _anLikeCounts = {};
+
+            onValue(ref(database, 'fanart'), snap => {
+                _anFanartItems = [];
+                snap.forEach(child => _anFanartItems.push({ id: child.key, ...child.val() }));
+                renderTopFanart(_anFanartItems, _anLikeCounts);
+            });
+
+            onValue(ref(database, 'fanartLikes'), snap => {
+                _anLikeCounts = {};
+                snap.forEach(child => { _anLikeCounts[child.key] = child.val(); });
+                renderTopFanart(_anFanartItems, _anLikeCounts);
+            });
+
+            // ── 5. Top Music Links (by stream clicks) ────────────────────────
+            function renderTopMusic(musicLinks, clickCounts) {
+                const container = document.getElementById('anTopMusic');
+                if (!container) return;
+
+                // Build per-platform total
+                const platformTotals = {};
+                musicLinks.forEach(item => {
+                    const k = (item.platform || 'Other').replace(/[^a-zA-Z0-9]/g,'_');
+                    platformTotals[k] = { platform: item.platform, clicks: clickCounts[k] || 0 };
+                });
+                const sorted = Object.values(platformTotals).sort((a,b) => b.clicks - a.clicks).slice(0, 5);
+
+                if (!sorted.length) {
+                    container.innerHTML = '<div class="an-empty">No stream clicks yet. Share the links!</div>';
+                    return;
+                }
+                const PLATFORM_ICONS = { Spotify:'🎵', YouTube:'🔴', 'YouTube Music':'🔴', Melon:'🍈',
+                    Genie:'🎸', FLO:'🎧', Bugs:'🐛', 'Apple Music':'🍎', Weverse:'🌿', Other:'🔗' };
+                container.innerHTML = sorted.map((item, i) => `
+                    <div class="an-list-item">
+                        <div class="an-list-rank ${rankClass(i)}">#${i+1}</div>
+                        <div class="an-list-icon">${PLATFORM_ICONS[item.platform] || '🎵'}</div>
+                        <div class="an-list-info">
+                            <div class="an-list-name">${item.platform || 'Unknown'}</div>
+                            <div class="an-list-meta">stream clicks</div>
+                        </div>
+                        <div class="an-list-val">▶ ${fmtNum(item.clicks)}</div>
+                    </div>
+                `).join('');
+            }
+
+            let _anMusicLinks = [];
+            let _anMusicClicks = {};
+
+            onValue(ref(database, 'musicLinks'), snap => {
+                _anMusicLinks = [];
+                snap.forEach(pSnap => pSnap.forEach(child => _anMusicLinks.push({ id: child.key, ...child.val() })));
+                renderTopMusic(_anMusicLinks, _anMusicClicks);
+            });
+
+            onValue(ref(database, 'analytics/musicClicks'), snap => {
+                _anMusicClicks = {};
+                snap.forEach(child => { _anMusicClicks[child.key] = child.val(); });
+                renderTopMusic(_anMusicLinks, _anMusicClicks);
+            });
+
+            // ── 6. GC Activity Chart (messages per day, last 7 days) ──────────
+            function renderGcChart(messages, totalMembers) {
+                // Build per-day buckets
+                const days = [];
+                for (let i = 6; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    days.push({ key: dateKey(d), label: d.toLocaleDateString('en', { weekday:'short' }), count: 0 });
+                }
+                messages.forEach(msg => {
+                    const k = dateKey(new Date(msg.timestamp || 0));
+                    const day = days.find(d => d.key === k);
+                    if (day) day.count++;
+                });
+
+                const totalEl = document.getElementById('anGcTotal');
+                const membersEl = document.getElementById('anGcMembers');
+                if (totalEl) totalEl.textContent = fmtNum(messages.length);
+                if (membersEl) membersEl.textContent = fmtNum(totalMembers);
+
+                const canvas = document.getElementById('anGcCanvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const W = canvas.parentElement.offsetWidth || 400;
+                const H = 90;
+                canvas.width = W;
+                canvas.height = H;
+
+                const maxCount = Math.max(...days.map(d => d.count), 1);
+                const barW = Math.floor((W - 40) / days.length - 6);
+                const padL = 20;
+
+                ctx.clearRect(0, 0, W, H);
+
+                days.forEach((day, i) => {
+                    const barH = Math.max(4, Math.round((day.count / maxCount) * (H - 32)));
+                    const x = padL + i * ((W - 40) / days.length);
+                    const y = H - 20 - barH;
+
+                    // Gradient bar
+                    const grad = ctx.createLinearGradient(0, y, 0, H - 20);
+                    grad.addColorStop(0, 'rgba(192,132,252,0.85)');
+                    grad.addColorStop(1, 'rgba(124,58,237,0.4)');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.roundRect(x, y, barW, barH, 4);
+                    ctx.fill();
+
+                    // Label
+                    ctx.fillStyle = '#7a6a9a';
+                    ctx.font = '9px DM Sans, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(day.label, x + barW/2, H - 6);
+
+                    // Count above bar (only if > 0)
+                    if (day.count > 0) {
+                        ctx.fillStyle = '#c084fc';
+                        ctx.font = 'bold 9px DM Mono, monospace';
+                        ctx.fillText(day.count, x + barW/2, y - 3);
+                    }
+                });
+            }
+
+            let _anGcMessages = [];
+            let _anGcMemberCount = 0;
+
+            onValue(ref(database, 'groupchat/messages'), snap => {
+                _anGcMessages = [];
+                snap.forEach(child => _anGcMessages.push(child.val()));
+                renderGcChart(_anGcMessages, _anGcMemberCount);
+            });
+
+            onValue(ref(database, 'groupchat/members'), snap => {
+                _anGcMemberCount = snap.size || 0;
+                renderGcChart(_anGcMessages, _anGcMemberCount);
+            });
+
+            // Redraw chart on resize
+            let _anResizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(_anResizeTimer);
+                _anResizeTimer = setTimeout(() => renderGcChart(_anGcMessages, _anGcMemberCount), 200);
+            });
+
+        })();
+
     </script>
 
     <footer style="background:#1a1410; border-top:1px solid #2a2520; padding:2rem 1rem; text-align:center; margin-top:1rem;">
@@ -10688,6 +11366,10 @@
             <button class="mbn-tab" data-section="groupchat" onclick="window.sidebarGo('groupchat')">
                 <span class="mbn-icon">💬</span>
                 <span class="mbn-label">Chat</span>
+            </button>
+            <button class="mbn-tab" data-section="analytics" onclick="window.sidebarGo('analytics')">
+                <span class="mbn-icon">📈</span>
+                <span class="mbn-label">Stats</span>
             </button>
         </div>
     </nav>
